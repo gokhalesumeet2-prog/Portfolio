@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sumeet gokhale | ux design</title>
+  <meta name="description" content="5+ years of experience in UX design. Open to full-time, remote, and freelance work.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="sumeet gokhale | ux design">
+  <meta property="og:description" content="5+ years of experience in UX design. Open to full-time, remote, and freelance work.">
+  <meta property="og:type" content="website">
+
+  <!-- Inter: open-source typeface (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============ Design tokens ============ */
+    :root {
+      --ink: #000000;          /* primary text */
+      --gray: #5e5e5e;         /* secondary text */
+      --blue: #2b5be4;         /* action buttons */
+      --blue-dark: #1e46c0;
+      --card: #ededed;         /* hero image cards */
+      --band: #f7f7f7;         /* CTA band */
+      --line: #e8e8e8;
+      --highlight: #f9f39b;    /* yellow brush accent */
+      --display: "Inter", system-ui, sans-serif;
+      --text: "Inter", system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--text);
+      color: var(--gray);
+      background: #ffffff;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    h1, h2, h3 {
+      font-family: var(--display);
+      color: var(--ink);
+      text-wrap: balance;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin-inline: auto;
+    }
+
+    /* Accessibility: visible keyboard focus */
+    a:focus-visible, .btn:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* Skip link for keyboard / screen-reader users */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--ink);
+      color: #fff;
+      padding: 10px 18px;
+      z-index: 100;
+      text-decoration: none;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* Pill button */
+    .btn {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      font-family: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+    /* Arrow text link ("Give it a listen →") */
+    .arrow-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 18px;
+    }
+    .arrow-link::after { content: "\2192"; transition: transform .2s ease; }
+    .arrow-link:hover::after { transform: translateX(4px); }
+
+    /* ============ Header / Nav ============ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+    }
+    .site-header.scrolled { border-bottom-color: var(--line); }
+
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 20px;
+    }
+    .brand {
+      position: relative;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: .04em;
+      color: var(--ink);
+      text-decoration: none;
+      padding: 6px 10px;
+    }
+    /* Yellow brush stroke behind the name */
+    .brand img.brush {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      z-index: -1;
+    }
+    .site-nav { display: flex; gap: clamp(24px, 5vw, 72px); }
+    .site-nav a {
+      color: var(--ink);
+      font-size: 14px;
+      text-decoration: none;
+    }
+    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    /* ============ Hero ============ */
+    .hero { padding: 48px 0 64px; }
+
+    .hero-gallery {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-gallery a {
+      position: relative;
+      display: block;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--card);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .hero-gallery a:hover,
+    .hero-gallery a:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+    }
+    .hero-gallery img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Project name appears on hover — tells users these are case studies */
+    .hero-gallery a::after {
+      content: attr(data-title);
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      padding: 24px 14px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .65));
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .hero-gallery a:hover::after,
+    .hero-gallery a:focus-visible::after { opacity: 1; }
+
+    .hero-side  { width: 24%; z-index: 2; }
+    .hero-main  {
+      width: 36%;
+      margin: 0 -3%;
+      z-index: 1;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .08);
+    }
+
+    .hero-copy { text-align: center; margin-top: 56px; }
+    .hero-copy h1 {
+      font-size: clamp(18px, 1.6vw, 22px);
+      font-weight: 700;
+    }
+    .hero-copy p { margin: 10px 0 26px; font-size: 14px; }
+
+    /* ============ Trust section ============ */
+    .trust { padding: 72px 0 40px; }
+    .trust .container {
+      display: grid;
+      grid-template-columns: minmax(300px, 420px) 1fr;
+      gap: 60px;
+    }
+    .trust h2 { font-size: clamp(17px, 1.5vw, 20px); margin-bottom: 40px; }
+    .trust article + article { margin-top: 34px; }
+    .trust h3 {
+      font-family: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .trust p { font-size: 14px; max-width: 46ch; }
+
+    /* Dotted orbit diagram with client logo cards */
+    .orbits {
+      position: relative;
+      min-height: 480px;
+    }
+    .orbits .ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      translate: -50% -50%;
+      border: 1px dotted #c9c9c9;
+      border-radius: 50%;
+    }
+    .ring.r1 { width: 240px; height: 240px; }
+    .ring.r2 { width: 360px; height: 360px; }
+    .ring.r3 { width: 480px; height: 480px; }
+
+    .logo-card {
+      position: absolute;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .1);
+      padding: 14px 22px;
+      text-align: center;
+      transition: transform .25s ease;
+    }
+    .logo-card:hover { transform: translateY(-3px); }
+    .logo-card span {
+      display: block;
+      font-size: 9px;
+      letter-spacing: .12em;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    .logo-card img { margin-inline: auto; max-height: 42px; width: auto; }
+
+    .card-corporate { top: 12%;  left: 6%; }
+    .card-startup   { top: 42%;  right: 2%; }
+    .card-studio    { bottom: 12%; left: 34%; }
+
+    /* ============ CTA band ============ */
+    .cta {
+      background: var(--band);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      padding: 72px 0;
+      margin-top: 48px;
+    }
+    .cta h2 {
+      font-size: clamp(16px, 1.4vw, 19px);
+      font-weight: 700;
+      max-width: 52ch;
+      margin-inline: auto;
+    }
+    .cta p { margin: 12px 0 26px; font-size: 14px; }
+
+    /* ============ Playground section ============ */
+    .playground { padding: 80px 0 40px; text-align: center; }
+    .playground h2 { font-size: clamp(17px, 1.5vw, 20px); }
+    .playground > .container > p {
+      max-width: 78ch;
+      margin: 16px auto 0;
+      font-size: 14px;
+    }
+
+    .story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: clamp(32px, 6vw, 90px);
+      text-align: left;
+      padding: 64px 0;
+    }
+    .story h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+    .story p { font-size: 14px; max-width: 58ch; }
+
+    .story .media { border-radius: 6px; overflow: hidden; }
+    .story .media img { width: 100%; }
+
+    /* Framed podcast poster (black frame like the original) */
+    .media.framed {
+      border: 3px solid #111;
+      border-radius: 0;
+      background: #fffcf5;
+    }
+    .media.framed a { display: block; }
+
+    .media.rounded { border-radius: 12px; }
+
+    /* ============ Footer ============ */
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding: 36px 0;
+      text-align: center;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-bottom: 14px;
+    }
+    .site-footer a {
+      color: var(--ink);
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .site-footer small { font-size: 12px; color: var(--gray); }
+
+    /* ============ Scroll reveal ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .btn, .hero-gallery a, .logo-card, .arrow-link::after { transition: none; }
+    }
+
+    /* ============ Responsive ============ */
+    @media (max-width: 900px) {
+      .trust .container { grid-template-columns: 1fr; }
+      .orbits { min-height: 420px; }
+      .ring.r3 { width: 400px; height: 400px; }
+    }
+
+    @media (max-width: 700px) {
+      .site-header .container { flex-direction: column; gap: 12px; }
+
+      .hero { padding-top: 28px; }
+      .hero-gallery { flex-wrap: wrap; gap: 16px; }
+      .hero-side, .hero-main { width: 100%; margin: 0; }
+      .hero-gallery a::after { opacity: 1; }   /* captions always visible on touch */
+
+      .story { grid-template-columns: 1fr; padding: 40px 0; }
+      .story .media { order: -1; }   /* image first on mobile */
+
+      .orbits { display: none; }     /* orbit diagram replaced by simple row */
+      .trust-logos-mobile { display: flex !important; }
+    }
+
+    /* Mobile fallback for client logos (hidden on desktop) */
+    .trust-logos-mobile {
+      display: none;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+    .trust-logos-mobile .logo-card { position: static; }
+  </style>
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="header">
+    <div class="container">
+      <a class="brand" href="index.html">
+        <img class="brush" src="assets/brush-home.png" alt="" aria-hidden="true">
+        SUMEET GOKHALE
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="work.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" aria-label="Featured work">
+      <div class="container">
+
+        <div class="hero-gallery">
+          <a class="hero-side" data-title="Uniform customizer &mdash; e-commerce"
+             href="uniform-customizer.html">
+            <img src="assets/uniform-laptop.png"
+                 alt="Uniform customizer for website e-commerce experience" fetchpriority="high">
+          </a>
+          <a class="hero-main" data-title="Optivento &mdash; restaurant inventory management"
+             href="optivento.html">
+            <img src="assets/optivento-hero.png"
+                 alt="Optivento restaurant inventory management app" fetchpriority="high">
+          </a>
+          <a class="hero-side" data-title="Nirvana &mdash; mudra meditation app"
+             href="nirvana.html">
+            <img src="assets/nirvana-phones.png"
+                 alt="Nirvana mudra meditation app" fetchpriority="high">
+          </a>
+        </div>
+
+        <div class="hero-copy">
+          <h1>I design experiences that eliminate uncertainty</h1>
+          <p>UX designer improving trust, clarity, and decision systems</p>
+          <a class="btn" href="work.html">View work</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ TRUST ============ -->
+    <section class="trust" aria-labelledby="trust-heading">
+      <div class="container">
+
+        <div class="reveal">
+          <h2 id="trust-heading">Trust with confidence</h2>
+
+          <article>
+            <h3>Decision architecture</h3>
+            <p>I design structured pathways that reduce ambiguity in complex workflows. From enterprise commerce systems to behavioral platforms, I prioritize clarity before conversion.</p>
+          </article>
+
+          <article>
+            <h3>Research-led validation</h3>
+            <p>Every system I design is grounded in evidence. Quantitative and qualitative research guide architecture, hierarchy, and interaction logic.</p>
+          </article>
+
+          <article>
+            <h3>Behavioral trust</h3>
+            <p>I work across two layers of trust: operational confidence in enterprise systems, and behavioral consistency in user-driven platforms.<br>
+            Trust is not aesthetic &mdash; it is measurable and repeatable.</p>
+          </article>
+        </div>
+
+        <!-- Dotted orbit diagram with client logos (desktop) -->
+        <div class="orbits reveal" role="img" aria-label="Clients I have worked with: Galls (corporate), OleOle (startup), Studio Glyph (design studio)">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+
+          <div class="logo-card card-corporate">
+            <span>CORPORATE</span>
+            <img src="assets/logo-galls.png"
+                 alt="Galls LLC, e-commerce store for public safety professionals in the United States" loading="lazy">
+          </div>
+          <div class="logo-card card-startup">
+            <span>STARTUP</span>
+            <img src="assets/logo-oleole.png"
+                 alt="OleOle, sports startup company in LA" loading="lazy">
+          </div>
+          <div class="logo-card card-studio">
+            <span>DESIGN STUDIO</span>
+            <img src="assets/logo-glyph.png"
+                 alt="Studio Glyph, branding and graphic design studio in Mumbai" loading="lazy">
+          </div>
+        </div>
+
+        <!-- Client logos, mobile fallback -->
+        <div class="trust-logos-mobile">
+          <div class="logo-card">
+            <span>CORPORATE</span>
+            <img src="assets/logo-galls.png" alt="Galls LLC logo" loading="lazy">
+          </div>
+          <div class="logo-card">
+            <span>STARTUP</span>
+            <img src="assets/logo-oleole.png" alt="OleOle logo" loading="lazy">
+          </div>
+          <div class="logo-card">
+            <span>DESIGN STUDIO</span>
+            <img src="assets/logo-glyph.png" alt="Studio Glyph logo" loading="lazy">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ CTA BAND ============ -->
+    <section class="cta" aria-labelledby="cta-heading">
+      <div class="container reveal">
+        <h2 id="cta-heading">My work operates at the intersection of research, systems thinking, and behavioral trust</h2>
+        <p>Let&rsquo;s build reliable systems together!</p>
+        <!-- Static mailto link. Swap for a contact form + backend handler (e.g. Formspree, Netlify Forms) if needed. -->
+        <a class="btn" href="mailto:gokhalesumeet2@gmail.com">Contact</a>
+      </div>
+    </section>
+
+    <!-- ============ LIFE AS DESIGN PLAYGROUND ============ -->
+    <section class="playground" aria-labelledby="playground-heading">
+      <div class="container">
+        <div class="reveal">
+          <h2 id="playground-heading">Life as design playground</h2>
+          <p>I apply a designer&rsquo;s mindset to life &mdash; from yoga and meditation to my podcast Wisdom of Wednesdays and vlogging &mdash; experimenting with routines, human behavior, and everyday challenges to craft meaningful, human-centered experiences on and off the screen.</p>
+        </div>
+
+        <!-- Wisdom of Wednesdays -->
+        <article class="story reveal">
+          <div class="media framed">
+            <a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener"
+               aria-label="Listen to Wisdom of Wednesdays on Spotify">
+              <img src="assets/wow-poster.png"
+                   alt="Wisdom of Wednesdays podcast poster" loading="lazy">
+            </a>
+          </div>
+          <div>
+            <h3>Wisdom Of Wednesdays.</h3>
+            <p>Wisdom of Wednesdays is a podcast I started back in lockdown, in March 2020. My idea is to share the life hacks I&rsquo;ve learnt through books and conversations with my family and friends, to help cope with everyday challenges.<br>
+            I present to you all my carefully curated take on the magic of life!</p>
+            <a class="arrow-link" href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Give it a listen</a>
+          </div>
+        </article>
+
+        <!-- Lawn tennis -->
+        <article class="story reveal">
+          <div>
+            <h3>Lawn tennis for the win.</h3>
+            <p>Alongside working, hustling, thinking, designing and keeping up with everyday challenges, I take time out to keep my tennis practice going. I love the sport and have kept at it for 20 years!</p>
+          </div>
+          <div class="media rounded">
+            <img src="assets/tennis.png"
+                 alt="Sumeet playing lawn tennis on an outdoor court" loading="lazy">
+          </div>
+        </article>
+
+        <!-- Staying fit -->
+        <article class="story reveal">
+          <div class="media rounded">
+            <img src="assets/fitness.png"
+                 alt="Sumeet hiking, at the gym, and doing yoga" loading="lazy">
+          </div>
+          <div>
+            <h3>Staying fit, at least I try to!</h3>
+            <p>I keep mentally and physically fit by going on hikes, gymming and doing yoga. I am a student of Inner Engineering by Sadhguru and do my sadhana (meditation practice) every day.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="work.html">Work</a>
+        <a href="assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
+      </div>
+      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-reveal animation (skipped if user prefers reduced motion)
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    } else {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+
+    // Subtle header border once the page is scrolled
+    const header = document.getElementById('header');
+    addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', scrollY > 10);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

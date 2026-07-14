@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UX design case studies | Sumeet Gokhale</title>
+  <meta name="description" content="Explore UX case studies focused on simplifying complex systems, improving decision making, and designing high impact digital experiences.">
+  <meta property="og:title" content="UX design case studies | Sumeet Gokhale">
+  <meta property="og:description" content="Explore UX case studies focused on simplifying complex systems, improving decision making, and designing high impact digital experiences.">
+  <meta property="og:type" content="website">
+
+  <!-- Inter: open-source typeface (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============ Design tokens ============ */
+    :root {
+      --ink: #000000;
+      --gray: #5e5e5e;
+      --blue: #2b5be4;
+      --blue-dark: #1e46c0;
+      --card: #ededed;
+      --band: #f7f7f7;
+      --line: #e8e8e8;
+      --highlight: #f9f39b;
+      --display: "Inter", system-ui, sans-serif;
+      --text: "Inter", system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--text);
+      color: var(--gray);
+      background: #fff;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; }
+
+    .container { width: min(1120px, 92%); margin-inline: auto; }
+
+    a:focus-visible, .btn:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0;
+      background: var(--ink); color: #fff;
+      padding: 10px 18px; z-index: 100; text-decoration: none;
+    }
+    .skip-link:focus { left: 0; }
+
+    .btn {
+      display: inline-block;
+      background: var(--blue); color: #fff;
+      font-size: 13px; font-weight: 500;
+      padding: 10px 28px; border-radius: 999px;
+      text-decoration: none;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+    /* ============ Header ============ */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+    }
+    .site-header.scrolled { border-bottom-color: var(--line); }
+    .site-header .container {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-block: 20px;
+    }
+    .brand {
+      position: relative;
+      font-family: var(--display); font-weight: 700; font-size: 15px;
+      letter-spacing: .04em; color: var(--ink);
+      text-decoration: none; padding: 6px 10px;
+    }
+    .brand img.brush {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: fill; z-index: -1;
+    }
+    .site-nav { display: flex; gap: clamp(24px, 5vw, 72px); }
+    .site-nav a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .site-nav a[aria-current="page"] { font-weight: 600; }
+
+    /* ============ Page title ============ */
+    .page-head { padding: 56px 0 24px; }
+    .page-head h1 { font-size: 20px; font-weight: 700; }
+
+    /* ============ Case study cards ============ */
+    .cases { padding: 24px 0 80px; display: grid; gap: 40px; }
+
+    .case-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: clamp(24px, 5vw, 64px);
+      align-items: center;
+      background: var(--band);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: clamp(24px, 4vw, 48px);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .case-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(0, 0, 0, .08); }
+
+    .case-media {
+      border-radius: 10px; overflow: hidden; background: var(--card);
+    }
+    .case-media img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 6 / 5; }
+
+    .case-body h2 { font-size: 18px; font-weight: 700; }
+    .case-tag {
+      display: inline-block;
+      margin-top: 6px;
+      color: var(--blue);
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .case-meta { margin-top: 18px; display: grid; gap: 14px; }
+    .case-meta h3 {
+      color: var(--blue);
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .case-meta p { font-size: 14px; }
+
+    .case-body .btn { margin-top: 22px; }
+
+    /* ============ Footer ============ */
+    .site-footer { border-top: 1px solid var(--line); padding: 36px 0; }
+    .site-footer .container {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .site-footer small { color: var(--gray); font-size: 12px; }
+
+    /* ============ Scroll-reveal animation ============ */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ============ Responsive ============ */
+    @media (max-width: 760px) {
+      .case-card { grid-template-columns: 1fr; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="header">
+    <div class="container">
+      <a class="brand" href="index.html">
+        <img class="brush" src="assets/brush-work.png" alt="" aria-hidden="true">
+        SUMEET GOKHALE
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="work.html" aria-current="page">Work</a>
+        <a href="about.html">About</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <div class="container page-head">
+      <h1>All case studies</h1>
+    </div>
+
+    <!-- ============ CASE STUDIES ============ -->
+    <section class="container cases" aria-label="Case studies">
+
+      <!-- Galls LLC -->
+      <article class="case-card reveal">
+        <a class="case-media" href="uniform-customizer.html" aria-label="Galls LLC uniform customizer case study">
+          <img src="assets/work-galls.png" alt="Galls uniform customizer shown on a laptop screen" loading="lazy">
+        </a>
+        <div class="case-body">
+          <h2>Galls LLC.</h2>
+          <span class="case-tag">Enterprise Commerce Trust</span>
+          <div class="case-meta">
+            <div>
+              <h3>Description</h3>
+              <p>Redesigning high-consideration uniform purchasing systems to improve configuration clarity and reduce decision friction.</p>
+            </div>
+            <div>
+              <h3>Time</h3>
+              <p>1 Year</p>
+            </div>
+            <div>
+              <h3>Impact</h3>
+              <p>Double-digit lift in completion rates and measurable reduction in configuration errors.</p>
+            </div>
+          </div>
+          <a class="btn" href="uniform-customizer.html">View case study</a>
+        </div>
+      </article>
+
+      <!-- Optivento -->
+      <article class="case-card reveal">
+        <a class="case-media" href="optivento.html" aria-label="Optivento case study">
+          <img src="assets/work-optivento.png" alt="Optivento inventory dashboard interface" loading="lazy">
+        </a>
+        <div class="case-body">
+          <h2>Optivento</h2>
+          <span class="case-tag">Operational Decision Architecture</span>
+          <div class="case-meta">
+            <div>
+              <h3>Description</h3>
+              <p>Designing a research-led supply decision platform that structures fragmented inventory and vendor data into clear, confidence-driven operational workflows.</p>
+            </div>
+            <div>
+              <h3>Time</h3>
+              <p>1.5 Years</p>
+            </div>
+            <div>
+              <h3>Impact</h3>
+              <p>Validated a venture-grade system by reducing onboarding friction through mixed-method research.</p>
+            </div>
+          </div>
+          <a class="btn" href="optivento.html">View case study</a>
+        </div>
+      </article>
+
+      <!-- Nirvana -->
+      <article class="case-card reveal">
+        <a class="case-media" href="nirvana.html" aria-label="Nirvana habit forming app case study">
+          <img src="assets/work-nirvana.png" alt="Nirvana meditation app screens on mobile phones" loading="lazy">
+        </a>
+        <div class="case-body">
+          <h2>Nirvana</h2>
+          <span class="case-tag">Habit Forming App</span>
+          <div class="case-meta">
+            <div>
+              <h3>Description</h3>
+              <p>Nirvana is a behavior-first habit and accountability platform designed to reduce early user drop-off and improve long-term consistency.</p>
+            </div>
+            <div>
+              <h3>Time</h3>
+              <p>0.5 Years</p>
+            </div>
+            <div>
+              <h3>Impact</h3>
+              <p>Boosted retention &amp; consistency while validating a reinforcement framework.</p>
+            </div>
+          </div>
+          <a class="btn" href="nirvana.html">View case study</a>
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="work.html">Work</a>
+        <a href="assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
+      </div>
+      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
+    </div>
+  </footer>
+
+  <script>
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    } else {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+    const header = document.getElementById('header');
+    addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', scrollY > 10);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

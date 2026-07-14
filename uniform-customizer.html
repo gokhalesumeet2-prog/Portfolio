@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UX UI — Uniform customizer e-commerce | Sumeet Gokhale</title>
+  <meta name="description" content="Customize professional uniforms online with real time personalization, streamlined ordering, and a friction free experience for teams and organizations.">
+  <meta property="og:title" content="UX UI — Uniform customizer e-commerce | Sumeet Gokhale">
+  <meta property="og:description" content="Customize professional uniforms online with real time personalization, streamlined ordering, and a friction free experience for teams and organizations.">
+  <meta property="og:type" content="website">
+
+  <!-- Inter: open-source typeface (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============ Design tokens ============ */
+    :root {
+      --ink: #000000;
+      --gray: #5e5e5e;
+      --blue: #2b5be4;
+      --blue-dark: #1e46c0;
+      --card: #ededed;
+      --band: #f7f7f7;
+      --line: #e8e8e8;
+      --highlight: #f9f39b;
+      --display: "Inter", system-ui, sans-serif;
+      --text: "Inter", system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--text);
+      color: var(--gray);
+      background: #fff;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; }
+
+    .container { width: min(1120px, 92%); margin-inline: auto; }
+    .narrow { width: min(860px, 92%); margin-inline: auto; }
+
+    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0;
+      background: var(--ink); color: #fff;
+      padding: 10px 18px; z-index: 100; text-decoration: none;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* ============ Header ============ */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+    }
+    .site-header.scrolled { border-bottom-color: var(--line); }
+    .site-header .container {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-block: 20px;
+    }
+    .brand {
+      position: relative;
+      font-family: var(--display); font-weight: 700; font-size: 15px;
+      letter-spacing: .04em; color: var(--ink);
+      text-decoration: none; padding: 6px 10px;
+    }
+    .brand img.brush {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: fill; z-index: -1;
+    }
+    .site-nav { display: flex; gap: clamp(24px, 5vw, 72px); }
+    .site-nav a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    /* ============ Shared ============ */
+    .label {
+      color: var(--blue);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    section { padding: 44px 0; }
+    .section-text p + p { margin-top: 14px; }
+
+    .frame {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--band);
+    }
+
+    .hero { padding: 40px 0 8px; }
+
+    /* Meta grid */
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(18px, 3vw, 40px);
+      padding: 40px 0 8px;
+    }
+    .meta h2 {
+      color: var(--blue);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .meta p { font-size: 14px; }
+
+    /* Split layout */
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+    }
+
+    /* Goals list */
+    .goals {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      list-style: none;
+    }
+    .goals li {
+      background: var(--band);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    /* Phone mockups */
+    .phones {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(16px, 3vw, 40px);
+      margin-top: 32px;
+      align-items: start;
+    }
+    .phones img { transition: transform .3s ease; }
+    .phones img:hover { transform: translateY(-6px); }
+
+    /* Stats band */
+    .stats-band { background: var(--band); border-block: 1px solid var(--line); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(20px, 4vw, 60px);
+      text-align: center;
+    }
+    .stats strong {
+      display: block;
+      font-family: var(--display);
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      color: var(--blue);
+      line-height: 1.1;
+    }
+    .stats p { margin-top: 10px; font-size: 14px; }
+
+    /* Desktop screens */
+    .screens { display: grid; gap: 32px; margin-top: 8px; }
+
+    /* ============ Footer ============ */
+    .site-footer { border-top: 1px solid var(--line); padding: 36px 0; margin-top: 40px; }
+    .site-footer .container {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .site-footer small { color: var(--gray); font-size: 12px; }
+
+    /* ============ Scroll-reveal ============ */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ============ Responsive ============ */
+    @media (max-width: 900px) { .meta { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 820px) {
+      .split { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .phones { grid-template-columns: 1fr; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="header">
+    <div class="container">
+      <a class="brand" href="index.html">
+        <img class="brush" src="assets/brush-uniform.png" alt="" aria-hidden="true">
+        SUMEET GOKHALE
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="work.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero container reveal">
+      <figure class="frame">
+        <img src="assets/uc-desktop-hero.png" alt="Galls uniform customizer shown on a desktop browser">
+      </figure>
+    </section>
+
+    <!-- ============ META ============ -->
+    <section class="container">
+      <div class="meta reveal">
+        <div>
+          <h2>Project type</h2>
+          <p>Enterprise SaaS / B2B E-commerce System Design</p>
+        </div>
+        <div>
+          <h2>Users</h2>
+          <p>U.S. Army<br>U.S. Air Force</p>
+        </div>
+        <div>
+          <h2>Team</h2>
+          <p>1 Head of design, 1 Front-end developer, 2 Back-end developers and 1 UX designer (me)</p>
+        </div>
+        <div>
+          <h2>My role</h2>
+          <p>UX strategy &amp; system architecture<br>Interaction design &amp; prototyping</p>
+        </div>
+        <div>
+          <h2>Time</h2>
+          <p>1 Year</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ OVERVIEW ============ -->
+    <section class="narrow section-text reveal">
+      <h2 class="label">Overview</h2>
+      <p>Galls&rsquo; Uniform Service Program needed more than a customization feature. It required a scalable configuration system that could handle agency compliance rules, embroidery logic, placement standards, and bulk ordering without adding friction to the buying process.</p>
+    </section>
+
+    <!-- ============ PROBLEM ============ -->
+    <section class="narrow section-text reveal">
+      <h2 class="label">Problem</h2>
+      <p>The existing journey was SKU heavy and fragmented across multiple product pages. Buyers had to make customization decisions across different screens, which increased errors, slowed down ordering, and created operational overhead for internal teams.</p>
+    </section>
+
+    <!-- ============ OLD CUSTOMIZATION ============ -->
+    <section class="container reveal">
+      <div class="split">
+        <div class="section-text">
+          <h2 class="label">Old customization</h2>
+          <p>The existing customization experience treats uniform configuration like fragmented shopping, forcing users to navigate multiple pages without a unified system view. This creates high cognitive load, unclear decision flow, and no structured guidance.</p>
+          <p>There&rsquo;s no validation, prioritization, or real-time feedback, leading to errors, low confidence, and operational issues. The system exposes backend complexity instead of simplifying it, resulting in slower decisions and higher drop-offs.</p>
+        </div>
+        <figure class="frame">
+          <img src="assets/uc-old-customizer.png" alt="The old uniform customizer: a dense single page exposing every option at once" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ BUSINESS GOALS ============ -->
+    <section class="narrow reveal">
+      <h2 class="label">Business goals</h2>
+      <ul class="goals">
+        <li>Reduce configuration friction</li>
+        <li>Minimize customization errors</li>
+        <li>Improve speed to checkout</li>
+        <li>Support repeat and bulk procurement</li>
+        <li>Increase customization attach rate</li>
+      </ul>
+    </section>
+
+    <!-- ============ SOLUTION ============ -->
+    <section class="container section-text reveal">
+      <h2 class="label">Solution</h2>
+      <div class="narrow" style="margin-inline:0">
+        <p>Re-structured the experience into a guided, step-by-step customization flow instead of a dense single-page configurator.</p>
+        <p>Simplified decision-making by grouping attributes into logical clusters (identity, fit, branding) instead of exposing all options equally.</p>
+        <p>Applied AI-assisted exploration for rapid layout ideation and variant testing, speeding up early prototyping and reducing iteration cycles.</p>
+      </div>
+
+      <div class="phones">
+        <img src="assets/uc-phone-1.png" alt="Mobile uniform customizer: step-by-step product configuration" loading="lazy">
+        <img src="assets/uc-phone-2.png" alt="Mobile uniform customizer: grouped attribute selection" loading="lazy">
+        <img src="assets/uc-phone-3.png" alt="Mobile uniform customizer: order review before checkout" loading="lazy">
+      </div>
+    </section>
+
+    <!-- ============ IMPACT ============ -->
+    <section class="stats-band reveal">
+      <div class="container">
+        <h2 class="label">Impact &amp; business outcomes</h2>
+        <p style="max-width:640px">Within two quarters of launch, the uniform customizer delivered measurable operational and commercial results:</p>
+        <div class="stats" style="margin-top:36px">
+          <div>
+            <strong>22%</strong>
+            <p>Increase in customization attach rate</p>
+          </div>
+          <div>
+            <strong>26%</strong>
+            <p>Reduction in time to configure</p>
+          </div>
+          <div>
+            <strong>17%</strong>
+            <p>Improvement in checkout completion for customizable products</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ UNIFIED CHECKOUT ============ -->
+    <section class="container section-text reveal">
+      <h2 class="label">Unified customization checkout</h2>
+      <p class="narrow" style="margin-inline:0">I redesigned the experience by introducing a single step full screen customization popup that brings all options like sizing, fabric, and branding into one place before add to cart or checkout. This reduces context switching and keeps users focused on completing all decisions in a unified view. It acts as a key checkpoint that improves attention, reduces errors, and encourages users to finish customization with clarity before moving forward.</p>
+
+      <div class="screens" style="margin-top:32px">
+        <figure class="frame">
+          <img src="assets/uc-desktop-untitled.png" alt="Unified full-screen customization popup with sizing, fabric and branding options in one view" loading="lazy">
+        </figure>
+        <figure class="frame">
+          <img src="assets/uc-desktop-2.png" alt="Uniform customizer desktop view: order summary and checkout checkpoint" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ OUTPUT ============ -->
+    <section class="narrow section-text reveal">
+      <h2 class="label">Output</h2>
+      <p>The USP Uniform Customizer was not a feature layer added onto ecommerce. It became a core platform capability.</p>
+      <p>By embedding logic and workflow intelligence into the buying journey, we shifted the experience from manual selection to structured configuration with confidence.</p>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="work.html">Work</a>
+        <a href="assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
+      </div>
+      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
+    </div>
+  </footer>
+
+  <script>
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    } else {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+    const header = document.getElementById('header');
+    addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', scrollY > 10);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Optivento — Inventory management app | Sumeet Gokhale</title>
+  <meta name="description" content="AI powered restaurant inventory management system. SaaS solution for overall restaurant operations.">
+  <meta property="og:title" content="Optivento — Inventory management app | Sumeet Gokhale">
+  <meta property="og:description" content="AI powered restaurant inventory management system. SaaS solution for overall restaurant operations.">
+  <meta property="og:type" content="website">
+
+  <!-- Inter: open-source typeface (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============ Design tokens ============ */
+    :root {
+      --ink: #000000;
+      --gray: #5e5e5e;
+      --blue: #2b5be4;
+      --blue-dark: #1e46c0;
+      --card: #ededed;
+      --band: #f7f7f7;
+      --line: #e8e8e8;
+      --highlight: #f9f39b;
+      --teal: #14b8a6;
+      --teal-soft: #a7f0e4;
+      --amber: #f59e0b;
+      --amber-soft: #fde68a;
+      --display: "Inter", system-ui, sans-serif;
+      --text: "Inter", system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--text);
+      color: var(--gray);
+      background: #fff;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; }
+
+    .container { width: min(1120px, 92%); margin-inline: auto; }
+    .narrow { width: min(860px, 92%); margin-inline: auto; }
+
+    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0;
+      background: var(--ink); color: #fff;
+      padding: 10px 18px; z-index: 100; text-decoration: none;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* ============ Header ============ */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+    }
+    .site-header.scrolled { border-bottom-color: var(--line); }
+    .site-header .container {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-block: 20px;
+    }
+    .brand {
+      position: relative;
+      font-family: var(--display); font-weight: 700; font-size: 15px;
+      letter-spacing: .04em; color: var(--ink);
+      text-decoration: none; padding: 6px 10px;
+    }
+    .brand img.brush {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: fill; z-index: -1;
+    }
+    .site-nav { display: flex; gap: clamp(24px, 5vw, 72px); }
+    .site-nav a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    /* ============ Shared section elements ============ */
+    .label {
+      color: var(--blue);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    section { padding: 44px 0; }
+    .section-text p + p { margin-top: 14px; }
+
+    .frame {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--band);
+    }
+    /* Fill the column height so the photo shows a crisp native-resolution crop */
+    .split .frame { align-self: stretch; }
+    .split .frame img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ============ Hero ============ */
+    .hero { padding: 40px 0 8px; }
+
+    /* Meta grid */
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(20px, 4vw, 48px);
+      padding: 40px 0 8px;
+    }
+    .meta h2 {
+      color: var(--blue);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .meta p { font-size: 14px; }
+
+    /* Two-column: text + media */
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+    }
+    .split.flip { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+
+    /* Quotes */
+    .quotes { display: grid; gap: 24px; margin-top: 28px; }
+    blockquote {
+      border-left: 3px solid var(--highlight);
+      padding: 6px 0 6px 22px;
+      font-size: 16px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    blockquote footer { margin-top: 8px; color: var(--gray); font-size: 13px; font-weight: 400; }
+
+    /* Solution pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 28px;
+    }
+    .pillar {
+      background: var(--band);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 26px;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .pillar:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0,0,0,.07); }
+    .pillar h3 { font-size: 15px; margin-bottom: 12px; }
+    .pillar ul { list-style: none; display: grid; gap: 8px; }
+    .pillar li { font-size: 14px; padding-left: 18px; position: relative; }
+    .pillar li::before { content: "•"; position: absolute; left: 0; color: var(--blue); }
+    .pillar .loop {
+      margin-top: 14px;
+      font-size: 13px; font-weight: 600; color: var(--ink);
+      background: var(--highlight);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    /* Feature showcases */
+    .feature-cap { margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--ink); text-align: center; }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 32px;
+    }
+
+    /* ============ Vector diagrams ============ */
+    .diagram {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fcfcfb;
+      padding: clamp(12px, 2vw, 24px);
+      margin-top: 28px;
+    }
+    .diagram svg, .diagram img { width: 100%; height: auto; display: block; border-radius: 8px; }
+    .diagram figcaption { margin-top: 12px; font-size: 12px; color: var(--gray); text-align: center; }
+
+    /* ============ Tech dependencies table ============ */
+    .tech-table { margin-top: 28px; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+    table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+    thead th {
+      background: var(--highlight);
+      color: var(--ink);
+      text-align: left;
+      font-size: 13px;
+      padding: 12px 18px;
+      border-bottom: 2px solid var(--ink);
+    }
+    tbody th, tbody td { padding: 11px 18px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+    tbody th { color: var(--ink); font-weight: 600; white-space: nowrap; font-size: 13.5px; }
+    tbody tr:last-child th, tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--band); }
+
+    /* ============ Footer ============ */
+    .site-footer { border-top: 1px solid var(--line); padding: 36px 0; margin-top: 40px; }
+    .site-footer .container {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .site-footer small { color: var(--gray); font-size: 12px; }
+
+    /* ============ Scroll-reveal ============ */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ============ Responsive ============ */
+    @media (max-width: 820px) {
+      .meta { grid-template-columns: 1fr 1fr; }
+      .split, .split.flip { grid-template-columns: 1fr; }
+      .pillars { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="header">
+    <div class="container">
+      <a class="brand" href="index.html">
+        <img class="brush" src="assets/brush-optivento.png" alt="" aria-hidden="true">
+        SUMEET GOKHALE
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="work.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero container reveal">
+      <figure class="frame">
+        <img src="assets/ov-dashboard.png" alt="Optivento dashboard design showing inventory, pricing and sales insights">
+      </figure>
+    </section>
+
+    <!-- ============ META ============ -->
+    <section class="container">
+      <div class="meta reveal">
+        <div>
+          <h2>Project type</h2>
+          <p>AI Powered Hospitality Operations Platform<br>SaaS / Operational Intelligence System Design</p>
+        </div>
+        <div>
+          <h2>Users</h2>
+          <p>Restaurant owners<br>Kitchen managers<br>Operations teams<br>Multi location hospitality businesses</p>
+        </div>
+        <div>
+          <h2>My role</h2>
+          <p>UX strategy &amp; behavioral systems<br>Product architecture &amp; workflows<br>Interaction design &amp; prototyping<br>AI assisted experience design</p>
+        </div>
+        <div>
+          <h2>Time</h2>
+          <p>1.5 Years</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ OVERVIEW ============ -->
+    <section class="narrow section-text reveal">
+      <h2 class="label">Overview</h2>
+      <p>Optivento is an AI powered hospitality operations platform designed to simplify inventory, pricing, and kitchen decision making for restaurants and multi location food businesses. The system transforms fragmented operational data into actionable workflows that improve efficiency, reduce waste, and support faster business decisions.</p>
+    </section>
+
+    <!-- ============ PROBLEM ============ -->
+    <section class="narrow section-text reveal">
+      <h2 class="label">Problem</h2>
+      <p>Restaurant operations often rely on disconnected tools, manual tracking, and reactive decision making, creating inefficiencies across inventory, costing, and sales management. Teams struggled to translate operational data into clear actions, leading to wasted resources, inconsistent pricing, and reduced visibility into business performance.</p>
+    </section>
+
+    <!-- ============ MIND MAP (vector redraw) ============ -->
+    <section class="container section-text reveal">
+      <h2 class="label">Finding the core of the problem</h2>
+      <p class="narrow" style="margin-inline:0">I focused on operational efficiency as a key area for problem-solving and innovation. By delving into the intricacies of restaurant operations and the challenges experienced by chefs in managing inventory and recipes, I identified operational inefficiencies as a critical problem space.</p>
+
+      <figure class="diagram">
+        <img src="assets/ov-mindmap.png" alt="Mind map of effects and causes of operational inefficiency, branching from Management and Communication skills" loading="lazy">
+        <figcaption>Effects &amp; causes mind map from field research with kitchen teams.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ PROBLEM TREE (vector redraw) ============ -->
+    <section class="container section-text reveal">
+      <h2 class="label">Small cost reductions, massive profit impact</h2>
+      <p class="narrow" style="margin-inline:0">The challenge of non-labor costs in the restaurant industry is underscored by the significant impact on financial performance. A mere 2% reduction in these costs can lead to a remarkable 29% increase in profit for a restaurant with $1 million in sales and a 3.5% profit margin, translating to an additional $20,000 to the bottom line.</p>
+
+      <figure class="diagram" role="img" aria-label="Problem tree analysis centered on operational efficiency: communication practices above, work strategy practices below">
+        <svg viewBox="0 0 1100 640" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" font-size="13">
+          <defs>
+            <marker id="pt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#0d9488"/></marker>
+            <marker id="py" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#eab308"/></marker>
+          </defs>
+
+          <!-- Level 3 -->
+          <rect x="700" y="20" width="230" height="42" rx="10" fill="#99f6e4"/>
+          <text x="815" y="46" text-anchor="middle" fill="#134e4a">Adherence to proper guidelines</text>
+
+          <!-- Level 2 -->
+          <rect x="330" y="106" width="240" height="54" rx="10" fill="#99f6e4"/>
+          <text x="450" y="128" text-anchor="middle" fill="#134e4a">Longer shifts are expected</text>
+          <text x="450" y="146" text-anchor="middle" fill="#134e4a">with last min informing</text>
+
+          <rect x="610" y="106" width="240" height="54" rx="10" fill="#99f6e4"/>
+          <text x="730" y="128" text-anchor="middle" fill="#134e4a">Goal — to achieve seamless</text>
+          <text x="730" y="146" text-anchor="middle" fill="#134e4a">synchronization</text>
+
+          <!-- Level 1 -->
+          <rect x="150" y="212" width="230" height="42" rx="10" fill="#99f6e4"/>
+          <text x="265" y="238" text-anchor="middle" fill="#134e4a">WhatsApp for communication</text>
+
+          <rect x="420" y="212" width="200" height="42" rx="10" fill="#99f6e4"/>
+          <text x="520" y="238" text-anchor="middle" fill="#134e4a">Verbally communicated</text>
+
+          <rect x="660" y="212" width="250" height="42" rx="10" fill="#99f6e4"/>
+          <text x="785" y="238" text-anchor="middle" fill="#134e4a">Need for mentor in the industry</text>
+
+          <!-- Center -->
+          <rect x="420" y="306" width="220" height="46" rx="10" fill="#a3e635"/>
+          <text x="530" y="334" text-anchor="middle" font-weight="700" fill="#1a2e05">Operational efficiency</text>
+
+          <!-- Downstream -->
+          <rect x="240" y="400" width="180" height="42" rx="10" fill="#fde68a"/>
+          <text x="330" y="426" text-anchor="middle" fill="#713f12">Work strategy</text>
+
+          <rect x="330" y="480" width="200" height="42" rx="10" fill="#fde68a"/>
+          <text x="430" y="506" text-anchor="middle" fill="#713f12">Monitoring records</text>
+
+          <rect x="110" y="566" width="220" height="42" rx="10" fill="#fde68a"/>
+          <text x="220" y="592" text-anchor="middle" fill="#713f12">Prep list is made on paper</text>
+
+          <rect x="390" y="566" width="180" height="42" rx="10" fill="#fde68a"/>
+          <text x="480" y="592" text-anchor="middle" fill="#713f12">Prioritizing tasks</text>
+
+          <rect x="630" y="566" width="270" height="42" rx="10" fill="#fde68a"/>
+          <text x="765" y="592" text-anchor="middle" fill="#713f12">Descriptive handovers — on paper</text>
+
+          <!-- Upward dotted connectors (effects direction) -->
+          <g fill="none" stroke="#0d9488" stroke-width="1.6" stroke-dasharray="4 5">
+            <path d="M500 306 C 420 290, 320 270, 278 254" marker-end="url(#pt)"/>
+            <path d="M525 306 C 522 290, 520 275, 520 254" marker-end="url(#pt)"/>
+            <path d="M560 306 C 640 290, 730 270, 772 254" marker-end="url(#pt)"/>
+            <path d="M282 212 C 330 190, 400 175, 438 160" marker-end="url(#pt)"/>
+            <path d="M520 212 C 500 195, 480 180, 466 160" marker-end="url(#pt)"/>
+            <path d="M780 212 C 760 195, 745 180, 736 160" marker-end="url(#pt)"/>
+            <path d="M740 106 C 770 90, 795 78, 810 62" marker-end="url(#pt)"/>
+          </g>
+
+          <!-- Downward solid connectors (causes direction) -->
+          <g fill="none" stroke="#eab308" stroke-width="1.6">
+            <path d="M480 352 C 420 370, 370 385, 342 400" marker-end="url(#py)"/>
+            <path d="M350 442 C 375 455, 400 465, 418 480" marker-end="url(#py)"/>
+            <path d="M400 522 C 340 538, 280 550, 240 566" marker-end="url(#py)"/>
+            <path d="M440 522 C 452 536, 462 550, 470 566" marker-end="url(#py)"/>
+            <path d="M530 510 C 600 528, 680 548, 720 566" marker-end="url(#py)"/>
+          </g>
+        </svg>
+        <figcaption>Problem tree analysis, redrawn as vector graphics — operational efficiency sits at the junction of communication habits and paper-based work strategy.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ USER INTERVIEWS ============ -->
+    <section class="container reveal">
+      <div class="split flip">
+        <div class="section-text">
+          <h2 class="label">User interviews</h2>
+          <p>We conducted in-depth interviews with 12 chefs from diverse culinary backgrounds and restaurant settings. These user interviews were structured to uncover pain points, workflows, and specific challenges faced by chefs when managing inventory and recipes.</p>
+          <div class="quotes">
+            <blockquote>
+              <p>&ldquo;There is a need for a structure. I think this place will benefit more from an organizational structure.&rdquo;</p>
+              <footer>&mdash; Lexie</footer>
+            </blockquote>
+            <blockquote>
+              <p>&ldquo;The process involves assessing the day's schedule and agenda, need for efficient organization and preparation. Whether it's a special event, a busy lunch rush, or a regular workday, this initial planning phase is crucial to ensure that everything runs smoothly and effectively.&rdquo;</p>
+              <footer>&mdash; Sanya</footer>
+            </blockquote>
+          </div>
+        </div>
+        <figure class="frame">
+          <img src="assets/ov-restaurant.png" alt="Restaurant kitchen environment where chef interviews took place" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ SOLVING THE PROBLEM ============ -->
+    <section class="container reveal">
+      <h2 class="label">Solving the problem</h2>
+      <div class="pillars">
+        <div class="pillar">
+          <h3>The foundation supports</h3>
+          <ul>
+            <li>AI forecasting</li>
+            <li>Predictive waste modeling</li>
+            <li>Computer vision inventory validation</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <h3>Core design principles</h3>
+          <ul>
+            <li>Modular data mapping across inventory, pricing, and sales</li>
+            <li>Real-time cost propagation through recipe engines</li>
+            <li>Feedback loops that convert data into intervention</li>
+          </ul>
+          <p class="loop">Data &rarr; Insight &rarr; Action &rarr; Margin Protection</p>
+        </div>
+        <div class="pillar">
+          <h3>Positive impact</h3>
+          <ul>
+            <li>8&ndash;12% reduction in food waste</li>
+            <li>15&ndash;20% improvement in inventory accuracy</li>
+            <li>~30% reduction in manual logging time</li>
+            <li>Increased responsiveness to ingredient price fluctuations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="container reveal">
+      <figure class="frame">
+        <img src="assets/ov-pos-features.png" alt="Optivento tablet screens: reorder list with quantity selection and POS integration setup" loading="lazy">
+      </figure>
+      <p class="feature-cap">Easy POS integration &middot; Auto-listing for reorder</p>
+
+      <div class="feature-grid">
+        <figure>
+          <div class="frame">
+            <img src="assets/ov-menu-ui.png" alt="Menu manager interface for customizing dishes" loading="lazy">
+          </div>
+          <p class="feature-cap">Customize menu</p>
+        </figure>
+        <figure>
+          <div class="frame">
+            <img src="assets/ov-reorder-ui.png" alt="Inventory reordering interface with sales reporting" loading="lazy">
+          </div>
+          <p class="feature-cap">Comprehensive sales reporting</p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ TECH DEPENDENCIES ============ -->
+    <section class="container section-text reveal">
+      <h2 class="label">Technological dependencies</h2>
+      <p class="narrow" style="margin-inline:0">Technological dependencies form the backbone of Optivento, ensuring its seamless operation and delivery of essential features. By leveraging these technological dependencies, Optivento aims to provide a reliable, secure, and user-friendly solution for inventory management and restaurant operations.</p>
+
+      <!-- Rebuilt as a real, accessible HTML table (originally a static image) -->
+      <div class="tech-table">
+        <table>
+          <caption class="visually-hidden" style="position:absolute;left:-9999px">Features of Optivento and their technological dependencies</caption>
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Dependencies</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Current cost display</th><td>Backend server for fetching and processing real-time cost data.</td></tr>
+            <tr><th scope="row">Sign up</th><td>Backend server for user authentication and database storage.</td></tr>
+            <tr><th scope="row">Push notifications</th><td>Integration with push notification services such as Firebase Cloud Messaging or Apple Push Notification Service.</td></tr>
+            <tr><th scope="row">Search</th><td>Backend server for handling search queries and database indexing.</td></tr>
+            <tr><th scope="row">Location services</th><td>Access to device GPS or Wi-Fi for location detection.</td></tr>
+            <tr><th scope="row">Back camera</th><td>Access to device camera for scanning barcodes or capturing images.</td></tr>
+            <tr><th scope="row">Payment gateway</th><td>Integration with third-party payment processors such as RazorPay or PayPal.</td></tr>
+            <tr><th scope="row">Inventory lifecycle tracking</th><td>Backend server for storing and updating inventory data, potentially utilizing database management systems like MySQL or MongoDB.</td></tr>
+            <tr><th scope="row">Real-time data insights</th><td>Integration with data analytics platforms or frameworks like Apache Kafka for real-time data processing.</td></tr>
+            <tr><th scope="row">Alerts</th><td>Backend server for triggering and sending alerts based on predefined conditions.</td></tr>
+            <tr><th scope="row">POS integration</th><td>Integration with point-of-sale systems via APIs or SDKs provided by POS vendors.</td></tr>
+            <tr><th scope="row">Financial analysis</th><td>Integration with financial analysis tools or APIs for data aggregation and analysis.</td></tr>
+            <tr><th scope="row">Recommendations</th><td>Backend server for generating personalized recommendations based on user data and preferences.</td></tr>
+            <tr><th scope="row">Integration with food apps</th><td>Integration with APIs provided by food delivery or restaurant management platforms for data exchange and synchronization.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="frame" style="margin-top:28px">
+        <img src="assets/ov-scanning.png" alt="Inventory scanning capabilities using the device camera" loading="lazy">
+      </figure>
+    </section>
+
+    <!-- ============ OUTCOME ============ -->
+    <section class="narrow section-text reveal">
+      <h2 class="label">Solution outcome</h2>
+      <p>Optivento transformed fragmented restaurant operations into a connected decision-making system by centralizing inventory, pricing, and cost tracking into one streamlined workflow. The platform reduced operational blind spots, improved financial visibility, and enabled restaurants to make faster, data-backed decisions that directly impacted profitability and efficiency.</p>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="work.html">Work</a>
+        <a href="assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
+      </div>
+      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
+    </div>
+  </footer>
+
+  <script>
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    } else {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+    const header = document.getElementById('header');
+    addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', scrollY > 10);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
