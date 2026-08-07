@@ -1,701 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Optivento: Restaurant Inventory Management UX Case Study | Sumeet Gokhale</title>
-  <meta name="description" content="A UX case study on Optivento, an AI-assisted restaurant inventory and recipe costing SaaS. Chef interviews, root-cause analysis, and a decision architecture that cut food waste 8 to 12%.">
-  <meta property="og:title" content="Optivento: Restaurant Inventory Management UX Case Study | Sumeet Gokhale">
-  <meta property="og:description" content="A UX case study on Optivento, an AI-assisted restaurant inventory and recipe costing SaaS. Chef interviews, root-cause analysis, and a decision architecture that cut food waste 8 to 12%.">
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="author" content="Sumeet Gokhale">
-  <meta property="og:url" content="https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/">
-  <meta property="og:site_name" content="Sumeet Gokhale">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:image" content="https://sumeetgokhale.com/assets/ov-dashboard.webp">
-  <meta property="og:image:alt" content="Optivento restaurant inventory management dashboard">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Optivento: Restaurant Inventory Management UX Case Study | Sumeet Gokhale">
-  <meta name="twitter:description" content="A UX case study on Optivento, an AI-assisted restaurant inventory and recipe costing SaaS. Chef interviews, root-cause analysis, and a decision architecture that cut food waste 8 to 12%.">
-  <meta name="twitter:image" content="https://sumeetgokhale.com/assets/ov-dashboard.webp">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- Inter: open-source typeface (Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ============ Design tokens ============ */
-    :root {
-      --ink: #000000;
-      --gray: #5e5e5e;
-      --blue: #2b5be4;
-      --blue-dark: #1e46c0;
-      --card: #ededed;
-      --band: #f7f7f7;
-      --line: #e8e8e8;
-      --highlight: #f9f39b;
-      --teal: #14b8a6;
-      --teal-soft: #a7f0e4;
-      --amber: #f59e0b;
-      --amber-soft: #fde68a;
-      --display: "Inter", system-ui, sans-serif;
-      --text: "Inter", system-ui, sans-serif;
-      /* Type scale. Everything is in rem so it rides the fluid root size
-         set below: one dial controls the whole page. */
-      --fs-3xs: .5625rem;   /*  9px @ root 16 */
-      --fs-2xs: .6875rem;   /* 11px */
-      --fs-xs:  .75rem;     /* 12px */
-      --fs-sm:  .8125rem;   /* 13px */
-      --fs-md:  .875rem;    /* 14px */
-      --fs-base: .9375rem;  /* 15px */
-      --fs-lg:  1rem;       /* 16px */
-
-      /* Fluid headings: rem bounds keep large monitors in proportion,
-         the vw term smooths everything in between. */
-      --fs-h1: clamp(1.125rem, .875rem + .8vw, 1.375rem);
-      --fs-h2: clamp(1.0625rem, .9rem + .55vw, 1.25rem);
-      --fs-h3: clamp(.9375rem, .875rem + .25vw, 1rem);
-
-      /* Spacing rhythm */
-      --section-y: clamp(1.75rem, 1.125rem + 2.2vw, 2.75rem);
-      --shell: min(70rem, 92%);        /* 1120px at root 16, grows with root */
-      --shell-narrow: min(53.75rem, 92%);
-    }
-
-    /* One fluid root: a steady 16px through phone, tablet and laptop widths,
-       then a gentle climb to 18px on large monitors so the page never looks
-       marooned in whitespace. Every rem below scales with it. */
-    html {
-      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--text);
-      color: var(--gray);
-      background: #fff;
-      font-size: var(--fs-base);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img { max-width: 100%; height: auto; display: block; }
-    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; line-height: 1.25; }
-    p { text-wrap: pretty; }
-
-    .container { width: var(--shell); margin-inline: auto; }
-    .narrow { width: var(--shell-narrow); margin-inline: auto; }
-
-    a:focus-visible, .btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
-
-    .skip-link {
-      position: absolute; left: -9999px; top: 0;
-      background: var(--ink); color: #fff;
-      padding: .625rem 1.125rem; z-index: 100; text-decoration: none;
-    }
-    .skip-link:focus { left: 0; }
-
-    /* ============ Header ============ */
-    .site-header {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s ease;
-    }
-    .site-header.scrolled { border-bottom-color: var(--line); }
-    .site-header .container {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: .75rem;
-      padding-block: clamp(.75rem, .5rem + .8vw, 1.25rem);
-    }
-    .brand {
-      position: relative;
-      font-family: var(--display); font-weight: 700; font-size: var(--fs-base);
-      letter-spacing: .04em; color: var(--ink);
-      text-decoration: none; padding: .375rem .625rem; white-space: nowrap;
-    }
-    .brand img.brush {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: fill; z-index: -1;
-    }
-    .site-nav { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .5rem + 3.5vw, 4.5rem); }
-    .site-nav a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
-    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
-
-    /* ============ Shared section elements ============ */
-    .label {
-      color: var(--blue);
-      font-size: var(--fs-xs); font-weight: 600;
-      letter-spacing: .14em; text-transform: uppercase;
-      line-height: 1.5;
-      margin-bottom: .625rem;
-    }
-    section { padding: var(--section-y) 0; }
-    .section-text p + p { margin-top: .875rem; }
-
-    /* Meta grid: auto-fits from five columns down to one, no breakpoints needed */
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(9.5rem, 100%), 1fr));
-      gap: clamp(1.125rem, .75rem + 1.6vw, 2.5rem);
-      padding: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 .5rem;
-    }
-    .meta h2 {
-      color: var(--blue);
-      font-size: var(--fs-2xs); font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      line-height: 1.5;
-      margin-bottom: .375rem;
-    }
-    .meta p { font-size: var(--fs-md); }
-
-    .frame {
-      border-radius: .75rem;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: var(--band);
-    }
-    /* Fill the column height so the photo shows a crisp native-resolution crop */
-    .split .frame { align-self: stretch; }
-    .split .frame img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Visually hidden, still read by search engines and screen readers */
-    .sr-only {
-      position: absolute; width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-    }
-
-    /* ============ Hero ============ */
-    .hero { padding: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 .5rem; }
-
-    /* Two-column: text + media */
-    .split {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-      gap: clamp(1.75rem, 1.125rem + 2.6vw, 4rem);
-      align-items: center;
-    }
-    .split.flip { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
-
-    /* Quotes */
-    .quotes { display: grid; gap: 1.5rem; margin-top: 1.75rem; }
-    blockquote {
-      border-left: 3px solid var(--highlight);
-      padding: .375rem 0 .375rem 1.375rem;
-      font-size: clamp(.9375rem, .875rem + .3vw, 1rem);
-      line-height: 1.55;
-      color: var(--ink);
-      font-weight: 500;
-      text-wrap: pretty;
-    }
-    blockquote footer { margin-top: .5rem; color: var(--gray); font-size: var(--fs-sm); font-weight: 400; }
-
-    /* Solution pillars */
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-      gap: 1.5rem;
-      margin-top: 1.75rem;
-    }
-    .pillar {
-      background: var(--band);
-      border: 1px solid var(--line);
-      border-radius: .75rem;
-      padding: clamp(1.25rem, 1rem + 1vw, 1.625rem);
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .pillar:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0,0,0,.07); }
-    .pillar h3 { font-size: var(--fs-base); margin-bottom: .75rem; }
-    .pillar ul { list-style: none; display: grid; gap: .5rem; }
-    .pillar li { font-size: var(--fs-md); padding-left: 1.125rem; position: relative; }
-    .pillar li::before { content: "•"; position: absolute; left: 0; color: var(--blue); }
-    .pillar .loop {
-      margin-top: .875rem;
-      font-size: var(--fs-sm); font-weight: 600; color: var(--ink);
-      background: var(--highlight);
-      border-radius: .5rem;
-      padding: .625rem .75rem;
-      text-align: center;
-    }
-
-    /* Feature showcases */
-    .feature-cap { margin-top: .875rem; font-size: var(--fs-md); font-weight: 600; color: var(--ink); text-align: center; }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
-      gap: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
-      margin-top: 2rem;
-    }
-
-    /* ============ Vector diagrams ============ */
-    .diagram {
-      border: 1px solid var(--line);
-      border-radius: .75rem;
-      background: #fcfcfb;
-      padding: clamp(.75rem, .5rem + 1vw, 1.5rem);
-      margin-top: 1.75rem;
-    }
-    .diagram svg, .diagram img { width: 100%; height: auto; display: block; border-radius: .5rem; }
-    .diagram figcaption { margin-top: .75rem; font-size: var(--fs-xs); color: var(--gray); text-align: center; }
-
-    /* ============ Tech dependencies table ============ */
-    .tech-table { margin-top: 1.75rem; overflow-x: auto; border: 1px solid var(--line); border-radius: .75rem; }
-    table { border-collapse: collapse; width: 100%; min-width: 35rem; font-size: var(--fs-md); }
-    thead th {
-      background: var(--highlight);
-      color: var(--ink);
-      text-align: left;
-      font-size: var(--fs-sm);
-      padding: .75rem 1.125rem;
-      border-bottom: 2px solid var(--ink);
-    }
-    tbody th, tbody td { padding: .6875rem 1.125rem; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
-    tbody th { color: var(--ink); font-weight: 600; white-space: nowrap; font-size: var(--fs-sm); }
-    tbody tr:last-child th, tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: var(--band); }
-
-    /* ============ Footer ============ */
-    .site-footer {
-      border-top: 1px solid var(--line);
-      padding: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem) 0;
-      margin-top: clamp(1.75rem, 1.25rem + 1.6vw, 2.5rem);
-    }
-    .site-footer .container {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-links { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .75rem + 1.6vw, 2rem); }
-    .footer-links a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
-    .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .site-footer small { color: var(--gray); font-size: var(--fs-xs); }
-
-    /* ============ Scroll-reveal ============ */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-    }
-
-    /* ============ Responsive ============
-       Breakpoints in em so they follow the reader's browser font size. */
-    @media (max-width: 51.25em) {       /* 820px */
-      .split, .split.flip { grid-template-columns: 1fr; }
-      .split .frame { max-width: 34rem; margin-inline: auto; width: 100%; }
-    }
-    @media (max-width: 43.75em) {       /* 700px */
-      .site-header .container { flex-direction: column; gap: .75rem; }
-      .site-footer .container { flex-direction: column; text-align: center; }
-    }
-  </style>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "@id": "https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/#case",
-  "name": "Optivento: restaurant inventory management UX case study",
-  "headline": "Optivento: restaurant inventory management UX case study",
-  "description": "AI-assisted restaurant inventory and recipe costing SaaS. Chef interviews, root-cause analysis and a decision architecture that cut food waste 8 to 12%.",
-  "url": "https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/",
-  "image": "https://sumeetgokhale.com/assets/ov-dashboard.webp",
-  "about": "Restaurant inventory management UX design",
-  "inLanguage": "en",
-  "datePublished": "2024-01-01",
-  "creator": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  },
-  "author": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  },
-  "isPartOf": {
-    "@type": "CollectionPage",
-    "name": "UX design case studies",
-    "url": "https://sumeetgokhale.com/ux-design-case-studies/"
-  }
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://sumeetgokhale.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Case studies",
-      "item": "https://sumeetgokhale.com/ux-design-case-studies/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Optivento: restaurant inventory management UX case study",
-      "item": "https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/"
-    }
-  ]
-}
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optivento: restaurant operations, designed around the decision | Sumeet Gokhale</title>
+<meta name="description" content="Twelve chef interviews, a problem tree, and an operations platform built on one finding: in a restaurant a 2% cut in non-labour cost moves profit 29%, but nobody has the number when they're deciding.">
+<link rel="canonical" href="https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/">
+<meta property="og:title" content="Optivento: restaurant operations, designed around the decision">
+<meta property="og:description" content="Where a 2% cost change moves profit 29%. Twelve chefs, one recurring answer.">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/og-optivento.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
 </head>
+
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="shell">
+    <a class="brand" href="../"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="../ux-design-case-studies/">Work</a>
+      <a href="../about-sumeet-gokhale-ux-designer/">About</a>
+      <a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--ghost" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- ============ HEADER ============ -->
-  <header class="site-header" id="header">
-    <div class="container">
-      <a class="brand" href="/">
-        <img class="brush" src="/assets/brush-optivento.webp" alt="" aria-hidden="true" decoding="async" width="153" height="43">
-        SUMEET GOKHALE
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/about-sumeet-gokhale-ux-designer/">About</a>
-        <a href="/assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
-      </nav>
+<main id="main">
+
+  <div class="shell">
+    <a class="crumb" href="../ux-design-case-studies/">All case studies</a>
+  </div>
+
+  <section class="cs-head">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain">Optivento · Restaurant operations · Concept, not shipped</p>
+      <h1>Where a 2% cost change moves profit 29%</h1>
+      <p class="lead thesis">Restaurants run on margins thin enough that small waste is existential. The data to prevent it already exists, in a POS, a supplier invoice, a paper prep list. It is just never in front of the person at the moment they decide. That gap is the product.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--ext" href="https://www.figma.com/proto/uRI5WJRrHThhlkZNEwtL9V/Optivento-final?node-id=1-9&amp;scaling=scale-down&amp;page-id=0%3A1" target="_blank" rel="noopener">Try the prototype</a>
+        <a class="btn btn--ghost" href="#research">See the research</a>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="main">
+  <div class="shell">
+    <dl class="meta-bar">
+      <div><dt>My role</dt><dd><span>Research &amp; product strategy</span><span>Product architecture</span><span>Interaction design &amp; UI</span></dd></div>
+      <div><dt>Research</dt><dd><span>12 in-depth chef interviews</span><span>Across restaurant types</span></dd></div>
+      <div><dt>Users</dt><dd><span>Head chefs &amp; kitchen managers</span><span>Owner-operators</span></dd></div>
+      <div><dt>Status</dt><dd><span>Graduate capstone</span><span>Sept 2023 to May 2024</span></dd></div>
+    </dl>
+  </div>
 
-    <!-- ============ HERO ============ -->
-    <section class="hero container reveal">
-      <h1 class="sr-only">Optivento: restaurant inventory management UX case study</h1>
-      <figure class="frame">
-        <img src="/assets/ov-dashboard.webp" alt="Optivento dashboard design showing inventory, pricing and sales insights" decoding="async" width="2400" height="1240">
-      </figure>
-    </section>
-
-    <!-- ============ META ============ -->
-    <section class="container">
-      <div class="meta reveal">
-        <div>
-          <h2>Project type</h2>
-          <p>AI Powered Hospitality Operations Platform<br>SaaS / Operational Intelligence System Design</p>
-        </div>
-        <div>
-          <h2>Users</h2>
-          <p>Restaurant owners<br>Kitchen managers<br>Operations teams<br>Multi location hospitality businesses</p>
-        </div>
-        <div>
-          <h2>My role</h2>
-          <p>UX strategy &amp; behavioral systems<br>Product architecture &amp; workflows<br>Interaction design &amp; prototyping<br>AI assisted experience design</p>
-        </div>
-        <div>
-          <h2>Time</h2>
-          <p>1.5 Years</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ OVERVIEW ============ -->
-    <section class="narrow section-text reveal">
-      <h2 class="label">Overview</h2>
-      <p>Optivento is an AI powered hospitality operations platform designed to simplify inventory, pricing, and kitchen decision making for restaurants and multi location food businesses. The system transforms fragmented operational data into actionable workflows that improve efficiency, reduce waste, and support faster business decisions.</p>
-    </section>
-
-    <!-- ============ PROBLEM ============ -->
-    <section class="narrow section-text reveal">
-      <h2 class="label">Problem</h2>
-      <p>Restaurant operations often rely on disconnected tools, manual tracking, and reactive decision making, creating inefficiencies across inventory, costing, and sales management. Teams struggled to translate operational data into clear actions, leading to wasted resources, inconsistent pricing, and reduced visibility into business performance.</p>
-    </section>
-
-    <!-- ============ MIND MAP (vector redraw) ============ -->
-    <section class="container section-text reveal">
-      <h2 class="label">Finding the core of the problem</h2>
-      <p class="narrow" style="margin-inline:0">I focused on operational efficiency as a key area for problem-solving and innovation. By delving into the intricacies of restaurant operations and the challenges experienced by chefs in managing inventory and recipes, I identified operational inefficiencies as a critical problem space.</p>
-
-      <figure class="diagram">
-        <img src="/assets/ov-mindmap.webp" alt="Mind map of effects and causes of operational inefficiency, branching from Management and Communication skills" loading="lazy" decoding="async" width="2400" height="1926">
-        <figcaption>Effects &amp; causes mind map from field research with kitchen teams.</figcaption>
-      </figure>
-    </section>
-
-    <!-- ============ PROBLEM TREE (vector redraw) ============ -->
-    <section class="container section-text reveal">
-      <h2 class="label">Small cost reductions, massive profit impact</h2>
-      <p class="narrow" style="margin-inline:0">The challenge of non-labor costs in the restaurant industry is underscored by the significant impact on financial performance. A mere 2% reduction in these costs can lead to a remarkable 29% increase in profit for a restaurant with $1 million in sales and a 3.5% profit margin, translating to an additional $20,000 to the bottom line.</p>
-
-      <figure class="diagram" role="img" aria-label="Problem tree analysis centered on operational efficiency: communication practices above, work strategy practices below">
-        <svg viewBox="0 0 1100 640" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" font-size="13">
-          <defs>
-            <marker id="pt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#0d9488"/></marker>
-            <marker id="py" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#eab308"/></marker>
-          </defs>
-
-          <!-- Level 3 -->
-          <rect x="700" y="20" width="230" height="42" rx="10" fill="#99f6e4"/>
-          <text x="815" y="46" text-anchor="middle" fill="#134e4a">Adherence to proper guidelines</text>
-
-          <!-- Level 2 -->
-          <rect x="330" y="106" width="240" height="54" rx="10" fill="#99f6e4"/>
-          <text x="450" y="128" text-anchor="middle" fill="#134e4a">Longer shifts are expected</text>
-          <text x="450" y="146" text-anchor="middle" fill="#134e4a">with last min informing</text>
-
-          <rect x="610" y="106" width="240" height="54" rx="10" fill="#99f6e4"/>
-          <text x="730" y="128" text-anchor="middle" fill="#134e4a">Goal: to achieve seamless</text>
-          <text x="730" y="146" text-anchor="middle" fill="#134e4a">synchronization</text>
-
-          <!-- Level 1 -->
-          <rect x="150" y="212" width="230" height="42" rx="10" fill="#99f6e4"/>
-          <text x="265" y="238" text-anchor="middle" fill="#134e4a">WhatsApp for communication</text>
-
-          <rect x="420" y="212" width="200" height="42" rx="10" fill="#99f6e4"/>
-          <text x="520" y="238" text-anchor="middle" fill="#134e4a">Verbally communicated</text>
-
-          <rect x="660" y="212" width="250" height="42" rx="10" fill="#99f6e4"/>
-          <text x="785" y="238" text-anchor="middle" fill="#134e4a">Need for mentor in the industry</text>
-
-          <!-- Center -->
-          <rect x="420" y="306" width="220" height="46" rx="10" fill="#a3e635"/>
-          <text x="530" y="334" text-anchor="middle" font-weight="700" fill="#1a2e05">Operational efficiency</text>
-
-          <!-- Downstream -->
-          <rect x="240" y="400" width="180" height="42" rx="10" fill="#fde68a"/>
-          <text x="330" y="426" text-anchor="middle" fill="#713f12">Work strategy</text>
-
-          <rect x="330" y="480" width="200" height="42" rx="10" fill="#fde68a"/>
-          <text x="430" y="506" text-anchor="middle" fill="#713f12">Monitoring records</text>
-
-          <rect x="110" y="566" width="220" height="42" rx="10" fill="#fde68a"/>
-          <text x="220" y="592" text-anchor="middle" fill="#713f12">Prep list is made on paper</text>
-
-          <rect x="390" y="566" width="180" height="42" rx="10" fill="#fde68a"/>
-          <text x="480" y="592" text-anchor="middle" fill="#713f12">Prioritizing tasks</text>
-
-          <rect x="630" y="566" width="270" height="42" rx="10" fill="#fde68a"/>
-          <text x="765" y="592" text-anchor="middle" fill="#713f12">Descriptive handovers on paper</text>
-
-          <!-- Upward dotted connectors (effects direction) -->
-          <g fill="none" stroke="#0d9488" stroke-width="1.6" stroke-dasharray="4 5">
-            <path d="M500 306 C 420 290, 320 270, 278 254" marker-end="url(#pt)"/>
-            <path d="M525 306 C 522 290, 520 275, 520 254" marker-end="url(#pt)"/>
-            <path d="M560 306 C 640 290, 730 270, 772 254" marker-end="url(#pt)"/>
-            <path d="M282 212 C 330 190, 400 175, 438 160" marker-end="url(#pt)"/>
-            <path d="M520 212 C 500 195, 480 180, 466 160" marker-end="url(#pt)"/>
-            <path d="M780 212 C 760 195, 745 180, 736 160" marker-end="url(#pt)"/>
-            <path d="M740 106 C 770 90, 795 78, 810 62" marker-end="url(#pt)"/>
-          </g>
-
-          <!-- Downward solid connectors (causes direction) -->
-          <g fill="none" stroke="#eab308" stroke-width="1.6">
-            <path d="M480 352 C 420 370, 370 385, 342 400" marker-end="url(#py)"/>
-            <path d="M350 442 C 375 455, 400 465, 418 480" marker-end="url(#py)"/>
-            <path d="M400 522 C 340 538, 280 550, 240 566" marker-end="url(#py)"/>
-            <path d="M440 522 C 452 536, 462 550, 470 566" marker-end="url(#py)"/>
-            <path d="M530 510 C 600 528, 680 548, 720 566" marker-end="url(#py)"/>
-          </g>
-        </svg>
-        <figcaption>Problem tree analysis, redrawn as vector graphics. Operational efficiency sits at the junction of communication habits and paper-based work strategy.</figcaption>
-      </figure>
-    </section>
-
-    <!-- ============ USER INTERVIEWS ============ -->
-    <section class="container reveal">
-      <div class="split flip">
-        <div class="section-text">
-          <h2 class="label">User interviews</h2>
-          <p>We conducted in-depth interviews with 12 chefs from diverse culinary backgrounds and restaurant settings. These user interviews were structured to uncover pain points, workflows, and specific challenges faced by chefs when managing inventory and recipes.</p>
-          <div class="quotes">
-            <blockquote>
-              <p>&ldquo;There is a need for a structure. I think this place will benefit more from an organizational structure.&rdquo;</p>
-              <footer>Lexie, sous chef</footer>
-            </blockquote>
-            <blockquote>
-              <p>&ldquo;The process involves assessing the day's schedule and agenda, need for efficient organization and preparation. Whether it's a special event, a busy lunch rush, or a regular workday, this initial planning phase is crucial to ensure that everything runs smoothly and effectively.&rdquo;</p>
-              <footer>Sanya, head chef</footer>
-            </blockquote>
-          </div>
-        </div>
-        <figure class="frame">
-          <img src="/assets/ov-restaurant.webp" alt="Restaurant kitchen environment where chef interviews took place" loading="lazy" decoding="async" width="2400" height="552">
-        </figure>
-      </div>
-    </section>
-
-    <!-- ============ SOLVING THE PROBLEM ============ -->
-    <section class="container reveal">
-      <h2 class="label">Solving the problem</h2>
-      <div class="pillars">
-        <div class="pillar">
-          <h3>The foundation supports</h3>
-          <ul>
-            <li>AI forecasting</li>
-            <li>Predictive waste modeling</li>
-            <li>Computer vision inventory validation</li>
-          </ul>
-        </div>
-        <div class="pillar">
-          <h3>Core design principles</h3>
-          <ul>
-            <li>Modular data mapping across inventory, pricing, and sales</li>
-            <li>Real-time cost propagation through recipe engines</li>
-            <li>Feedback loops that convert data into intervention</li>
-          </ul>
-          <p class="loop">Data &rarr; Insight &rarr; Action &rarr; Margin Protection</p>
-        </div>
-        <div class="pillar">
-          <h3>Positive impact</h3>
-          <ul>
-            <li>8 to 12% reduction in food waste</li>
-            <li>15 to 20% improvement in inventory accuracy</li>
-            <li>~30% reduction in manual logging time</li>
-            <li>Increased responsiveness to ingredient price fluctuations</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ FEATURES ============ -->
-    <section class="container reveal">
-      <figure class="frame">
-        <img src="/assets/ov-pos-features.webp" alt="Optivento tablet screens: reorder list with quantity selection and POS integration setup" loading="lazy" decoding="async" width="2016" height="1251">
-      </figure>
-      <p class="feature-cap">Easy POS integration &middot; Auto-listing for reorder</p>
-
-      <div class="feature-grid">
-        <figure>
-          <div class="frame">
-            <img src="/assets/ov-menu-ui.webp" alt="Menu manager interface for customizing dishes" loading="lazy" decoding="async" width="2004" height="1089">
-          </div>
-          <p class="feature-cap">Customize menu</p>
-        </figure>
-        <figure>
-          <div class="frame">
-            <img src="/assets/ov-reorder-ui.webp" alt="Inventory reordering interface with sales reporting" loading="lazy" decoding="async" width="2004" height="1089">
-          </div>
-          <p class="feature-cap">Comprehensive sales reporting</p>
-        </figure>
-      </div>
-    </section>
-
-    <!-- ============ TECH DEPENDENCIES ============ -->
-    <section class="container section-text reveal">
-      <h2 class="label">Technological dependencies</h2>
-      <p class="narrow" style="margin-inline:0">Technological dependencies form the backbone of Optivento, ensuring its seamless operation and delivery of essential features. By leveraging these technological dependencies, Optivento aims to provide a reliable, secure, and user-friendly solution for inventory management and restaurant operations.</p>
-
-      <!-- Rebuilt as a real, accessible HTML table (originally a static image) -->
-      <div class="tech-table">
-        <table>
-          <caption class="visually-hidden" style="position:absolute;left:-9999px">Features of Optivento and their technological dependencies</caption>
-          <thead>
-            <tr>
-              <th scope="col">Feature</th>
-              <th scope="col">Dependencies</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Current cost display</th><td>Backend server for fetching and processing real-time cost data.</td></tr>
-            <tr><th scope="row">Sign up</th><td>Backend server for user authentication and database storage.</td></tr>
-            <tr><th scope="row">Push notifications</th><td>Integration with push notification services such as Firebase Cloud Messaging or Apple Push Notification Service.</td></tr>
-            <tr><th scope="row">Search</th><td>Backend server for handling search queries and database indexing.</td></tr>
-            <tr><th scope="row">Location services</th><td>Access to device GPS or Wi-Fi for location detection.</td></tr>
-            <tr><th scope="row">Back camera</th><td>Access to device camera for scanning barcodes or capturing images.</td></tr>
-            <tr><th scope="row">Payment gateway</th><td>Integration with third-party payment processors such as RazorPay or PayPal.</td></tr>
-            <tr><th scope="row">Inventory lifecycle tracking</th><td>Backend server for storing and updating inventory data, potentially utilizing database management systems like MySQL or MongoDB.</td></tr>
-            <tr><th scope="row">Real-time data insights</th><td>Integration with data analytics platforms or frameworks like Apache Kafka for real-time data processing.</td></tr>
-            <tr><th scope="row">Alerts</th><td>Backend server for triggering and sending alerts based on predefined conditions.</td></tr>
-            <tr><th scope="row">POS integration</th><td>Integration with point-of-sale systems via APIs or SDKs provided by POS vendors.</td></tr>
-            <tr><th scope="row">Financial analysis</th><td>Integration with financial analysis tools or APIs for data aggregation and analysis.</td></tr>
-            <tr><th scope="row">Recommendations</th><td>Backend server for generating personalized recommendations based on user data and preferences.</td></tr>
-            <tr><th scope="row">Integration with food apps</th><td>Integration with APIs provided by food delivery or restaurant management platforms for data exchange and synchronization.</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <figure class="frame" style="margin-top:28px">
-        <img src="/assets/ov-scanning.webp" alt="Inventory scanning capabilities using the device camera" loading="lazy" decoding="async" width="2400" height="1062">
-      </figure>
-    </section>
-
-    <!-- ============ OUTCOME ============ -->
-    <section class="narrow section-text reveal">
-      <h2 class="label">Solution outcome</h2>
-      <p>Optivento transformed fragmented restaurant operations into a connected decision-making system by centralizing inventory, pricing, and cost tracking into one streamlined workflow. The platform reduced operational blind spots, improved financial visibility, and enabled restaurants to make faster, data-backed decisions that directly impacted profitability and efficiency.</p>
-    </section>
-
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-links">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
-        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
-      </div>
-      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
+  <div class="shell" style="margin-top:var(--s-6)">
+    <div class="cs-hero">
+      <img src="../assets/optivento-hero.webp" alt="The Optivento dashboard on a tablet, showing live inventory levels, shipment tracking and account status" fetchpriority="high" decoding="async" width="1400" height="900">
     </div>
-  </footer>
+  </div>
 
-  <script>
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    } else {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    }
-    const header = document.getElementById('header');
-    addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', scrollY > 10);
-    }, { passive: true });
-  </script>
+  <!-- ============================ HONESTY NOTE ============================ -->
+  <section class="section-s">
+    <div class="shell">
+      <p class="evidence-note" style="max-width:64ch"><b>READ THIS FIRST.</b> Optivento is a self-directed graduate project. It was never launched, so there are no production metrics on this page. What follows is what the research established and what I designed from it, the numbers below are industry benchmarks and modelled projections, and each one says which.</p>
+    </div>
+  </section>
 
+  <!-- ============================ THE ECONOMIC CASE ============================ -->
+  <section class="section section--wash" aria-labelledby="econ-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">01</span>&nbsp;Why this problem</p>
+        <h2 id="econ-h">The leverage is absurd, and nobody can reach it.</h2>
+      </div>
+
+      <div class="measure-wide">
+        <p class="lead">Take a restaurant doing <b>$1M in sales</b> on a <b>3.5% profit margin</b>, roughly $35,000 of profit. Cut non-labour costs by <b>2%</b> and profit rises by about <b>29%</b>, near $20,000 straight to the bottom line.</p>
+        <p style="margin-top:var(--s-4)">That is the entire business case, and it is why inventory software exists at all. The reason it keeps failing is not that operators don't understand the maths. It is that a 2% saving is made of a hundred small decisions taken at 6am by someone with flour on their hands, and none of those moments have the numbers attached.</p>
+      </div>
+
+      <div class="fig">
+        <div class="diagram" tabindex="0" role="group" aria-labelledby="econ-cap">
+          <svg viewBox="0 0 820 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A one million dollar restaurant at three and a half percent margin makes about thirty five thousand dollars profit. A two percent reduction in non-labour cost adds about twenty thousand dollars, a twenty nine percent increase in profit.">
+            <text class="dg-lbl" x="0" y="14">The margin arithmetic</text>
+            <rect class="dg-box dg-box--wash" x="0" y="30" width="150" height="56" rx="6"/>
+            <text class="dg-t" x="75" y="53" text-anchor="middle">$1,000,000</text>
+            <text class="dg-t dg-t--m" x="75" y="71" text-anchor="middle">annual sales</text>
+
+            <path class="dg-line" d="M150 58 h26"/>
+            <rect class="dg-box dg-box--wash" x="176" y="30" width="150" height="56" rx="6"/>
+            <text class="dg-t" x="251" y="53" text-anchor="middle">3.5% margin</text>
+            <text class="dg-t dg-t--m" x="251" y="71" text-anchor="middle">≈ $35,000 profit</text>
+
+            <path class="dg-line dg-line--acc" d="M326 58 h26"/>
+            <rect class="dg-box dg-box--acc" x="352" y="30" width="180" height="56" rx="6"/>
+            <text class="dg-t dg-t--a" x="442" y="53" text-anchor="middle">−2% non-labour cost</text>
+            <text class="dg-t dg-t--m" x="442" y="71" text-anchor="middle">≈ $20,000 recovered</text>
+
+            <path class="dg-line dg-line--acc" d="M532 58 h26"/>
+            <rect class="dg-box dg-box--ink" x="558" y="30" width="180" height="56" rx="6"/>
+            <text class="dg-t dg-t--w" x="648" y="53" text-anchor="middle">+29% profit</text>
+            <text class="dg-t dg-t--w" x="648" y="71" text-anchor="middle" opacity=".72">same sales, same staff</text>
+
+            <text class="dg-t dg-t--m" x="0" y="122">Industry benchmark figures, not measured by me. The design question is why this leverage stays out of reach.</text>
+          </svg>
+        </div>
+        <figcaption id="econ-cap">Industry benchmark arithmetic. The point isn't the numbers, it's that the leverage sits in ordinary daily decisions, not in a strategy meeting.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ RESEARCH ============================ -->
+  <section class="section" id="research" aria-labelledby="res-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">02</span>&nbsp;Field research</p>
+        <h2 id="res-h">Twelve chefs, and one answer that kept coming back.</h2>
+        <p class="lead measure-wide">I interviewed twelve chefs across different cuisines and restaurant sizes about how they actually manage inventory, prep and recipes. I expected to hear that the software was bad. What I heard was that the software was irrelevant, because the work happens somewhere it can't see.</p>
+      </div>
+
+      <div class="quotes">
+        <blockquote>
+          <p>“There is a need for a structure. I think this place will benefit more from an organisational structure.”</p>
+          <cite>Lexie · sous chef</cite>
+        </blockquote>
+        <blockquote>
+          <p>“Whether it's a special event, a busy lunch rush, or a regular workday, this initial planning phase is crucial to ensure everything runs smoothly.”</p>
+          <cite>Sanya · head chef</cite>
+        </blockquote>
+      </div>
+
+      <div class="fig">
+        <div class="frame"><img src="../assets/ov-restaurant.webp" alt="A professional restaurant kitchen during service, where the interviews took place" loading="lazy" decoding="async" width="1200" height="700"></div>
+        <figcaption>Interviews ran in kitchens rather than over calls, which is how the paper became visible.</figcaption>
+      </div>
+
+      <!-- ---- redrawn problem tree (replaces the mind map) ---- -->
+      <div class="fig" style="margin-top:var(--s-8)">
+        <div class="diagram" tabindex="0" role="group" aria-labelledby="tree-cap">
+          <svg viewBox="0 0 820 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Problem tree. Two root causes: work strategy held on paper, and communication that is verbal and informal. Both feed operational inefficiency at the centre. Effects above: waste and over-ordering, inconsistent pricing, longer shifts and handover loss, and no visibility until month end.">
+
+            <!-- EFFECTS -->
+            <text class="dg-lbl" x="0" y="14">Effects</text>
+            <rect class="dg-box dg-box--wash" x="0"   y="26" width="188" height="50" rx="6"/>
+            <rect class="dg-box dg-box--wash" x="208" y="26" width="188" height="50" rx="6"/>
+            <rect class="dg-box dg-box--wash" x="416" y="26" width="188" height="50" rx="6"/>
+            <rect class="dg-box dg-box--wash" x="624" y="26" width="196" height="50" rx="6"/>
+            <text class="dg-t" x="94"  y="47" text-anchor="middle">Waste &amp; over-ordering</text>
+            <text class="dg-t dg-t--m" x="94"  y="63" text-anchor="middle">ordering to feel safe</text>
+            <text class="dg-t" x="302" y="47" text-anchor="middle">Inconsistent pricing</text>
+            <text class="dg-t dg-t--m" x="302" y="63" text-anchor="middle">cost drifts, menu doesn't</text>
+            <text class="dg-t" x="510" y="47" text-anchor="middle">Handover loss</text>
+            <text class="dg-t dg-t--m" x="510" y="63" text-anchor="middle">longer shifts, repeat work</text>
+            <text class="dg-t" x="722" y="47" text-anchor="middle">No visibility till month end</text>
+            <text class="dg-t dg-t--m" x="722" y="63" text-anchor="middle">problems found too late</text>
+
+            <path class="dg-line" d="M94 76 v40 h316 M302 76 v24 h108 M510 76 v24 h-100 M722 76 v40 h-312"/>
+
+            <!-- CORE -->
+            <rect class="dg-box dg-box--ink" x="290" y="160" width="240" height="62" rx="8"/>
+            <text class="dg-t dg-t--w" x="410" y="186" text-anchor="middle" style="font-size:13px">Operational inefficiency</text>
+            <text class="dg-t dg-t--w" x="410" y="205" text-anchor="middle" opacity=".7">the decision has no data attached</text>
+
+            <path class="dg-line dg-line--acc" d="M410 222 v34 h-190 M410 222 v34 h190"/>
+
+            <!-- CAUSES -->
+            <text class="dg-lbl" x="0" y="278">Root causes</text>
+            <rect class="dg-box dg-box--acc" x="96"  y="290" width="248" height="56" rx="6"/>
+            <rect class="dg-box dg-box--acc" x="476" y="290" width="248" height="56" rx="6"/>
+            <text class="dg-t dg-t--a" x="220" y="313" text-anchor="middle">Work strategy lives on paper</text>
+            <text class="dg-t dg-t--m" x="220" y="331" text-anchor="middle">prep lists, stock counts, handovers</text>
+            <text class="dg-t dg-t--a" x="600" y="313" text-anchor="middle">Communication is verbal</text>
+            <text class="dg-t dg-t--m" x="600" y="331" text-anchor="middle">WhatsApp, shift talk, memory</text>
+
+            <text class="dg-t dg-t--m" x="0" y="382">Neither cause is a technology gap. Both are a record-keeping gap, which is why adding another dashboard doesn't close it.</text>
+          </svg>
+        </div>
+        <figcaption id="tree-cap">Problem tree, redrawn from the interview affinity map. Two root causes, four effects, one core failure, and the useful insight is that both roots are about <em>where the record lives</em>, not about analytics.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ DIRECTIONS ============================ -->
+  <section class="section section--wash" id="directions" aria-labelledby="dir-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">03</span>&nbsp;Directions considered</p>
+        <h2 id="dir-h">The obvious product was a dashboard. That's the one that fails.</h2>
+      </div>
+
+      <div class="decisions" style="max-width:52rem">
+        <div class="decision">
+          <div>
+            <h3>An analytics dashboard for the owner</h3>
+            <p>Charts of cost, waste and margin, refreshed daily. It demos beautifully and it changes nothing, because the person looking at it is not the person deciding how much cabbage to order on Thursday. Every chef I spoke to had access to reports they never opened.</p>
+            <span class="verdict verdict--out">Rejected: wrong person, wrong moment</span>
+          </div>
+        </div>
+        <div class="decision">
+          <div>
+            <h3>Digitise the prep list</h3>
+            <p>Replace paper with an app and let structure follow. Closer to the real behaviour, but it makes the kitchen pay a data-entry tax up front for a benefit that arrives weeks later. Nothing survives a lunch rush if it costs time during one.</p>
+            <span class="verdict verdict--out">Rejected: cost now, value later</span>
+          </div>
+        </div>
+        <div class="decision">
+          <div>
+            <h3>Attach the number to the moment</h3>
+            <p>Let the system track stock on its own wherever it can. The till already knows what has been sold, the camera can read a delivery note, the supplier already sends an invoice. Then show the cost only at the moments the kitchen is already deciding something: placing an order, pricing a dish, changing a recipe. The staff never enter data for its own sake, because every time they do, they get an answer back straight away.</p>
+            <span class="verdict verdict--in">Built</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PRINCIPLES + PRODUCT ============================ -->
+  <section class="section" aria-labelledby="sol-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">04</span>&nbsp;What I designed</p>
+        <h2 id="sol-h">Data → insight → action, inside one workflow.</h2>
+        <p class="lead measure-wide">Three principles held the architecture together, and each one exists to stop the product becoming another reporting layer.</p>
+      </div>
+
+      <ul class="checks measure-wide" style="max-width:48rem">
+        <li><b>Capture without asking.</b> POS integration draws inventory down as dishes sell; the device camera reads barcodes and delivery notes. The kitchen's manual logging burden had to fall, not rise, or nothing else mattered.</li>
+        <li><b>Cost propagates through the recipe.</b> When an ingredient price moves, every dish containing it re-costs immediately, so a margin problem shows up as a menu item rather than as a month-end surprise.</li>
+        <li><b>Every insight ends in an action.</b> A low-stock signal becomes a pre-filled reorder; a cost spike becomes a suggested price. Insight without an adjacent action is just another notification.</li>
+      </ul>
+
+      <div class="fig">
+        <div class="frame"><img src="../assets/ov-pos-features.webp" alt="Two tablet screens: an auto-generated reorder list with quantities, and the POS integration setup flow" loading="lazy" decoding="async" width="1400" height="800"></div>
+        <figcaption>Reordering is generated from consumption rather than composed by hand. The chef edits a proposal instead of building a list.</figcaption>
+      </div>
+
+      <div class="fig">
+        <div class="fig-grid">
+          <div class="frame"><img src="../assets/ov-menu-ui.webp" alt="Menu manager: editing a dish and seeing its ingredient cost update" loading="lazy" decoding="async" width="900" height="650"></div>
+          <div class="frame"><img src="../assets/ov-reorder-ui.webp" alt="Sales reporting alongside inventory reordering" loading="lazy" decoding="async" width="900" height="650"></div>
+        </div>
+        <figcaption>Left: changing a recipe shows the margin consequence in the same screen. Right: sales and stock read together, because separately neither answers what to order.</figcaption>
+      </div>
+
+      <div class="fig">
+        <div class="frame"><img src="../assets/ov-scanning.webp" alt="Using the device camera to scan stock into inventory" loading="lazy" decoding="async" width="1200" height="700"></div>
+        <figcaption>Camera capture designed for one hand, in motion, in a kitchen, large targets, immediate confirmation, no keyboard.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PROJECTIONS ============================ -->
+  <section class="section section--figures" id="outcomes" aria-labelledby="proj-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">05</span>&nbsp;Projected impact</p>
+        <h2 id="proj-h">What this would be worth, if it were built.</h2>
+      </div>
+
+      <div class="outcomes">
+        <div class="stat">
+          <p class="num">8<span class="rng">-</span>12<span class="sign">%</span></p>
+          <p class="label">reduction in food waste</p>
+        </div>
+        <div class="stat">
+          <p class="num">15<span class="rng">-</span>20<span class="sign">%</span></p>
+          <p class="label">improvement in inventory accuracy</p>
+        </div>
+        <div class="stat">
+          <p class="num"><span class="sign">~</span>30<span class="sign">%</span></p>
+          <p class="label">reduction in manual logging time</p>
+        </div>
+      </div>
+
+      <p class="evidence-note"><b>MODELLED.</b> Projections from published industry benchmarks for comparable inventory systems, applied to the workflows observed in the twelve interviews. Not measured. No version of Optivento has run in a live kitchen, and I would not present these as results.</p>
+    </div>
+  </section>
+
+  <!-- ============================ LIMITS ============================ -->
+  <section class="section" aria-labelledby="lim-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">06</span>&nbsp;Honest limits</p>
+        <h2 id="lim-h">What this project does not prove.</h2>
+      </div>
+      <ul class="checks measure-wide" style="max-width:48rem">
+        <li><b>Nobody used it during service.</b> Twelve interviews establish the problem well. They do not establish that this solution survives a Friday night, which is the only test that counts in a kitchen.</li>
+        <li><b>Passive capture is an assumption.</b> The whole architecture rests on stock drawing down accurately from POS and camera input. In practice that degrades, substitutions, comps, staff meals, and I have not designed the recovery path for when the count goes wrong.</li>
+        <li><b>I scoped it too wide.</b> Inventory, pricing, sales reporting, menu management and forecasting is four products. If I restarted, I would build only the reorder loop and earn the rest.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-s" aria-labelledby="nx-h">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain" id="nx-h" style="margin-bottom:var(--s-4)">Next case study</p>
+      <article class="next-card">
+        <div class="plate"><img src="../assets/work-galls.webp" alt="The Galls uniform customizer on a laptop" loading="lazy" decoding="async" width="600" height="450"></div>
+        <div>
+          <p class="eyebrow eyebrow--plain">Galls · shipped</p>
+          <h3><a href="../galls-uniform-customizer-ecommerce-ux-case-study/">Uniform configuration, collapsed into one screen</a></h3>
+          <p>The same problem with production data behind it. A multi-page enterprise configuration reduced to a single validated checkpoint.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
+    <div class="shell">
+      <h2 id="contact-h">The project I learned the most from.</h2>
+      <p class="lead">It never shipped, and working out why taught me more than the parts that went well. Happy to talk through what I would cut and how I would run the research differently.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com?subject=Optivento%20case%20study">Email me</a>
+        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="direct">Or copy it: <a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Work</h2>
+        <ul>
+          <li><a href="../nirvana-mudra-recommendation-engine-case-study/">Nirvana Mudra</a></li>
+          <li><a href="../galls-uniform-customizer-ecommerce-ux-case-study/">Galls uniform customizer</a></li>
+          <li><a href="../nirvana-meditation-app-habit-design-case-study/">Nirvana</a></li>
+          <li><a href="./">Optivento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../about-sumeet-gokhale-ux-designer/">About</a></li>
+          <li><a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
+      <span>Open to new roles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/site.js" defer></script>
 </body>
 </html>

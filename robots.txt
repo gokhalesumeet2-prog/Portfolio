@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /nirvana-mudra-recommendation-engine-case-study/prototype/
 
 Sitemap: https://sumeetgokhale.com/sitemap.xml

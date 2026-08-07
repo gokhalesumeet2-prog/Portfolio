@@ -1,538 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Galls Uniform Customizer: E-commerce UX Case Study | Sumeet Gokhale</title>
-  <meta name="description" content="A UX case study on redesigning uniform configuration and checkout for Galls, serving U.S. Army and Air Force customers. Delivered a 22% lift in completion and 26% fewer configuration errors.">
-  <meta property="og:title" content="Galls Uniform Customizer: E-commerce UX Case Study | Sumeet Gokhale">
-  <meta property="og:description" content="A UX case study on redesigning uniform configuration and checkout for Galls, serving U.S. Army and Air Force customers. Delivered a 22% lift in completion and 26% fewer configuration errors.">
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="author" content="Sumeet Gokhale">
-  <meta property="og:url" content="https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/">
-  <meta property="og:site_name" content="Sumeet Gokhale">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:image" content="https://sumeetgokhale.com/assets/uc-desktop-hero.webp">
-  <meta property="og:image:alt" content="Galls uniform customizer interface on desktop">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Galls Uniform Customizer: E-commerce UX Case Study | Sumeet Gokhale">
-  <meta name="twitter:description" content="A UX case study on redesigning uniform configuration and checkout for Galls, serving U.S. Army and Air Force customers. Delivered a 22% lift in completion and 26% fewer configuration errors.">
-  <meta name="twitter:image" content="https://sumeetgokhale.com/assets/uc-desktop-hero.webp">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- Inter: open-source typeface (Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ============ Design tokens ============ */
-    :root {
-      --ink: #000000;
-      --gray: #5e5e5e;
-      --blue: #2b5be4;
-      --blue-dark: #1e46c0;
-      --card: #ededed;
-      --band: #f7f7f7;
-      --line: #e8e8e8;
-      --highlight: #f9f39b;
-      --display: "Inter", system-ui, sans-serif;
-      --text: "Inter", system-ui, sans-serif;
-      /* Type scale. Everything is in rem so it rides the fluid root size
-         set below: one dial controls the whole page. */
-      --fs-3xs: .5625rem;   /*  9px @ root 16 */
-      --fs-2xs: .6875rem;   /* 11px */
-      --fs-xs:  .75rem;     /* 12px */
-      --fs-sm:  .8125rem;   /* 13px */
-      --fs-md:  .875rem;    /* 14px */
-      --fs-base: .9375rem;  /* 15px */
-      --fs-lg:  1rem;       /* 16px */
-
-      /* Fluid headings: rem bounds keep large monitors in proportion,
-         the vw term smooths everything in between. */
-      --fs-h1: clamp(1.125rem, .875rem + .8vw, 1.375rem);
-      --fs-h2: clamp(1.0625rem, .9rem + .55vw, 1.25rem);
-      --fs-h3: clamp(.9375rem, .875rem + .25vw, 1rem);
-
-      /* Spacing rhythm */
-      --section-y: clamp(1.75rem, 1.125rem + 2.2vw, 2.75rem);
-      --shell: min(70rem, 92%);        /* 1120px at root 16, grows with root */
-      --shell-narrow: min(53.75rem, 92%);
-    }
-
-    /* One fluid root: a steady 16px through phone, tablet and laptop widths,
-       then a gentle climb to 18px on large monitors so the page never looks
-       marooned in whitespace. Every rem below scales with it. */
-    html {
-      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--text);
-      color: var(--gray);
-      background: #fff;
-      font-size: var(--fs-base);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img { max-width: 100%; height: auto; display: block; }
-    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; line-height: 1.25; }
-    p { text-wrap: pretty; }
-
-    .container { width: var(--shell); margin-inline: auto; }
-    .narrow { width: var(--shell-narrow); margin-inline: auto; }
-
-    a:focus-visible, .btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
-
-    .skip-link {
-      position: absolute; left: -9999px; top: 0;
-      background: var(--ink); color: #fff;
-      padding: .625rem 1.125rem; z-index: 100; text-decoration: none;
-    }
-    .skip-link:focus { left: 0; }
-
-    /* ============ Header ============ */
-    .site-header {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s ease;
-    }
-    .site-header.scrolled { border-bottom-color: var(--line); }
-    .site-header .container {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: .75rem;
-      padding-block: clamp(.75rem, .5rem + .8vw, 1.25rem);
-    }
-    .brand {
-      position: relative;
-      font-family: var(--display); font-weight: 700; font-size: var(--fs-base);
-      letter-spacing: .04em; color: var(--ink);
-      text-decoration: none; padding: .375rem .625rem; white-space: nowrap;
-    }
-    .brand img.brush {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: fill; z-index: -1;
-    }
-    .site-nav { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .5rem + 3.5vw, 4.5rem); }
-    .site-nav a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
-    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
-
-    /* ============ Shared section elements ============ */
-    .label {
-      color: var(--blue);
-      font-size: var(--fs-xs); font-weight: 600;
-      letter-spacing: .14em; text-transform: uppercase;
-      line-height: 1.5;
-      margin-bottom: .625rem;
-    }
-    section { padding: var(--section-y) 0; }
-    .section-text p + p { margin-top: .875rem; }
-
-    /* Meta grid: auto-fits from five columns down to one, no breakpoints needed */
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(9.5rem, 100%), 1fr));
-      gap: clamp(1.125rem, .75rem + 1.6vw, 2.5rem);
-      padding: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 .5rem;
-    }
-    .meta h2 {
-      color: var(--blue);
-      font-size: var(--fs-2xs); font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      line-height: 1.5;
-      margin-bottom: .375rem;
-    }
-    .meta p { font-size: var(--fs-md); }
-
-    .frame {
-      border-radius: .75rem;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: var(--band);
-    }
-
-    .hero { padding: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 .5rem; }
-    /* NOTE: the hero h1 carries class="sr-only", but no .sr-only rule has ever
-       existed on this page, so it renders as the visible page title. Given
-       deliberate fluid sizing here; add the .sr-only rule to hide it instead. */
-    .hero h1 { font-size: clamp(1.375rem, 1rem + 1.4vw, 2rem); font-weight: 700; }
-
-    /* Split layout */
-    .split {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-      gap: clamp(1.75rem, 1.125rem + 2.6vw, 4rem);
-      align-items: center;
-    }
-
-    /* Goals list */
-    .goals {
-      margin-top: 1rem;
-      display: grid;
-      gap: .625rem;
-      list-style: none;
-    }
-    .goals li {
-      background: var(--band);
-      border: 1px solid var(--line);
-      border-radius: .625rem;
-      padding: .75rem 1.125rem;
-      font-size: var(--fs-md);
-      color: var(--ink);
-    }
-
-    /* Phone mockups */
-    .phones {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
-      gap: clamp(1rem, .625rem + 1.6vw, 2.5rem);
-      margin-top: 2rem;
-      align-items: start;
-      justify-items: center;
-    }
-    .phones > * { width: 100%; max-width: 22rem; }
-    .phones img { transition: transform .3s ease; }
-    .phones img:hover { transform: translateY(-6px); }
-
-    /* Stats band */
-    .stats-band { background: var(--band); border-block: 1px solid var(--line); }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
-      gap: clamp(1.25rem, .75rem + 2.2vw, 3.75rem);
-      text-align: center;
-    }
-    .stats strong {
-      display: block;
-      font-family: var(--display);
-      font-size: clamp(2.25rem, 1.4rem + 3.4vw, 4rem);
-      font-weight: 700;
-      color: var(--blue);
-      line-height: 1.1;
-    }
-    .stats p { margin-top: .625rem; font-size: var(--fs-md); }
-
-    /* Desktop screens */
-    .screens { display: grid; gap: clamp(1.25rem, .875rem + 1.6vw, 2rem); margin-top: .5rem; }
-
-    /* ============ Footer ============ */
-    .site-footer {
-      border-top: 1px solid var(--line);
-      padding: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem) 0;
-      margin-top: clamp(1.75rem, 1.25rem + 1.6vw, 2.5rem);
-    }
-    .site-footer .container {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-links { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .75rem + 1.6vw, 2rem); }
-    .footer-links a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
-    .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .site-footer small { color: var(--gray); font-size: var(--fs-xs); }
-
-    /* ============ Scroll-reveal ============ */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-    }
-
-    /* ============ Responsive ============
-       Breakpoints in em so they follow the reader's browser font size. */
-    @media (max-width: 51.25em) {       /* 820px */
-      .split { grid-template-columns: 1fr; }
-      .split .frame { max-width: 34rem; margin-inline: auto; width: 100%; }
-    }
-    @media (max-width: 43.75em) {       /* 700px */
-      .site-header .container { flex-direction: column; gap: .75rem; }
-      .site-footer .container { flex-direction: column; text-align: center; }
-    }
-  </style>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "@id": "https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/#case",
-  "name": "Galls uniform customizer: e-commerce UX case study",
-  "headline": "Galls uniform customizer: e-commerce UX case study",
-  "description": "Redesigning uniform configuration and checkout for Galls, serving U.S. Army and Air Force customers, with a 22% lift in completion.",
-  "url": "https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/",
-  "image": "https://sumeetgokhale.com/assets/uc-desktop-hero.webp",
-  "about": "E-commerce product configurator UX design",
-  "inLanguage": "en",
-  "datePublished": "2023-01-01",
-  "creator": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  },
-  "author": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  },
-  "isPartOf": {
-    "@type": "CollectionPage",
-    "name": "UX design case studies",
-    "url": "https://sumeetgokhale.com/ux-design-case-studies/"
-  }
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://sumeetgokhale.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Case studies",
-      "item": "https://sumeetgokhale.com/ux-design-case-studies/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Galls uniform customizer: e-commerce UX case study",
-      "item": "https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/"
-    }
-  ]
-}
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galls uniform customizer: enterprise e-commerce configuration | Sumeet Gokhale</title>
+<meta name="description" content="Collapsing a multi-page uniform configuration journey into a single checkpoint for U.S. Army and Air Force procurement. +22% customised orders, 26% faster to configure, +17% checkout completion.">
+<link rel="canonical" href="https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/">
+<meta property="og:title" content="Galls uniform customizer: enterprise e-commerce configuration">
+<meta property="og:description" content="A multi-page configuration journey collapsed into one screen. +22% customised orders, 26% faster to configure.">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/og-galls.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Galls uniform customizer: enterprise e-commerce configuration","author":{"@type":"Person","name":"Sumeet Gokhale","url":"https://sumeetgokhale.com/"},"about":"UX case study","url":"https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/"}
+</script>
 </head>
+
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="shell">
+    <a class="brand" href="../"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="../ux-design-case-studies/">Work</a>
+      <a href="../about-sumeet-gokhale-ux-designer/">About</a>
+      <a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--ghost" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- ============ HEADER ============ -->
-  <header class="site-header" id="header">
-    <div class="container">
-      <a class="brand" href="/">
-        <img class="brush" src="/assets/brush-uniform.webp" alt="" aria-hidden="true" decoding="async" width="153" height="43">
-        SUMEET GOKHALE
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/about-sumeet-gokhale-ux-designer/">About</a>
-        <a href="/assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
-      </nav>
+<main id="main">
+
+  <!-- ============================ HEAD ============================ -->
+  <div class="shell">
+    <a class="crumb" href="../ux-design-case-studies/">All case studies</a>
+  </div>
+
+  <section class="cs-head">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain">Galls · B2B e-commerce configuration · Shipped</p>
+      <h1>Uniform configuration, collapsed into one screen</h1>
+      <p class="lead thesis">Agency compliance rules, embroidery logic and placement standards for U.S. Army and Air Force buyers were spread across several pages. Buyers had to commit to choices before they could see the result. We pulled the whole configuration into one screen.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#outcomes">See the results</a>
+        <a class="btn btn--ghost" href="#directions">How I got there</a>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="main">
+  <div class="shell">
+    <dl class="meta-bar">
+      <div><dt>My role</dt><dd><span>UX strategy &amp; system architecture</span><span>Interaction design &amp; prototyping</span></dd></div>
+      <div><dt>Team</dt><dd><span>1 head of design</span><span>3 engineers</span><span>1 UX designer (me)</span></dd></div>
+      <div><dt>Users</dt><dd><span>U.S. Army</span><span>U.S. Air Force procurement</span></dd></div>
+      <div><dt>Status</dt><dd><span>Live on Galls.com</span><span>Ongoing since Feb 2025</span></dd></div>
+    </dl>
+  </div>
 
-    <!-- ============ HERO ============ -->
-    <section class="hero container reveal">
-      <h1 class="sr-only">Galls uniform customizer: e-commerce UX case study</h1>
-      <figure class="frame">
-        <img src="/assets/uc-desktop-hero.webp" alt="Galls uniform customizer shown on a desktop browser" decoding="async" width="2400" height="968">
-      </figure>
-    </section>
+  <div class="shell" style="margin-top:var(--s-6)">
+    <div class="cs-hero">
+      <img src="../assets/uc-desktop-hero.webp" alt="The Galls uniform customizer shown on a desktop browser, with the configuration panel on the left and a live uniform preview on the right" fetchpriority="high" decoding="async" width="1400" height="900">
+    </div>
+  </div>
 
-    <!-- ============ META ============ -->
-    <section class="container">
-      <div class="meta reveal">
-        <div>
-          <h2>Project type</h2>
-          <p>Enterprise SaaS / B2B E-commerce System Design</p>
+  <!-- ============================ OUTCOMES ============================ -->
+  <section class="section section--figures" id="outcomes" aria-labelledby="out-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">01</span>&nbsp;Outcome first</p>
+        <h2 id="out-h">Two quarters after launch.</h2>
+      </div>
+
+      <div class="outcomes">
+        <div class="stat">
+          <p class="num"><span class="sign">+</span>22<span class="sign">%</span></p>
+          <p class="label">more orders included customisation</p>
         </div>
-        <div>
-          <h2>Users</h2>
-          <p>U.S. Army<br>U.S. Air Force</p>
+        <div class="stat">
+          <p class="num">26<span class="sign">%</span></p>
+          <p class="label">faster to configure an order</p>
         </div>
-        <div>
-          <h2>Team</h2>
-          <p>1 Head of design, 1 Front-end developer, 2 Back-end developers and 1 UX designer (me)</p>
-        </div>
-        <div>
-          <h2>My role</h2>
-          <p>UX strategy &amp; system architecture<br>Interaction design &amp; prototyping</p>
-        </div>
-        <div>
-          <h2>Time</h2>
-          <p>1 Year</p>
+        <div class="stat">
+          <p class="num"><span class="sign">+</span>17<span class="sign">%</span></p>
+          <p class="label">more customisable orders reached checkout</p>
         </div>
       </div>
-    </section>
 
-    <!-- ============ OVERVIEW ============ -->
-    <section class="narrow section-text reveal">
-      <h2 class="label">Overview</h2>
-      <p>Galls&rsquo; Uniform Service Program needed more than a customization feature. It required a scalable configuration system that could handle agency compliance rules, embroidery logic, placement standards, and bulk ordering without adding friction to the buying process.</p>
-    </section>
+      <p class="evidence-note"><b>MEASURED.</b> Production analytics, comparing the two quarters after launch against the two before, on the same product set.</p>
+    </div>
+  </section>
 
-    <!-- ============ PROBLEM ============ -->
-    <section class="narrow section-text reveal">
-      <h2 class="label">Problem</h2>
-      <p>The existing journey was SKU heavy and fragmented across multiple product pages. Buyers had to make customization decisions across different screens, which increased errors, slowed down ordering, and created operational overhead for internal teams.</p>
-    </section>
-
-    <!-- ============ OLD CUSTOMIZATION ============ -->
-    <section class="container reveal">
-      <div class="split">
-        <div class="section-text">
-          <h2 class="label">Old customization</h2>
-          <p>The existing customization experience treats uniform configuration like fragmented shopping, forcing users to navigate multiple pages without a unified system view. This creates high cognitive load, unclear decision flow, and no structured guidance.</p>
-          <p>There&rsquo;s no validation, prioritization, or real-time feedback, leading to errors, low confidence, and operational issues. The system exposes backend complexity instead of simplifying it, resulting in slower decisions and higher drop-offs.</p>
-        </div>
-        <figure class="frame">
-          <img src="/assets/uc-old-customizer.webp" alt="The old uniform customizer: a dense single page exposing every option at once" loading="lazy" decoding="async" width="2400" height="1299">
-        </figure>
+  <!-- ============================ CONTEXT ============================ -->
+  <section class="section section--wash" aria-labelledby="ctx-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">02</span>&nbsp;Context</p>
+        <h2 id="ctx-h">This was never a customisation feature.</h2>
       </div>
-    </section>
 
-    <!-- ============ BUSINESS GOALS ============ -->
-    <section class="narrow reveal">
-      <h2 class="label">Business goals</h2>
-      <ul class="goals">
-        <li>Reduce configuration friction</li>
-        <li>Minimize customization errors</li>
-        <li>Improve speed to checkout</li>
-        <li>Support repeat and bulk procurement</li>
-        <li>Increase customization attach rate</li>
+      <div class="measure-wide">
+        <p>Galls' Uniform Service Program supplies agencies, not individuals. A single order carries agency compliance rules about what insignia may appear where, embroidery logic that varies by garment and thread, placement standards written by the branch rather than the retailer, and bulk quantities across dozens of personnel.</p>
+        <p style="margin-top:var(--s-4)">The site handled all of this by turning every possible combination into its own product listing. A different nameplate, rank, patch or placement meant a different item to find. The buyer's job was to hunt down the right set and hope it added up correctly.</p>
+        <p style="margin-top:var(--s-4)">That framing was the real problem. <strong>This was never a catalogue to browse. It was a product to configure</strong>, and it had been built as the wrong one.</p>
+      </div>
+
+      <div class="fig">
+        <div class="frame">
+          <img src="../assets/uc-old-customizer.webp" alt="The previous customizer: a dense page listing every available option at once, with a technical line drawing of the garment" loading="lazy" decoding="async" width="1200" height="700">
+        </div>
+        <figcaption><b>Before: the original customizer.</b> Every option is shown at once and every option looks equally important, so the buyer has to work out the order to do things in.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PROBLEM ============================ -->
+  <section class="section" aria-labelledby="prob-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">03</span>&nbsp;The problem</p>
+        <h2 id="prob-h">You could not see what you were building until it was too late.</h2>
+      </div>
+
+      <div class="measure-wide">
+        <p class="lead">A buyer picked the garment on one page, the insignia on another, the placement on a third and the quantity on a fourth. Nothing showed the finished uniform until the cart, and nothing warned them if a combination broke an agency rule.</p>
+        <p style="margin-top:var(--s-4)">Two groups paid for that, in different ways.</p>
+      </div>
+
+      <div class="compare" style="margin-top:var(--s-6)">
+        <div class="panel panel--bad">
+          <h3>The buyer</h3>
+          <ul>
+            <li>Had to remember every choice while moving between pages</li>
+            <li>Only found mistakes at checkout, when they cost the most to fix</li>
+            <li>Was ordering for dozens of people, so one error multiplied</li>
+          </ul>
+        </div>
+        <div class="panel panel--bad">
+          <h3>The business</h3>
+          <ul>
+            <li>Staff had to correct wrong orders by hand</li>
+            <li>Customers gave up most often on the products worth the most</li>
+            <li>Every new rule added more listings instead of more capability</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ DIRECTIONS ============================ -->
+  <section class="section section--wash" id="directions" aria-labelledby="dir-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">04</span>&nbsp;Directions considered</p>
+        <h2 id="dir-h">Three ways to fix it. Two were wrong.</h2>
+        <p class="lead measure-wide">The obvious move was a better options panel. It would have been faster to build and it would not have worked, because the problem was never that the options were badly presented.</p>
+      </div>
+
+      <div class="decisions measure-wide" style="max-width:52rem">
+        <div class="decision">
+          <div>
+            <h3>Improve the existing single page</h3>
+            <p>Better grouping, better labels, sticky summary. Cheapest option and the one most people expected. Rejected because it preserves the actual failure. Every decision still competes for attention with every other decision, and a buyer configuring for a whole unit is not short of information, they are short of sequence.</p>
+            <span class="verdict verdict--out">Rejected: treats the symptom</span>
+          </div>
+        </div>
+        <div class="decision">
+          <div>
+            <h3>A multi-step wizard across separate pages</h3>
+            <p>Sequence the decisions properly, one page each. Solves ordering, but keeps the context switching that was already the expensive part, and makes reviewing or revising an earlier choice a navigation task. On bulk orders where buyers routinely go back three steps, that is a worse trade than it looks.</p>
+            <span class="verdict verdict--out">Rejected: sequence without continuity</span>
+          </div>
+        </div>
+        <div class="decision">
+          <div>
+            <h3>One full-screen checkpoint, stepped inside it</h3>
+            <p>A single overlay that holds the entire configuration, sizing, fabric, identity, branding, grouped into logical clusters and stepped through without leaving the view. The buyer keeps the assembled garment in sight the whole time, validation runs live, and nothing is committed until the whole thing resolves.</p>
+            <span class="verdict verdict--in">Built</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- before / after diagram ---- -->
+      <div class="fig" style="margin-top:var(--s-8)">
+        <div class="diagram" tabindex="0" role="group" aria-labelledby="dg1-cap">
+          <svg viewBox="0 0 820 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Before: separate pages, product, insignia, placement, quantity, cart, error, with commitment happening before feedback. After: one checkpoint containing identity, fit and branding, validated live, then add to cart.">
+            <!-- BEFORE -->
+            <text class="dg-lbl" x="0" y="14">Before · separate screens, feedback last</text>
+            <g>
+              <rect class="dg-box dg-box--wash" x="0"   y="30" width="112" height="44" rx="6"/>
+              <rect class="dg-box dg-box--wash" x="132" y="30" width="112" height="44" rx="6"/>
+              <rect class="dg-box dg-box--wash" x="264" y="30" width="112" height="44" rx="6"/>
+              <rect class="dg-box dg-box--wash" x="396" y="30" width="112" height="44" rx="6"/>
+              <rect class="dg-box dg-box--wash" x="528" y="30" width="112" height="44" rx="6"/>
+              <rect class="dg-box dg-box--mark" x="660" y="30" width="160" height="44" rx="6"/>
+              <text class="dg-t" x="56"  y="57" text-anchor="middle">Product</text>
+              <text class="dg-t" x="188" y="57" text-anchor="middle">Insignia</text>
+              <text class="dg-t" x="320" y="57" text-anchor="middle">Placement</text>
+              <text class="dg-t" x="452" y="57" text-anchor="middle">Quantity</text>
+              <text class="dg-t" x="584" y="57" text-anchor="middle">Cart</text>
+              <text class="dg-t" x="740" y="57" text-anchor="middle">Error found here</text>
+              <path class="dg-line" d="M112 52 h20 M244 52 h20 M376 52 h20 M508 52 h20 M640 52 h20"/>
+              <path class="dg-line dg-line--dash" d="M740 78 v22 q0 8 -8 8 H64 q-8 0 -8 -8 V78" marker-end=""/>
+              <text class="dg-t dg-t--m" x="400" y="122" text-anchor="middle">rework loop, the buyer starts again</text>
+            </g>
+
+            <line x1="0" y1="150" x2="820" y2="150" class="dg-line dg-line--dash"/>
+
+            <!-- AFTER -->
+            <text class="dg-lbl" x="0" y="178">After · one checkpoint, validated live</text>
+            <g>
+              <rect class="dg-box dg-box--wash" x="0" y="194" width="112" height="44" rx="6"/>
+              <text class="dg-t" x="56" y="221" text-anchor="middle">Product</text>
+              <path class="dg-line dg-line--acc" d="M112 216 h24"/>
+
+              <rect class="dg-box dg-box--acc" x="136" y="186" width="380" height="86" rx="8"/>
+              <text class="dg-lbl" x="152" y="204">Full-screen configuration checkpoint</text>
+              <rect class="dg-box" x="152" y="216" width="106" height="38" rx="5"/>
+              <rect class="dg-box" x="268" y="216" width="106" height="38" rx="5"/>
+              <rect class="dg-box" x="384" y="216" width="116" height="38" rx="5"/>
+              <text class="dg-t" x="205" y="239" text-anchor="middle">Identity</text>
+              <text class="dg-t" x="321" y="239" text-anchor="middle">Fit</text>
+              <text class="dg-t" x="442" y="239" text-anchor="middle">Branding</text>
+
+              <path class="dg-line dg-line--acc" d="M516 216 h24"/>
+              <rect class="dg-box dg-box--ink" x="540" y="194" width="140" height="44" rx="6"/>
+              <text class="dg-t dg-t--w" x="610" y="221" text-anchor="middle">Add to cart</text>
+
+              <path class="dg-line dg-line--acc dg-line--dash" d="M326 272 v14 q0 8 8 8 h120"/>
+              <text class="dg-t dg-t--a" x="462" y="298">live validation, before anything is committed</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption id="dg1-cap">The structural change. Not fewer decisions, the same decisions, made in one place, with the consequence visible while they are still reversible.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SOLUTION ============================ -->
+  <section class="section" aria-labelledby="sol-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">05</span>&nbsp;What we built</p>
+        <h2 id="sol-h">One checkpoint, three clusters, live validation.</h2>
+      </div>
+
+      <ul class="checks measure-wide" style="max-width:48rem">
+        <li><b>Grouped by what the buyer is deciding, not by what the database stores.</b> Identity (nameplate, rank, unit), fit (size, cut, fabric) and branding (patches, placement, thread). Three questions instead of thirty fields.</li>
+        <li><b>Compliance encoded as rules, not as SKUs.</b> Agency constraints run as validation against the configuration, so an invalid combination is caught while it is being made rather than manufactured into the catalogue.</li>
+        <li><b>The garment stays on screen.</b> Every selection updates a live preview with placement shown in position, which is what turns an abstract choice into a visible one.</li>
+        <li><b>Nothing commits until the whole thing resolves.</b> The checkpoint is a boundary. Inside it everything is revisable, and crossing it means the order is complete and compliant.</li>
+        <li><b>AI-assisted exploration, early only.</b> I used prompt-built variants to test layout and grouping options quickly, so the team could look at four real alternatives in the time a single mockup used to take. It compressed the ideation loop. It did not decide anything.</li>
+        <li><b>Bulk is a first-class case.</b> A configuration is a reusable object, so ordering for a whole unit is one configuration applied many times, rather than many passes through the same flow.</li>
       </ul>
-    </section>
 
-    <!-- ============ SOLUTION ============ -->
-    <section class="container section-text reveal">
-      <h2 class="label">Solution</h2>
-      <div class="narrow" style="margin-inline:0">
-        <p>Re-structured the experience into a guided, step-by-step customization flow instead of a dense single-page configurator.</p>
-        <p>Simplified decision-making by grouping attributes into logical clusters (identity, fit, branding) instead of exposing all options equally.</p>
-        <p>Applied AI-assisted exploration for rapid layout ideation and variant testing, speeding up early prototyping and reducing iteration cycles.</p>
-      </div>
-
-      <div class="phones">
-        <img src="/assets/uc-phone-1.webp" alt="Mobile uniform customizer: step-by-step product configuration" loading="lazy" decoding="async" width="1161" height="2400">
-        <img src="/assets/uc-phone-2.webp" alt="Mobile uniform customizer: grouped attribute selection" loading="lazy" decoding="async" width="1161" height="2400">
-        <img src="/assets/uc-phone-3.webp" alt="Mobile uniform customizer: order review before checkout" loading="lazy" decoding="async" width="1161" height="2400">
-      </div>
-    </section>
-
-    <!-- ============ IMPACT ============ -->
-    <section class="stats-band reveal">
-      <div class="container">
-        <h2 class="label">Impact &amp; business outcomes</h2>
-        <p style="max-width:640px">Within two quarters of launch, the uniform customizer delivered measurable operational and commercial results:</p>
-        <div class="stats" style="margin-top:36px">
-          <div>
-            <strong>22%</strong>
-            <p>Increase in customization attach rate</p>
-          </div>
-          <div>
-            <strong>26%</strong>
-            <p>Reduction in time to configure</p>
-          </div>
-          <div>
-            <strong>17%</strong>
-            <p>Improvement in checkout completion for customizable products</p>
-          </div>
+      <div class="fig">
+        <div class="fig-grid">
+          <div class="frame frame--plain"><img src="../assets/uc-phone-1.webp" alt="Mobile: the customisation checkpoint open, with attribute groups listed and the uniform previewed above" loading="lazy" decoding="async" width="600" height="1000"></div>
+          <div class="frame frame--plain"><img src="../assets/uc-phone-2.webp" alt="Mobile: unit insignia selection with command and organisation options and a running total" loading="lazy" decoding="async" width="600" height="1000"></div>
+          <div class="frame frame--plain"><img src="../assets/uc-phone-3.webp" alt="Mobile: skill badge placement with position dropdowns and validation" loading="lazy" decoding="async" width="600" height="1000"></div>
         </div>
+        <figcaption>Mobile. The same single checkpoint, stepped, the preview stays anchored above the controls so the consequence of each selection is never off-screen.</figcaption>
       </div>
-    </section>
 
-    <!-- ============ UNIFIED CHECKOUT ============ -->
-    <section class="container section-text reveal">
-      <h2 class="label">Unified customization checkout</h2>
-      <p class="narrow" style="margin-inline:0">I redesigned the experience by introducing a single step full screen customization popup that brings all options like sizing, fabric, and branding into one place before add to cart or checkout. This reduces context switching and keeps users focused on completing all decisions in a unified view. It acts as a key checkpoint that improves attention, reduces errors, and encourages users to finish customization with clarity before moving forward.</p>
-
-      <div class="screens" style="margin-top:32px">
-        <figure class="frame">
-          <img src="/assets/uc-desktop-untitled.webp" alt="Unified full-screen customization popup with sizing, fabric and branding options in one view" loading="lazy" decoding="async" width="799" height="500">
-        </figure>
-        <figure class="frame">
-          <img src="/assets/uc-desktop-2.webp" alt="Uniform customizer desktop view: order summary and checkout checkpoint" loading="lazy" decoding="async" width="1172" height="733">
-        </figure>
+      <div class="fig">
+        <div class="frame"><img src="../assets/uc-desktop-2.webp" alt="Desktop: the full-screen customisation overlay with sizing, fabric and branding options alongside the live uniform preview and running total" loading="lazy" decoding="async" width="1400" height="900"></div>
+        <figcaption>Desktop. Options on the left, assembled garment on the right, total and validation state always visible.</figcaption>
       </div>
-    </section>
 
-    <!-- ============ OUTPUT ============ -->
-    <section class="narrow section-text reveal">
-      <h2 class="label">Output</h2>
-      <p>The USP Uniform Customizer was not a feature layer added onto ecommerce. It became a core platform capability.</p>
-      <p>By embedding logic and workflow intelligence into the buying journey, we shifted the experience from manual selection to structured configuration with confidence.</p>
-    </section>
-
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-links">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
-        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
+      <div class="fig">
+        <div class="frame"><img src="../assets/uc-desktop-untitled.webp" alt="Desktop: placement view with every insignia position labelled on the garment" loading="lazy" decoding="async" width="1400" height="900"></div>
+        <figcaption>Placement labelled directly on the garment. Buyers stopped asking internal teams where a patch was allowed to go, because the answer was on the screen.</figcaption>
       </div>
-      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    } else {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    }
-    const header = document.getElementById('header');
-    addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', scrollY > 10);
-    }, { passive: true });
-  </script>
+  <!-- ============================ WHAT I'D DO NEXT ============================ -->
+  <section class="section section--wash" aria-labelledby="next-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">06</span>&nbsp;Honest limits</p>
+        <h2 id="next-h">What I'd prove next.</h2>
+      </div>
+      <ul class="checks measure-wide" style="max-width:48rem">
+        <li><b>Most buyers still don't customise.</b> More of them do than before, but the majority still skip it. I don't know whether that's because they don't need it or because they never notice it's there, and the analytics we have can't tell those two apart.</li>
+        <li><b>I never measured mistakes directly.</b> We could see that staff were fixing fewer orders by hand, and assumed that meant fewer errors were being made. That is a reasonable guess, not a measurement. The system should track wrong configurations properly so we would know.</li>
+        <li><b>Only engineers can add new rules.</b> When an agency changes what is allowed, it takes a developer and a release to update it. Until the operations team can make that change themselves, every new client creates engineering work.</li>
+      </ul>
+    </div>
+  </section>
 
+  <!-- ============================ NEXT + CONTACT ============================ -->
+  <section class="section-s" aria-labelledby="nx-h">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain" id="nx-h" style="margin-bottom:var(--s-4)">Next case study</p>
+      <article class="next-card">
+        <div class="plate"><img src="../assets/work-nirvana-app.webp" alt="A person using the Nirvana app with a mudra recommendation on screen" loading="lazy" decoding="async" width="600" height="450"></div>
+        <div>
+          <p class="eyebrow eyebrow--plain">Nirvana · Part II</p>
+          <h3><a href="../nirvana-mudra-recommendation-engine-case-study/">Meditation that adapts to how you feel</a></h3>
+          <p>The same idea in a different domain. Instead of presenting a library, the system asks two questions and returns one practice, with its reasoning stated.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
+    <div class="shell">
+      <h2 id="contact-h">Want the parts that didn't make the page?</h2>
+      <p class="lead">The rule model went through four versions before it held. Happy to walk through it, and through what I'd change now.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com?subject=Galls%20case%20study">Email me</a>
+        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="direct">Or copy it: <a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Work</h2>
+        <ul>
+          <li><a href="../nirvana-mudra-recommendation-engine-case-study/">Nirvana Mudra</a></li>
+          <li><a href="./">Galls uniform customizer</a></li>
+          <li><a href="../nirvana-meditation-app-habit-design-case-study/">Nirvana</a></li>
+          <li><a href="../optivento-restaurant-inventory-management-ux-case-study/">Optivento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../about-sumeet-gokhale-ux-designer/">About</a></li>
+          <li><a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
+      <span>Open to new roles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/site.js" defer></script>
 </body>
 </html>

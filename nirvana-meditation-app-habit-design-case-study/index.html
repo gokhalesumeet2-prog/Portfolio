@@ -1,595 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nirvana: Habit-Forming Meditation App UX Case Study | Sumeet Gokhale</title>
-  <meta name="description" content="A behavioural design case study on Nirvana, a meditation app built to stop first-week drop-off. Reinforcement mechanics, accountability nudges and a 60% lift in 7-day retention.">
-  <meta property="og:title" content="Nirvana: Habit-Forming Meditation App UX Case Study | Sumeet Gokhale">
-  <meta property="og:description" content="A behavioural design case study on Nirvana, a meditation app built to stop first-week drop-off. Reinforcement mechanics, accountability nudges and a 60% lift in 7-day retention.">
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="author" content="Sumeet Gokhale">
-  <meta property="og:url" content="https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/">
-  <meta property="og:site_name" content="Sumeet Gokhale">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:image" content="https://sumeetgokhale.com/assets/nv-hero.webp">
-  <meta property="og:image:alt" content="Nirvana meditation app screens">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nirvana: Habit-Forming Meditation App UX Case Study | Sumeet Gokhale">
-  <meta name="twitter:description" content="A behavioural design case study on Nirvana, a meditation app built to stop first-week drop-off. Reinforcement mechanics, accountability nudges and a 60% lift in 7-day retention.">
-  <meta name="twitter:image" content="https://sumeetgokhale.com/assets/nv-hero.webp">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- Sora: open-source typeface (Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* ============ Design tokens (Nirvana sub-brand) ============ */
-    :root {
-      --ink: #0f172a;          /* deep navy text */
-      --body: #475569;
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
-      --navy: #111827;
-      --card-line: #e8e8e8;
-      --band: #f7f7f7;
-      --display: "Sora", system-ui, sans-serif;
-      /* Type scale. Everything is in rem so it rides the fluid root size
-         set below: one dial controls the whole page. */
-      --fs-3xs: .5625rem;   /*  9px @ root 16 */
-      --fs-2xs: .6875rem;   /* 11px */
-      --fs-xs:  .75rem;     /* 12px */
-      --fs-sm:  .8125rem;   /* 13px */
-      --fs-md:  .875rem;    /* 14px */
-      --fs-base: .9375rem;  /* 15px */
-      --fs-lg:  1rem;       /* 16px */
-
-      /* Fluid headings: rem bounds keep large monitors in proportion,
-         the vw term smooths everything in between. */
-      --fs-h1: clamp(1.125rem, .875rem + .8vw, 1.375rem);
-      --fs-h2: clamp(1.0625rem, .9rem + .55vw, 1.25rem);
-      --fs-h3: clamp(.9375rem, .875rem + .25vw, 1rem);
-
-      /* Spacing rhythm */
-      --section-y: clamp(1.75rem, 1.125rem + 2.2vw, 2.75rem);
-      --shell: min(70rem, 92%);        /* 1120px at root 16, grows with root */
-      --shell-narrow: min(53.75rem, 92%);
-      --shell: min(65rem, 92%);          /* 1040px at root 16 */
-      --shell-narrow: min(47.5rem, 92%); /* 760px */
-    }
-
-    /* One fluid root: a steady 16px through phone, tablet and laptop widths,
-       then a gentle climb to 18px on large monitors so the page never looks
-       marooned in whitespace. Every rem below scales with it. */
-    html {
-      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--display);
-      color: var(--body);
-      background: #fff;
-      font-size: var(--fs-base);
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img { max-width: 100%; height: auto; display: block; }
-    h1, h2, h3 { color: var(--ink); text-wrap: balance; line-height: 1.2; }
-    p { text-wrap: pretty; }
-
-    .container { width: var(--shell); margin-inline: auto; }
-    .narrow { width: var(--shell-narrow); margin-inline: auto; }
-
-    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
-
-    .skip-link {
-      position: absolute; left: -9999px; top: 0;
-      background: var(--ink); color: #fff;
-      padding: .625rem 1.125rem; z-index: 100; text-decoration: none;
-    }
-    .skip-link:focus { left: 0; }
-
-    /* ============ Header (site-wide pattern) ============ */
-    .site-header {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s ease;
-    }
-    .site-header.scrolled { border-bottom-color: var(--card-line); }
-    .site-header .container {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: .75rem;
-      padding-block: clamp(.75rem, .5rem + .8vw, 1.25rem);
-    }
-    .brand {
-      position: relative;
-      font-weight: 700; font-size: var(--fs-base);
-      letter-spacing: .04em; color: var(--ink);
-      text-decoration: none; padding: .375rem .625rem; white-space: nowrap;
-    }
-    .brand img.brush {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: fill; z-index: -1;
-    }
-    .site-nav { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .5rem + 3.5vw, 4.5rem); }
-    .site-nav a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
-    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
-
-    /* ============ Hero ============ */
-    .hero { padding: clamp(2.5rem, 1.5rem + 3.2vw, 4.5rem) 0 1.5rem; text-align: center; }
-    .hero h1 {
-      font-size: clamp(2rem, 1.25rem + 2.6vw, 3.125rem);
-      font-weight: 700;
-      line-height: 1.1;
-    }
-    .hero .sub {
-      margin-top: .5rem;
-      font-size: clamp(1.25rem, .95rem + 1.1vw, 1.75rem);
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1.3;
-    }
-    .hero figure { margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem); border-radius: 1rem; overflow: hidden; }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      margin-top: 1.75rem;
-      background: var(--blue); color: #fff;
-      font-size: var(--fs-md); font-weight: 600; line-height: 1.4;
-      padding: .75rem 2rem; min-height: 2.75rem; border-radius: 999px;
-      text-decoration: none;
-      transition: background .2s ease, transform .2s ease;
-    }
-    .btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
-
-    /* ============ Sections ============ */
-    section { padding: clamp(2rem, 1.375rem + 2.2vw, 3rem) 0; }
-    .section-text p + p { margin-top: .875rem; }
-
-    h2.h { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.125rem); font-weight: 700; margin-bottom: 1.125rem; }
-
-    /* Intro statement */
-    .statement { text-align: center; }
-    .statement p { font-size: clamp(1rem, .85rem + .8vw, 1.25rem); color: var(--ink); font-weight: 600; }
-    .statement .q { color: var(--blue); }
-
-    /* Card pair: problem (blue) + roles (white) */
-    .card-pair {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
-    }
-    .card {
-      border-radius: 1.125rem;
-      padding: clamp(1.625rem, 1.125rem + 2vw, 2.625rem);
-    }
-    .card.blue { background: var(--blue); color: #dbeafe; }
-    .card.blue h2 { color: #fff; }
-    .card.white { background: var(--band); border: 1px solid var(--card-line); }
-    .card h2 { font-size: clamp(1.125rem, .95rem + .55vw, 1.25rem); margin-bottom: .875rem; }
-    .card ul { list-style: none; display: grid; gap: .625rem; }
-    .card li { padding-left: 1.25rem; position: relative; font-size: var(--fs-md); }
-    .card.blue li::before { content: "\2022"; position: absolute; left: 0; color: #bfdbfe; }
-    .card.white li::before { content: "\2022"; position: absolute; left: 0; color: var(--blue); }
-    .card .note { margin-top: 1.125rem; font-weight: 600; color: var(--ink); }
-
-    /* Levers */
-    .levers {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-      gap: 1.5rem;
-      margin-top: 1.75rem;
-    }
-    .lever {
-      background: var(--band);
-      border: 1px solid var(--card-line);
-      border-radius: 1rem;
-      padding: clamp(1.25rem, 1rem + 1vw, 1.625rem);
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .lever:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(15, 23, 42, .08); }
-    .lever .num {
-      display: inline-grid; place-items: center;
-      width: 2.125rem; height: 2.125rem;
-      border-radius: 999px;
-      background: var(--blue); color: #fff;
-      font-weight: 700; font-size: var(--fs-base);
-      margin-bottom: .875rem;
-    }
-    .lever h3 { font-size: var(--fs-lg); margin-bottom: .5rem; }
-    .lever p { font-size: var(--fs-md); }
-
-    /* Behavior loop (vector) */
-    .loop-figure {
-      margin-top: clamp(1.5rem, 1.125rem + 1.6vw, 2.25rem);
-      background: #fff;
-      border: 1px solid var(--card-line);
-      border-radius: 1rem;
-      padding: clamp(1rem, .75rem + 1.2vw, 2rem);
-    }
-    .loop-figure svg { width: 100%; height: auto; display: block; }
-    .loop-figure figcaption { margin-top: .625rem; text-align: center; font-size: var(--fs-xs); }
-
-    figure.shot { border-radius: 1rem; overflow: hidden; border: 1px solid var(--card-line); background: #fff; }
-    .shot + .shot { margin-top: 2rem; }
-
-    /* ============ Dark impact band ============ */
-    .impact { background: var(--navy); color: #cbd5e1; padding: clamp(3rem, 2rem + 3.2vw, 4.5rem) 0; }
-    .impact h2 { color: #fff; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.125rem); margin-bottom: .875rem; }
-    .impact .stats {
-      margin-top: clamp(2rem, 1.375rem + 2.2vw, 2.75rem);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
-      gap: clamp(1.5rem, 1rem + 2.2vw, 4rem);
-    }
-    .impact strong {
-      display: block;
-      font-size: clamp(3rem, 2rem + 3.4vw, 4.8125rem);
-      font-weight: 700;
-      color: var(--blue);
-      line-height: 1.05;
-    }
-    .impact .stats p { margin-top: .75rem; font-size: var(--fs-md); }
-
-    /* Output */
-    .output { padding-bottom: 1.5rem; }
-
-    /* Link on to Part II */
-    .next-part {
-      border: 1px solid var(--card-line);
-      border-radius: 1rem;
-      background: var(--band);
-      padding: clamp(1.25rem, 1rem + 1vw, 1.625rem);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .next-part h3 { font-size: clamp(1rem, .925rem + .35vw, 1.0625rem); }
-    .next-part p { font-size: var(--fs-md); margin-top: .25rem; max-width: 42ch; }
-    .next-part .btn { margin-top: 0; }
-
-    /* ============ Footer ============ */
-    .site-footer { border-top: 1px solid var(--card-line); padding: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem) 0; }
-    .site-footer .container {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-links { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .75rem + 1.6vw, 2rem); }
-    .footer-links a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
-    .footer-links a:hover { color: var(--blue); }
-    .site-footer small { font-size: var(--fs-xs); }
-
-    /* ============ Scroll-reveal ============ */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-      .btn, .lever { transition: none; }
-    }
-
-    /* ============ Responsive ============
-       Breakpoints in em so they follow the reader's browser font size. */
-    @media (max-width: 51.25em) {       /* 820px */
-      .card-pair { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 43.75em) {       /* 700px */
-      .site-header .container { flex-direction: column; gap: .75rem; }
-      .site-footer .container { flex-direction: column; text-align: center; }
-    }
-  </style>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "@id": "https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/#case",
-  "name": "Nirvana: habit-forming meditation app UX case study",
-  "headline": "Nirvana: habit-forming meditation app UX case study",
-  "description": "Behavioural design for a meditation app built to stop first-week drop-off, with reinforcement mechanics and a 60% lift in 7-day retention.",
-  "url": "https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/",
-  "image": "https://sumeetgokhale.com/assets/nv-hero.webp",
-  "about": "Behavioral design for habit formation",
-  "inLanguage": "en",
-  "datePublished": "2024-06-01",
-  "creator": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  },
-  "author": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  },
-  "isPartOf": {
-    "@type": "CollectionPage",
-    "name": "UX design case studies",
-    "url": "https://sumeetgokhale.com/ux-design-case-studies/"
-  }
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://sumeetgokhale.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Case studies",
-      "item": "https://sumeetgokhale.com/ux-design-case-studies/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Nirvana: habit-forming meditation app UX case study",
-      "item": "https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/"
-    }
-  ]
-}
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nirvana: a retention system for daily meditation | Sumeet Gokhale</title>
+<meta name="description" content="Meditation apps don't fail on content, they fail on consistency. A behavioural system built on cue, action, proof, reward and return, pretotyped across cultural contexts and tested before a line of UI.">
+<link rel="canonical" href="https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/">
+<meta property="og:title" content="Nirvana: a retention system for daily meditation">
+<meta property="og:description" content="Meditation apps don't fail on content. They fail on consistency.">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/og-nirvana.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
 </head>
+
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="shell">
+    <a class="brand" href="../"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="../ux-design-case-studies/">Work</a>
+      <a href="../about-sumeet-gokhale-ux-designer/">About</a>
+      <a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--ghost" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- ============ HEADER ============ -->
-  <header class="site-header" id="header">
-    <div class="container">
-      <a class="brand" href="/">
-        <img class="brush" src="/assets/brush-work.webp" alt="" aria-hidden="true" decoding="async" width="153" height="43">
-        SUMEET GOKHALE
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/about-sumeet-gokhale-ux-designer/">About</a>
-        <a href="/assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
-      </nav>
+<main id="main">
+
+  <div class="shell">
+    <a class="crumb" href="../ux-design-case-studies/">All case studies</a>
+  </div>
+
+  <section class="cs-head">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain">Nirvana · Part I · Behavioural system · Self-directed</p>
+      <h1>A retention system, not a meditation app</h1>
+      <p class="lead thesis">Meditation apps don't fail because the content is bad. They fail in week one, when motivation runs out and nothing has replaced it. So I stopped designing sessions and started designing the loop that brings someone back to one.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--ext" href="https://xd.adobe.com/view/727c71db-7f3f-4407-ac1d-b9aebdc34a5a-272f/" target="_blank" rel="noopener">Try the prototype</a>
+        <a class="btn btn--ghost" href="../nirvana-mudra-recommendation-engine-case-study/">Read Part II</a>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="main">
+  <div class="shell">
+    <dl class="meta-bar">
+      <div><dt>My role</dt><dd><span>Research &amp; behavioural framing</span><span>Rapid prototyping</span><span>UI design</span></dd></div>
+      <div><dt>Method</dt><dd><span>Pretotyping</span><span>Cross-cultural comprehension testing</span></dd></div>
+      <div><dt>Users</dt><dd><span>People who intend to meditate daily and don't</span></dd></div>
+      <div><dt>Status</dt><dd><span>Self-directed, not shipped</span><span>Jan to May 2023</span></dd></div>
+    </dl>
+  </div>
 
-    <!-- ============ HERO ============ -->
-    <section class="hero container reveal">
-      <h1>Nirvana</h1>
-      <p class="sub">Behavioral infrastructure for habit formation</p>
-      <a class="btn" href="https://xd.adobe.com/view/727c71db-7f3f-4407-ac1d-b9aebdc34a5a-272f/" target="_blank" rel="noopener">Prototype Link</a>
-      <figure>
-        <img src="/assets/nv-hero.webp" alt="Nirvana meditation app scenes: calm illustrated meditation screens" decoding="async" width="2400" height="1600">
-      </figure>
-    </section>
+  <div class="shell" style="margin-top:var(--s-6)">
+    <div class="cs-hero">
+      <img src="../assets/nv-hero.webp" alt="Nirvana app screens across several phones: onboarding, session selection, progress and reward" fetchpriority="high" decoding="async" width="2400" height="1600">
+    </div>
+  </div>
 
-    <!-- ============ INTRO ============ -->
-    <section class="narrow statement reveal">
-      <p>Nirvana is a retention system for daily meditation.</p>
-      <p style="margin-top:14px">Meditation apps don&rsquo;t fail because of content. They fail because of consistency. Nirvana was designed to solve a behavioral problem:</p>
-      <p class="q" style="margin-top:14px">How do you convert intention into daily action?</p>
-    </section>
-
-    <!-- ============ PROBLEM + ROLES ============ -->
-    <section class="container reveal">
-      <div class="card-pair">
-        <div class="card blue">
-          <h2>The problem</h2>
-          <ul>
-            <li>Most meditation platforms assume users will return because they feel better.</li>
-            <li>Drop-off typically happens within the first week. Motivation fades. Habits don&rsquo;t form.</li>
-            <li>The real problem wasn&rsquo;t content discovery. It was behavioral reinforcement.</li>
-          </ul>
-        </div>
-        <div class="card white">
-          <h2>My roles</h2>
-          <ul>
-            <li>Research</li>
-            <li>Behavioral hypothesis framing</li>
-            <li>Rapid prototyping</li>
-            <li>UI Design</li>
-          </ul>
-          <p class="note">I designed a system that increases short-term consistency to enable long-term habit formation.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ APP SCREENS ============ -->
-    <section class="container reveal">
-      <figure class="shot">
-        <img src="/assets/nv-frame1.webp" alt="Nirvana app interface frames: onboarding and meditation selection" loading="lazy" decoding="async" width="2400" height="1124">
-      </figure>
-    </section>
-
-    <!-- ============ LEVERS ============ -->
-    <section class="container reveal">
-      <h2 class="h">Reinforcement mechanics</h2>
-      <p class="narrow" style="margin-inline:0">Instead of adding more meditation options, I focused on reinforcement mechanics. Three core behavioral levers were introduced:</p>
-
-      <div class="levers">
-        <div class="lever">
-          <span class="num" aria-hidden="true">1</span>
-          <h3>Time-Adaptive Entry</h3>
-          <p>Users select meditation length based on available time, reducing friction at the decision point.</p>
-        </div>
-        <div class="lever">
-          <span class="num" aria-hidden="true">2</span>
-          <h3>Variable Reward System</h3>
-          <p>Lotus-based reward accumulation for every completed minute. Progress unlocks access to a store, reinforcing continuation.</p>
-        </div>
-        <div class="lever">
-          <span class="num" aria-hidden="true">3</span>
-          <h3>Accountability Nudges</h3>
-          <p>Daily prompts delivered through direct messaging. Users confirm completion with image responses.</p>
-        </div>
+  <!-- ============================ PROBLEM ============================ -->
+  <section class="section" aria-labelledby="prob-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">01</span>&nbsp;The problem</p>
+        <h2 id="prob-h">How do you convert intention into daily action?</h2>
       </div>
 
-      <!-- Behavioral loop (vector graphic) -->
-      <figure class="loop-figure" role="img" aria-label="Behavioral loop: cue leads to action, proof, reward, and return">
-        <svg viewBox="0 0 1000 150" xmlns="http://www.w3.org/2000/svg" font-family="Sora, system-ui, sans-serif">
-          <defs>
-            <marker id="la" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/></marker>
-          </defs>
-          <g font-size="16" font-weight="600">
-            <rect x="20"  y="45" width="140" height="56" rx="28" fill="#2563eb"/><text x="90"  y="80" text-anchor="middle" fill="#ffffff">Cue</text>
-            <rect x="225" y="45" width="140" height="56" rx="28" fill="#eff6ff" stroke="#bfdbfe"/><text x="295" y="80" text-anchor="middle" fill="#0f172a">Action</text>
-            <rect x="430" y="45" width="140" height="56" rx="28" fill="#eff6ff" stroke="#bfdbfe"/><text x="500" y="80" text-anchor="middle" fill="#0f172a">Proof</text>
-            <rect x="635" y="45" width="140" height="56" rx="28" fill="#eff6ff" stroke="#bfdbfe"/><text x="705" y="80" text-anchor="middle" fill="#0f172a">Reward</text>
-            <rect x="840" y="45" width="140" height="56" rx="28" fill="#2563eb"/><text x="910" y="80" text-anchor="middle" fill="#ffffff">Return</text>
-          </g>
-          <g fill="none" stroke="#2563eb" stroke-width="2">
-            <line x1="162" y1="73" x2="218" y2="73" marker-end="url(#la)"/>
-            <line x1="367" y1="73" x2="423" y2="73" marker-end="url(#la)"/>
-            <line x1="572" y1="73" x2="628" y2="73" marker-end="url(#la)"/>
-            <line x1="777" y1="73" x2="833" y2="73" marker-end="url(#la)"/>
-            <path d="M905 45 C 880 8, 120 8, 95 45" stroke-dasharray="5 6" marker-end="url(#la)"/>
-          </g>
-        </svg>
-        <figcaption>Rather than relying on intrinsic motivation alone, the system builds external reinforcement until internal habit stabilizes.</figcaption>
-      </figure>
-    </section>
+      <div class="measure-wide">
+        <p class="lead">Almost everyone who downloads a meditation app wants to meditate. That is not the constraint. The constraint is that the reward for meditating arrives weeks later, and the cost arrives every single morning.</p>
+        <p style="margin-top:var(--s-4)">Most platforms answer this with more content, more teachers, more courses, more categories, on the assumption that people leave because they ran out of things to listen to. The retention curves say otherwise. Drop-off concentrates in the first week, before content variety could plausibly matter.</p>
+        <p style="margin-top:var(--s-4)"><strong>The real problem wasn't content discovery. It was behavioural reinforcement.</strong></p>
+      </div>
+    </div>
+  </section>
 
-    <!-- ============ HYPOTHESIS TESTING ============ -->
-    <section class="narrow section-text reveal" style="text-align:center">
-      <p>One of the core assumptions I validated through pretotyping was whether users across different cultural contexts could accurately understand and replicate Indian mudras (hand gestures) used as guided meditation anchors within the app.</p>
-      <a class="btn" href="https://www.youtube.com/watch?v=eJe40of3-Vk" target="_blank" rel="noopener">Hypothesis testing (video)</a>
-    </section>
+  <!-- ============================ DIRECTIONS ============================ -->
+  <section class="section section--wash" id="directions" aria-labelledby="dir-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">02</span>&nbsp;Directions considered</p>
+        <h2 id="dir-h">Three answers to week one.</h2>
+      </div>
 
-    <!-- ============ MORE SCREENS ============ -->
-    <section class="container reveal">
-      <figure class="shot">
-        <img src="/assets/nv-web1920-5.webp" alt="Nirvana meditation session screens with lotus reward accumulation" loading="lazy" decoding="async" width="2400" height="1146">
-      </figure>
-      <figure class="shot">
-        <img src="/assets/nv-frame1b.webp" alt="Nirvana reward store and progress screens" loading="lazy" decoding="async" width="2400" height="1124">
-      </figure>
-    </section>
-
-    <!-- ============ IMPACT (dark band) ============ -->
-    <section class="impact reveal">
-      <div class="container">
-        <h2>Impact &amp; business outcomes</h2>
-        <p style="max-width:680px">Based on prototype testing and modeled retention benchmarks from habit-formation products, the system demonstrated strong early behavioral traction.</p>
-        <div class="stats">
+      <div class="decisions" style="max-width:52rem">
+        <div class="decision">
           <div>
-            <strong>+60%</strong>
-            <p>Increase in 7-day retention. Daily nudges and accountability loops reduced early drop-off.</p>
+            <h3>More and better content</h3>
+            <p>The category default: expand the library, add teachers, add themes. Rejected because it addresses boredom, and people are not leaving out of boredom, they are leaving before they have heard enough to be bored. It also makes the choosing problem worse, which is exactly what Part II ended up having to fix.</p>
+            <span class="verdict verdict--out">Rejected: solves week six, not week one</span>
           </div>
+        </div>
+        <div class="decision">
           <div>
-            <strong>+40%</strong>
-            <p>Increase in session completion rate. Time-adaptive entry lowered friction at the decision point, increasing likelihood of session start and finish.</p>
+            <h3>Streaks and gamification</h3>
+            <p>Cheap to build, and it does work until it breaks. A streak turns one missed day into a loss, and guilt is a poor motivator for a practice that is supposed to be about not fighting yourself. So I kept the rewards that build up over time, but removed the punishment. Miss a day and your progress stays where it was, and it never resets to zero.</p>
+            <span class="verdict verdict--out">Used in part: kept the rewards, dropped the penalty</span>
           </div>
+        </div>
+        <div class="decision">
           <div>
-            <strong>35%</strong>
-            <p>Improvement in habit consistency over first week. Reward accumulation and visible progress strengthened behavioral reinforcement.</p>
+            <h3>External reinforcement until the habit holds</h3>
+            <p>Treat intrinsic motivation as something that arrives late, and design a scaffold that carries the user until it does: a cue they didn't have to remember, an action sized to the time they actually have, proof that it happened, a reward that accumulates, and a reason to return. Remove the scaffold's necessity, not the scaffold.</p>
+            <span class="verdict verdict--in">Built</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ WHATSAPP NUDGES ============ -->
-    <section class="container reveal">
-      <figure class="shot">
-        <img src="/assets/nv-whatsapp.webp" alt="Accountability nudges delivered through WhatsApp: daily prompts and image-based completion proof" loading="lazy" decoding="async" width="1200" height="564">
-      </figure>
-    </section>
+  <!-- ============================ THE LOOP ============================ -->
+  <section class="section" aria-labelledby="loop-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">03</span>&nbsp;The system</p>
+        <h2 id="loop-h">Cue, action, proof, reward, return.</h2>
+        <p class="lead measure-wide">Five stages, each one designed to remove a specific reason someone doesn't come back. The loop is the product; the meditation content is what it carries.</p>
+      </div>
 
-    <!-- ============ OUTPUT ============ -->
-    <section class="narrow section-text output reveal">
-      <h2 class="h">Output</h2>
-      <p>Identified early user drop-off as the primary risk and addressed it through a system focused on reinforcement and accountability rather than additional features. Testing showed improved short-term consistency in user behavior, with strong indicators toward increased retention and reduced churn.</p>
-      <p>Established a validated framework that directly connects user actions to measurable business outcomes, creating a scalable approach for improving engagement.</p>
-    </section>
+      <div class="fig">
+        <div class="diagram" tabindex="0" role="group" aria-labelledby="loop-cap">
+          <svg viewBox="0 0 820 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A five-stage reinforcement loop: cue, a daily nudge the user did not have to remember; action, a session sized to available time; proof, a photo confirmation; reward, lotus accumulation that never resets; return, the next cue. The loop feeds back from return to cue.">
+            <text class="dg-lbl" x="0" y="14">The reinforcement loop</text>
 
-    <!-- ============ PART II ============ -->
-    <section class="container reveal" style="padding-top:0">
-      <div class="next-part">
+            <rect class="dg-box dg-box--acc" x="0"   y="30" width="140" height="66" rx="8"/>
+            <rect class="dg-box dg-box--acc" x="170" y="30" width="140" height="66" rx="8"/>
+            <rect class="dg-box dg-box--acc" x="340" y="30" width="140" height="66" rx="8"/>
+            <rect class="dg-box dg-box--acc" x="510" y="30" width="140" height="66" rx="8"/>
+            <rect class="dg-box dg-box--ink" x="680" y="30" width="140" height="66" rx="8"/>
+
+            <text class="dg-t dg-t--a" x="70"  y="56" text-anchor="middle" style="font-size:12.5px">Cue</text>
+            <text class="dg-t dg-t--m" x="70"  y="74" text-anchor="middle">a nudge you didn't</text>
+            <text class="dg-t dg-t--m" x="70"  y="87" text-anchor="middle">have to remember</text>
+
+            <text class="dg-t dg-t--a" x="240" y="56" text-anchor="middle" style="font-size:12.5px">Action</text>
+            <text class="dg-t dg-t--m" x="240" y="74" text-anchor="middle">sized to the time</text>
+            <text class="dg-t dg-t--m" x="240" y="87" text-anchor="middle">you actually have</text>
+
+            <text class="dg-t dg-t--a" x="410" y="56" text-anchor="middle" style="font-size:12.5px">Proof</text>
+            <text class="dg-t dg-t--m" x="410" y="74" text-anchor="middle">you confirm it</text>
+            <text class="dg-t dg-t--m" x="410" y="87" text-anchor="middle">with an image</text>
+
+            <text class="dg-t dg-t--a" x="580" y="56" text-anchor="middle" style="font-size:12.5px">Reward</text>
+            <text class="dg-t dg-t--m" x="580" y="74" text-anchor="middle">accrues, and never</text>
+            <text class="dg-t dg-t--m" x="580" y="87" text-anchor="middle">resets to zero</text>
+
+            <text class="dg-t dg-t--w" x="750" y="56" text-anchor="middle" style="font-size:12.5px">Return</text>
+            <text class="dg-t dg-t--w" x="750" y="74" text-anchor="middle" opacity=".72">tomorrow, without</text>
+            <text class="dg-t dg-t--w" x="750" y="87" text-anchor="middle" opacity=".72">deciding again</text>
+
+            <path class="dg-line dg-line--acc" d="M140 63 h30 M310 63 h30 M480 63 h30 M650 63 h30"/>
+            <path class="dg-line dg-line--acc dg-line--dash" d="M750 96 v46 q0 10 -10 10 H80 q-10 0 -10 -10 V96"/>
+            <text class="dg-t dg-t--m" x="410" y="170" text-anchor="middle">the loop is the product</text>
+            <text class="dg-t dg-t--m" x="0" y="212">External reinforcement is scaffolding. It is meant to become unnecessary, not permanent.</text>
+          </svg>
+        </div>
+        <figcaption id="loop-cap">Each stage exists to remove one specific reason people don't return. Remove any one and the chain breaks at that point.</figcaption>
+      </div>
+
+      <div class="decisions" style="margin-top:var(--s-8);max-width:52rem">
+        <div class="decision">
+          <div>
+            <h3>Time-adaptive entry</h3>
+            <p>The user picks length before content, from what they actually have available. Deciding <em>how long</em> is far cheaper than deciding <em>which one</em>, and it moves the hardest decision out of the moment of least capacity.</p>
+          </div>
+        </div>
+        <div class="decision">
+          <div>
+            <h3>Variable reward, no punishment</h3>
+            <p>You earn lotuses for every minute completed, and they unlock a store. The amount varies enough to stay interesting. There is no streak to break. Missing a day means you simply don't earn that day, and it never takes away what you already have.</p>
+          </div>
+        </div>
+        <div class="decision">
+          <div>
+            <h3>Accountability through proof</h3>
+            <p>Daily prompts arrive over direct messaging and are answered with an image. Confirming to a person is a materially stronger commitment than tapping <em>done</em> in an app, and it moves the cue outside the product the user is avoiding.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fig">
+        <div class="frame"><img src="../assets/nv-whatsapp.webp" alt="WhatsApp conversation showing daily meditation nudges and users replying with photos of their hand mudras as proof of completion" loading="lazy" decoding="async" width="1400" height="800"></div>
+        <figcaption>The accountability loop running in the wild during testing. Users were sending photographic proof unprompted by the second week, the strongest signal in the whole project.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PRETOTYPE ============================ -->
+  <section class="section section--wash" aria-labelledby="pre-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">04</span>&nbsp;Validation</p>
+        <h2 id="pre-h">The assumption that could have sunk it.</h2>
+      </div>
+      <div class="measure-wide">
+        <p>Nirvana anchors each session on a mudra, an Indian hand gesture. The whole concept rests on people across different cultural contexts being able to look at a depiction of one and reproduce it correctly, without instruction they'd have to read.</p>
+        <p style="margin-top:var(--s-4)">If that failed, nothing after it mattered. So I tested the assumption before designing any interface, using pretotyping. People from different cultural backgrounds were shown a gesture and asked to copy it, and I looked at whether they got it right rather than whether they liked it.</p>
+        <p style="margin-top:var(--s-4)">It held. That single result is what let the rest of the product proceed, and it is the reason Part II could build its whole library out of drawn gestures.</p>
+      </div>
+
+      <div class="fig">
+        <div class="fig-grid">
+          <div class="frame"><img src="../assets/nv-frame1.webp" alt="Nirvana onboarding and meditation selection screens" loading="lazy" decoding="async" width="900" height="1200"></div>
+          <div class="frame"><img src="../assets/nv-frame1b.webp" alt="Nirvana session screens showing lotus reward accumulation and progress" loading="lazy" decoding="async" width="900" height="1200"></div>
+        </div>
+        <figcaption>Interface built after the behavioural model was validated, not before it.</figcaption>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ OUTCOMES ============================ -->
+  <section class="section section--figures" id="outcomes" aria-labelledby="out-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">05</span>&nbsp;Outcomes</p>
+        <h2 id="out-h">What the testing indicated.</h2>
+      </div>
+
+      <div class="outcomes">
+        <div class="stat">
+          <p class="num"><span class="sign">+</span>60<span class="sign">%</span></p>
+          <p class="label">projected increase in 7-day retention, from nudges and accountability</p>
+        </div>
+        <div class="stat">
+          <p class="num"><span class="sign">+</span>40<span class="sign">%</span></p>
+          <p class="label">projected increase in session completion, from time-adaptive entry</p>
+        </div>
+        <div class="stat">
+          <p class="num">35<span class="sign">%</span></p>
+          <p class="label">projected improvement in first-week consistency</p>
+        </div>
+      </div>
+
+      <p class="evidence-note"><b>MODELLED, NOT MEASURED.</b> These come from prototype testing with a small cohort, projected against published retention benchmarks for habit-formation products. They are directional evidence that the behavioural model works, not production results. Nirvana has never shipped to a live user base. The measured findings I do stand behind are simpler: participants completed the mudra-comprehension task accurately, and the accountability loop produced unprompted daily proof by week two.</p>
+    </div>
+  </section>
+
+  <!-- ============================ WHAT IT SURFACED ============================ -->
+  <section class="section section--wash" aria-labelledby="nx2-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">06</span>&nbsp;What it surfaced</p>
+        <h2 id="nx2-h">Solving returning revealed a second problem.</h2>
+      </div>
+      <div class="measure-wide">
+        <p class="lead">The reinforcement loop got people back past the first week. Then they opened the app, faced a library of sessions, and closed it again.</p>
+        <p style="margin-top:var(--s-4)">Reinforcement can carry someone to the door. It cannot carry them through a decision they have no capacity to make. That is the problem Part II was built to remove, and it is the reason these are two case studies rather than one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-s" aria-labelledby="nx-h">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain" id="nx-h" style="margin-bottom:var(--s-4)">Continue</p>
+      <article class="next-card">
+        <div class="plate"><img src="../assets/work-nirvana-app.webp" alt="A person using the Nirvana app with a mudra recommendation on screen" loading="lazy" decoding="async" width="600" height="450"></div>
         <div>
-          <h3>Part II: meditation that adapts to how you feel</h3>
-          <p>The follow-on work: a mudra recommendation engine that removes the choice standing between a user and their session. Includes an interactive prototype.</p>
+          <p class="eyebrow eyebrow--plain">Nirvana · Part II</p>
+          <h3><a href="../nirvana-mudra-recommendation-engine-case-study/">Meditation that adapts to how you feel</a></h3>
+          <p>Two questions replace the library. One recommendation, with the reasoning stated in plain language. Includes a working prototype.</p>
         </div>
-        <a class="btn" href="/nirvana-mudra-recommendation-engine-case-study/" style="margin-top:0">Read Part II</a>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-links">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
-        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
-      </div>
-      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
+      </article>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    } else {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    }
-    const header = document.getElementById('header');
-    addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', scrollY > 10);
-    }, { passive: true });
-  </script>
+  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
+    <div class="shell">
+      <h2 id="contact-h">Ask me about the numbers.</h2>
+      <p class="lead">I'd rather explain exactly how these were modelled than have you assume they were measured. Happy to walk through the testing.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com?subject=Nirvana%20case%20study">Email me</a>
+        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="direct">Or copy it: <a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></p>
+    </div>
+  </section>
 
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Work</h2>
+        <ul>
+          <li><a href="../nirvana-mudra-recommendation-engine-case-study/">Nirvana Mudra</a></li>
+          <li><a href="../galls-uniform-customizer-ecommerce-ux-case-study/">Galls uniform customizer</a></li>
+          <li><a href="./">Nirvana</a></li>
+          <li><a href="../optivento-restaurant-inventory-management-ux-case-study/">Optivento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../about-sumeet-gokhale-ux-designer/">About</a></li>
+          <li><a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
+      <span>Open to new roles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/site.js" defer></script>
 </body>
 </html>

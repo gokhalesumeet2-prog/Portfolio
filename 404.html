@@ -1,80 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page not found | Sumeet Gokhale</title>
-  <meta name="robots" content="noindex, follow">
-  <meta name="theme-color" content="#ffffff">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --ink: #000; --gray: #5e5e5e; --blue: #2b5be4; --blue-dark: #1e46c0;
-      --band: #f7f7f7; --line: #e8e8e8;
-      --fs-xs: .75rem; --fs-sm: .8125rem; --fs-base: .9375rem;
-    }
-
-    /* One fluid root: steady 16px up to laptop widths, easing to 18px on
-       large monitors. Everything below is expressed in rem. */
-    html {
-      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
-      -webkit-text-size-adjust: 100%;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      color: var(--gray); background: #fff;
-      font-size: var(--fs-base); line-height: 1.6;
-      min-height: 100vh;
-      min-height: 100svh;
-      display: grid; place-items: center;
-      padding: clamp(1.5rem, 1rem + 2vw, 2.5rem) 6%;
-      -webkit-font-smoothing: antialiased;
-    }
-    .wrap { max-width: 35rem; text-align: center; }
-    h1 {
-      color: var(--ink);
-      font-size: clamp(1.5rem, 1.05rem + 2.2vw, 2.75rem);
-      font-weight: 700;
-      line-height: 1.2;
-      text-wrap: balance;
-    }
-    .code {
-      color: var(--blue); font-size: var(--fs-xs); font-weight: 600;
-      letter-spacing: .14em; text-transform: uppercase; margin-bottom: .75rem;
-    }
-    p { margin-top: .875rem; text-wrap: pretty; }
-    .links { margin-top: 1.875rem; display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
-    .links a {
-      background: var(--blue); color: #fff;
-      font-size: var(--fs-sm); font-weight: 500; line-height: 1.4;
-      padding: .625rem 1.625rem; min-height: 2.5rem;
-      display: inline-flex; align-items: center; justify-content: center;
-      border-radius: 999px; text-decoration: none;
-      transition: background .2s ease, transform .2s ease;
-    }
-    .links a:hover { background: var(--blue-dark); transform: translateY(-1px); }
-    .links a.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-    .links a.ghost:hover { background: var(--band); }
-    a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
-    @media (hover: none) { .links a { min-height: 2.75rem; } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | Sumeet Gokhale</title>
+<meta name="description" content="That page doesn't exist. The case studies, about page and résumé are all one click away.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
+
 <body>
-  <main class="wrap">
-    <p class="code">Error 404</p>
-    <h1>This page moved or never existed</h1>
-    <p>The link you followed does not point anywhere on this site. The case studies are all one click away.</p>
-    <div class="links">
-      <a href="/ux-design-case-studies/">View case studies</a>
-      <a class="ghost" href="/">Go home</a>
-      <a class="ghost" href="mailto:gokhalesumeet2@gmail.com">Get in touch</a>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="shell">
+    <a class="brand" href="/"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/ux-design-case-studies/">Work</a>
+      <a href="/about-sumeet-gokhale-ux-designer/">About</a>
+      <a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--ghost" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain">Error 404</p>
+      <h1 class="display" style="margin-top:var(--s-5)">This page doesn't exist.</h1>
+      <p class="lead">The link is either out of date or slightly mistyped. Nothing here is lost, so here is the way back in.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/ux-design-case-studies/">View case studies</a>
+        <a class="btn btn--ghost" href="/">Back to the homepage</a>
+      </div>
     </div>
-  </main>
+  </section>
+
+  <section class="section section--line" aria-labelledby="cs-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">01</span>&nbsp;Case studies</p>
+        <h2 id="cs-h">You were probably looking for one of these.</h2>
+      </div>
+      <div class="cv" style="max-width:52rem">
+        <div class="cv-row">
+          <p class="when">Galls</p>
+          <div>
+            <h3><a href="/galls-uniform-customizer-ecommerce-ux-case-study/">Uniform configuration, collapsed into one screen</a></h3>
+            <p>Enterprise e-commerce configuration for U.S. Army and Air Force procurement. Shipped, and measured in production.</p>
+          </div>
+        </div>
+        <div class="cv-row">
+          <p class="when">Nirvana, Part II</p>
+          <div>
+            <h3><a href="/nirvana-mudra-recommendation-engine-case-study/">Meditation that adapts to how you feel</a></h3>
+            <p>A content library replaced by a match, with the reasoning stated in plain language. Includes a working prototype.</p>
+          </div>
+        </div>
+        <div class="cv-row">
+          <p class="when">Nirvana, Part I</p>
+          <div>
+            <h3><a href="/nirvana-meditation-app-habit-design-case-study/">A retention system, not a meditation app</a></h3>
+            <p>Meditation apps don't fail on content. They fail on consistency, in week one.</p>
+          </div>
+        </div>
+        <div class="cv-row">
+          <p class="when">Optivento</p>
+          <div>
+            <h3><a href="/optivento-restaurant-inventory-management-ux-case-study/">Restaurant operations, designed around the decision</a></h3>
+            <p>Where a two percent cost change moves profit by twenty nine percent. Twelve chefs, one recurring answer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">02</span>&nbsp;Contact</p>
+        <h2 id="contact-h">Still looking for something?</h2>
+        <p class="lead measure-wide">If you followed a link here from somewhere, tell me where it was and I'll fix it.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com">Email me</a>
+        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Work</h2>
+        <ul>
+          <li><a href="/nirvana-mudra-recommendation-engine-case-study/">Nirvana Mudra</a></li>
+          <li><a href="/galls-uniform-customizer-ecommerce-ux-case-study/">Galls uniform customizer</a></li>
+          <li><a href="/nirvana-meditation-app-habit-design-case-study/">Nirvana</a></li>
+          <li><a href="/optivento-restaurant-inventory-management-ux-case-study/">Optivento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul>
+          <li><a href="/ux-design-case-studies/">All case studies</a></li>
+          <li><a href="/about-sumeet-gokhale-ux-designer/">About</a></li>
+          <li><a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
+          <li><a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Wisdom of Wednesdays</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
+      <span>Open to new roles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

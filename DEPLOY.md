@@ -26,6 +26,10 @@ ux-design-case-studies/
 robots.txt
 sitemap.xml
 
+DESIGN-SYSTEM.md
+DEPLOY.md
+tools/
+
 about.html
 nirvana.html
 nirvana-app.html
@@ -34,6 +38,8 @@ optivento.html
 uniform-customizer.html
 work.html
 ```
+
+`DESIGN-SYSTEM.md` and `tools/` are not part of the site. They are the design system reference and the consistency checker, kept in the repo so the rules travel with the code. GitHub Pages ignores them.
 
 Those last seven `.html` files look like the old site but they are not. They are redirect stubs I wrote. Anyone landing on an old link gets forwarded to the new page, and they are marked `noindex` so Google ignores them. **Keep them.**
 
@@ -75,15 +81,16 @@ Then open https://sumeetgokhale.com. If you see the old site, press **Cmd + Shif
 
 Five minutes, worth doing:
 
-- Home loads, brush graphics and portrait appear
+- Home loads, the four project thumbnails and the portrait appear
 - Work page shows four cards, all four thumbnails render
 - Each of the four case studies opens
 - On the Nirvana Mudra page, the prototype loads inside the phone frame and you can tap through it
-- Both resume PDF links download
+- The résumé link opens `sumeet-gokhale-ux-designer-resume.pdf`
+- The Results panel on the homepage renders black with blue figures
 - Type a nonsense URL like sumeetgokhale.com/xyz and confirm the styled 404 appears
 - Load the site on your phone
 
-If images are missing, the `assets` folder didn't upload completely. Check that it contains 41 files.
+If images are missing, the `assets` folder didn't upload completely. Check that it contains 40 files.
 
 ---
 
@@ -130,7 +137,7 @@ Or on github.com: navigate to the file, pencil icon, edit, Commit changes.
 | Symptom | Cause and fix |
 |---|---|
 | 404 on the whole site | Pages is off, or `index.html` isn't at the repo root |
-| Site loads, images missing | The `assets` folder is incomplete. It needs 41 files |
+| Site loads, images missing | The `assets` folder is incomplete. It needs 40 files |
 | Old pages still appear | Browser cache. Cmd + Shift + R |
 | Two versions of a page in Google | Old files still in the repo. Go back to Step 1 |
 | Domain still shows Wix | Old Wix DNS records at your registrar. Remove them |
@@ -156,8 +163,21 @@ Remove any old Wix records first, or the domain will keep resolving to Wix. DNS 
 
 ---
 
-## Optional cleanup
+## Before you push, run the checker
 
-The `.png` files in `assets/` are unused duplicates of the `.webp` versions and add roughly 22 MB. Safe to delete. Same for `assets/work-nirvana-app.svg`, which the photo thumbnail replaced.
+```bash
+python3 tools/check-consistency.py
+```
 
-Don't upload this file (`DEPLOY.md`) to the repo. It's working notes, not part of the site.
+It reads every page and fails if the design system has drifted: two stylesheets, a page declaring its own tokens, a button that is neither primary nor ghost, a contact band with the wrong CTAs, a missing skip link, a broken link, an em dash. It takes under a second and it has caught every regression so far. If it prints `PASS`, push.
+
+---
+
+## Housekeeping already done
+
+- The 22 MB of unused `.png` duplicates has been removed. Every image on the site is WebP.
+- The old `docs/` folder, a full second copy of the previous site, has been removed. It was the most likely cause of Google indexing two versions of the same page.
+- The superseded `resume.pdf` and `resume-footer.pdf` are gone. There is now one résumé file, linked from every page.
+- All seven Open Graph share images exist at 1200x630, so links render properly on LinkedIn.
+
+Any of it can be recovered: `git checkout pre-v2-relaunch -- <path>`.

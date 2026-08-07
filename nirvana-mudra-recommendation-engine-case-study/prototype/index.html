@@ -232,9 +232,14 @@
      ============================================================ */
   @media (max-width: 460px), (max-height: 900px) {
     body { padding: 10px; }
+    /* Width and height must never be clamped independently: doing so
+       squashes the device. Height is derived from width via aspect-ratio,
+       and the third term makes height the limiting factor when it needs
+       to be, so the frame stays 390:844 at every size. */
     .phone {
-      width: min(390px, calc(100vw - 20px));
-      height: min(844px, calc(100dvh - 20px));
+      width: min(390px, calc(100vw - 20px), calc((100dvh - 70px) * 390 / 844));
+      height: auto;
+      aspect-ratio: 390 / 844;
       border-radius: min(54px, 12vw);
     }
   }

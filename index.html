@@ -1,741 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sumeet Gokhale | UX Designer &amp; Product Designer Portfolio</title>
-  <meta name="description" content="UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design. Case studies, process and resume. Open to full-time, remote and freelance work.">
-  <meta property="og:title" content="Sumeet Gokhale | UX Designer &amp; Product Designer Portfolio">
-  <meta property="og:description" content="UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design. Case studies, process and resume. Open to full-time, remote and freelance work.">
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="https://sumeetgokhale.com/">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <meta name="author" content="Sumeet Gokhale">
-  <meta property="og:url" content="https://sumeetgokhale.com/">
-  <meta property="og:site_name" content="Sumeet Gokhale">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:image" content="https://sumeetgokhale.com/assets/optivento-hero.webp">
-  <meta property="og:image:alt" content="Optivento restaurant inventory management dashboard designed by Sumeet Gokhale">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sumeet Gokhale | UX Designer &amp; Product Designer Portfolio">
-  <meta name="twitter:description" content="UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design. Case studies, process and resume. Open to full-time, remote and freelance work.">
-  <meta name="twitter:image" content="https://sumeetgokhale.com/assets/optivento-hero.webp">
-  <meta name="theme-color" content="#ffffff">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sumeet Gokhale, Product &amp; UX Designer</title>
+<meta name="description" content="Product and UX Designer focused on reducing friction in complex experiences: enterprise operations, ordering systems and habit-forming apps. Case studies, process and resume.">
+<link rel="canonical" href="https://sumeetgokhale.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Sumeet Gokhale">
+<meta name="theme-color" content="#ffffff">
 
-  <!-- Inter: open-source typeface (Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sumeetgokhale.com/">
+<meta property="og:site_name" content="Sumeet Gokhale">
+<meta property="og:title" content="Sumeet Gokhale, Product &amp; UX Designer">
+<meta property="og:description" content="I design for the moment of decision. Enterprise configuration, operations tooling and behavioural products.">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/og-home.png">
+<meta property="og:image:alt" content="Sumeet Gokhale, product and UX designer">
+<meta name="twitter:card" content="summary_large_image">
 
-  <style>
-    /* ============ Design tokens ============ */
-    :root {
-      --ink: #000000;          /* primary text */
-      --gray: #5e5e5e;         /* secondary text */
-      --blue: #2b5be4;         /* action buttons */
-      --blue-dark: #1e46c0;
-      --card: #ededed;         /* hero image cards */
-      --band: #f7f7f7;         /* CTA band */
-      --line: #e8e8e8;
-      --highlight: #f9f39b;    /* yellow brush accent */
-      --display: "Inter", system-ui, sans-serif;
-      --text: "Inter", system-ui, sans-serif;
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
-      /* Type scale. Everything is in rem so it rides the fluid root size
-         set below: one dial controls the whole page. */
-      --fs-3xs: clamp(.625rem, .55rem + .2vw, .6875rem);  /* 10-11px eyebrow */
-      --fs-2xs: .6875rem;   /* 11px */
-      --fs-xs:  .75rem;     /* 12px */
-      --fs-sm:  .8125rem;   /* 13px */
-      --fs-md:  .875rem;    /* 14px */
-      --fs-base: .9375rem;  /* 15px */
-      --fs-lg:  1rem;       /* 16px */
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 
-      /* Fluid headings: rem bounds so large monitors stay in proportion,
-         a vw term for smooth scaling in between. */
-      --fs-h1: clamp(1.125rem, .875rem + .8vw, 1.375rem);
-      --fs-h2: clamp(1.0625rem, .9rem + .55vw, 1.25rem);
-      --fs-h3: clamp(.9375rem, .875rem + .25vw, 1rem);
-
-      /* Spacing rhythm */
-      --sp-1: .375rem;
-      --sp-2: .625rem;
-      --sp-3: .875rem;
-      --sp-4: 1.125rem;
-      --sp-5: 1.5rem;
-      --sp-6: 2rem;
-      --sp-7: 2.75rem;
-      --section-y: clamp(2.25rem, 1.25rem + 3.2vw, 4.5rem);
-
-      --shell: min(70rem, 92%);   /* 1120px at root 16, grows with root */
-    }
-
-    /* One fluid root: a steady 16px through phone, tablet and laptop widths,
-       then a gentle climb to 18px on large monitors so the page never looks
-       marooned in whitespace. Every rem below scales with it. */
-    html {
-      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--text);
-      color: var(--gray);
-      background: #ffffff;
-      font-size: var(--fs-base);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img { max-width: 100%; height: auto; display: block; }
-
-    h1, h2, h3 {
-      font-family: var(--display);
-      color: var(--ink);
-      text-wrap: balance;
-      line-height: 1.25;
-    }
-
-    p { text-wrap: pretty; }
-
-    .container {
-      width: var(--shell);
-      margin-inline: auto;
-    }
-
-    /* Accessibility: visible keyboard focus */
-    a:focus-visible, .btn:focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-
-    /* Skip link for keyboard / screen-reader users */
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      top: 0;
-      background: var(--ink);
-      color: #fff;
-      padding: .625rem 1.125rem;
-      z-index: 100;
-      text-decoration: none;
-    }
-    .skip-link:focus { left: 0; }
-
-    /* Pill button */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--blue);
-      color: #fff;
-      font-family: var(--text);
-      font-size: var(--fs-sm);
-      font-weight: 500;
-      line-height: 1.4;
-      padding: .625rem 1.75rem;
-      min-height: 2.5rem;
-      border-radius: 999px;
-      text-decoration: none;
-      transition: background .2s ease, transform .2s ease;
-    }
-    .btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
-    /* Comfortable tap target on touch devices */
-    @media (hover: none) {
-      .btn { min-height: 2.75rem; padding-inline: 2rem; }
-    }
-
-    /* Arrow text link ("Give it a listen →") */
-    .arrow-link {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      color: var(--ink);
-      font-size: var(--fs-md);
-      font-weight: 500;
-      text-decoration: none;
-      margin-top: var(--sp-4);
-    }
-    .arrow-link::after { content: "\2192"; transition: transform .2s ease; }
-    .arrow-link:hover::after { transform: translateX(4px); }
-
-    /* ============ Header / Nav ============ */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid transparent;
-      transition: border-color .3s ease;
-    }
-    .site-header.scrolled { border-bottom-color: var(--line); }
-
-    .site-header .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: .75rem;
-      padding-block: clamp(.75rem, .5rem + .8vw, 1.25rem);
-    }
-    .brand {
-      position: relative;
-      font-family: var(--display);
-      font-weight: 700;
-      font-size: var(--fs-base);
-      letter-spacing: .04em;
-      color: var(--ink);
-      text-decoration: none;
-      padding: .375rem .625rem;
-      white-space: nowrap;
-    }
-    /* Yellow brush stroke behind the name */
-    .brand img.brush {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-      z-index: -1;
-    }
-    .site-nav { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .5rem + 3.5vw, 4.5rem); }
-    .site-nav a {
-      color: var(--ink);
-      font-size: var(--fs-md);
-      text-decoration: none;
-    }
-    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
-
-    /* ============ Hero ============ */
-    .hero { padding: clamp(1.5rem, .75rem + 2.2vw, 3rem) 0 var(--section-y); }
-
-    .hero-gallery {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-gallery a {
-      position: relative;
-      display: block;
-      border-radius: .625rem;
-      overflow: hidden;
-      background: var(--card);
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .hero-gallery a:hover,
-    .hero-gallery a:focus-visible {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
-    }
-    .hero-gallery img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Project name appears on hover, signalling these are case studies */
-    .hero-gallery a::after {
-      content: attr(data-title);
-      position: absolute;
-      inset-inline: 0;
-      bottom: 0;
-      padding: 1.5rem .875rem .625rem;
-      font-size: var(--fs-xs);
-      font-weight: 500;
-      line-height: 1.35;
-      color: #fff;
-      background: linear-gradient(transparent, rgba(0, 0, 0, .65));
-      opacity: 0;
-      transition: opacity .25s ease;
-    }
-    .hero-gallery a:hover::after,
-    .hero-gallery a:focus-visible::after { opacity: 1; }
-
-    .hero-side  { width: 24%; z-index: 2; }
-    .hero-main  {
-      width: 36%;
-      margin: 0 -3%;
-      z-index: 1;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, .08);
-    }
-
-    .hero-copy { text-align: center; margin-top: clamp(2rem, 1rem + 3vw, 3.5rem); }
-    .hero-copy h1 {
-      font-size: var(--fs-h1);
-      font-weight: 700;
-    }
-    .hero-copy p {
-      margin: .625rem auto 1.625rem;
-      font-size: var(--fs-md);
-      max-width: 46ch;
-    }
-
-    /* ============ Trust section ============ */
-    .trust { padding: var(--section-y) 0 clamp(1.5rem, 1rem + 1.5vw, 2.5rem); }
-    .trust .container {
-      display: grid;
-      grid-template-columns: minmax(0, 26.25rem) minmax(0, 1fr);
-      gap: clamp(2rem, 1rem + 3.5vw, 3.75rem);
-    }
-    .trust h2 { font-size: var(--fs-h2); margin-bottom: clamp(1.5rem, 1rem + 1.5vw, 2.5rem); }
-    .trust article + article { margin-top: clamp(1.5rem, 1.125rem + 1.2vw, 2.125rem); }
-    .trust h3 {
-      font-family: var(--text);
-      font-size: var(--fs-h3);
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: .5rem;
-    }
-    .trust p { font-size: var(--fs-md); max-width: 46ch; }
-
-    /* Dotted orbit diagram with client logo cards */
-    .orbits {
-      position: relative;
-      min-height: clamp(21rem, 12rem + 24vw, 30rem);
-    }
-    .orbits .ring {
-      position: absolute;
-      top: 50%; left: 50%;
-      translate: -50% -50%;
-      border: 1px dotted #c9c9c9;
-      border-radius: 50%;
-      aspect-ratio: 1;
-    }
-    /* Widths cap in rem but never exceed the column, so no horizontal spill */
-    .ring.r1 { width: min(15rem, 50%); }
-    .ring.r2 { width: min(22.5rem, 76%); }
-    .ring.r3 { width: min(30rem, 100%); }
-
-    .logo-card {
-      position: absolute;
-      background: #fff;
-      border-radius: .875rem;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, .1);
-      padding: .875rem 1.375rem;
-      text-align: center;
-      transition: transform .25s ease;
-    }
-    .logo-card:hover { transform: translateY(-3px); }
-    .logo-card span {
-      display: block;
-      font-size: var(--fs-3xs);
-      letter-spacing: .12em;
-      line-height: 1.4;
-      color: var(--gray);
-      margin-bottom: .5rem;
-    }
-    .logo-card img { margin-inline: auto; max-height: 2.625rem; width: auto; }
-
-    .card-corporate { top: 10%;  left: 0; }
-    .card-startup   { top: 42%;  right: 0; }
-    .card-studio    { bottom: 10%; left: 32%; }
-
-    /* ============ CTA band ============ */
-    .cta {
-      background: var(--band);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      text-align: center;
-      padding: var(--section-y) 0;
-      margin-top: clamp(2rem, 1.25rem + 2.2vw, 3rem);
-    }
-    .cta h2 {
-      font-size: clamp(1rem, .875rem + .5vw, 1.1875rem);
-      font-weight: 700;
-      max-width: 52ch;
-      margin-inline: auto;
-    }
-    .cta p { margin: .75rem 0 1.625rem; font-size: var(--fs-md); }
-
-    /* ============ Playground section ============ */
-    .playground { padding: var(--section-y) 0 clamp(1.5rem, 1rem + 1.5vw, 2.5rem); text-align: center; }
-    .playground h2 { font-size: var(--fs-h2); }
-    .playground > .container > p {
-      max-width: 78ch;
-      margin: 1rem auto 0;
-      font-size: var(--fs-md);
-    }
-
-    .story {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: center;
-      gap: clamp(2rem, 1rem + 4.5vw, 5.625rem);
-      text-align: left;
-      padding: clamp(2.25rem, 1.25rem + 3.2vw, 4rem) 0;
-    }
-    .story h3 { font-size: clamp(1rem, .9rem + .35vw, 1.125rem); font-weight: 700; margin-bottom: .875rem; }
-    .story p { font-size: var(--fs-md); max-width: 58ch; }
-
-    .story .media { border-radius: .375rem; overflow: hidden; }
-    .story .media img { width: 100%; }
-
-    /* Framed podcast poster (black frame like the original) */
-    .media.framed {
-      border: 3px solid #111;
-      border-radius: 0;
-      background: #fffcf5;
-    }
-    .media.framed a { display: block; }
-
-    .media.rounded { border-radius: .75rem; }
-
-    /* ============ Footer ============ */
-    .site-footer {
-      border-top: 1px solid var(--line);
-      padding: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem) 0;
-      text-align: center;
-    }
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: clamp(1.25rem, .5rem + 2.4vw, 3rem);
-      margin-bottom: .875rem;
-    }
-    .site-footer a {
-      color: var(--ink);
-      font-size: var(--fs-sm);
-      text-decoration: none;
-    }
-    .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .site-footer small { font-size: var(--fs-xs); color: var(--gray); }
-
-    /* ============ Scroll reveal ============ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-      .btn, .hero-gallery a, .logo-card, .arrow-link::after { transition: none; }
-    }
-
-    /* ============ Responsive ============
-       Breakpoints are in em so they respect the reader's browser font size. */
-
-    /* Tablet landscape and small laptops: single-column trust section */
-    @media (max-width: 62em) {          /* 992px */
-      .trust .container { grid-template-columns: 1fr; }
-      .orbits { min-height: 26rem; max-width: 34rem; margin-inline: auto; }
-    }
-
-    /* Tablet portrait: stack the story rows */
-    @media (max-width: 48em) {          /* 768px */
-      .story { grid-template-columns: 1fr; }
-      .story .media { order: -1; }      /* image first */
-    }
-
-    /* Phones */
-    @media (max-width: 43.75em) {       /* 700px */
-      .site-header .container { flex-direction: column; gap: .75rem; }
-
-      .hero-gallery { flex-wrap: wrap; gap: 1rem; }
-      .hero-side, .hero-main { width: 100%; margin: 0; }
-      .hero-gallery a::after { opacity: 1; }   /* captions always visible on touch */
-
-      .orbits { display: none; }     /* orbit diagram replaced by simple row */
-      .trust-logos-mobile { display: flex !important; }
-    }
-
-    /* Mobile fallback for client logos (hidden on desktop) */
-    .trust-logos-mobile {
-      display: none;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
-    .trust-logos-mobile .logo-card { position: static; }
-  </style>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://sumeetgokhale.com/#website",
-  "url": "https://sumeetgokhale.com",
-  "name": "Sumeet Gokhale, UX Designer",
-  "inLanguage": "en",
-  "publisher": {
-    "@type": "Person",
-    "@id": "https://sumeetgokhale.com/#sumeet",
-    "name": "Sumeet Gokhale",
-    "url": "https://sumeetgokhale.com",
-    "image": "https://sumeetgokhale.com/assets/portrait.webp",
-    "jobTitle": "UX Designer",
-    "email": "mailto:gokhalesumeet2@gmail.com",
-    "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-    "knowsAbout": [
-      "UX design",
-      "Product design",
-      "Systems thinking",
-      "Behavioral design",
-      "Experience design",
-      "UX research",
-      "Usability testing",
-      "Design systems",
-      "Information architecture",
-      "Interaction design"
-    ]
-  }
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@type": "Person",
-  "@id": "https://sumeetgokhale.com/#sumeet",
-  "name": "Sumeet Gokhale",
-  "url": "https://sumeetgokhale.com",
-  "image": "https://sumeetgokhale.com/assets/portrait.webp",
-  "jobTitle": "UX Designer",
-  "email": "mailto:gokhalesumeet2@gmail.com",
-  "description": "UX and product designer with 6 years of experience in enterprise commerce, operational SaaS and behavioural product design.",
-  "knowsAbout": [
-    "UX design",
-    "Product design",
-    "Systems thinking",
-    "Behavioral design",
-    "Experience design",
-    "UX research",
-    "Usability testing",
-    "Design systems",
-    "Information architecture",
-    "Interaction design"
-  ],
-  "@context": "https://schema.org"
-}
-  </script>
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  "url": "https://sumeetgokhale.com",
+  "url": "https://sumeetgokhale.com/",
   "mainEntity": {
-    "@id": "https://sumeetgokhale.com/#sumeet"
+    "@type": "Person",
+    "@id": "https://sumeetgokhale.com/#sumeet",
+    "name": "Sumeet Gokhale",
+    "url": "https://sumeetgokhale.com/",
+    "image": "https://sumeetgokhale.com/assets/portrait.webp",
+    "jobTitle": "Product & UX Designer",
+    "email": "mailto:gokhalesumeet2@gmail.com",
+    "sameAs": ["https://www.linkedin.com/in/sumeetgokhale/"],
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Thomas Jefferson University, Kanbar School of Design" },
+      { "@type": "CollegeOrUniversity", "name": "MIT Institute of Design, Pune" }
+    ],
+    "knowsAbout": ["Product design","UX design","Interaction design","UX research","Information architecture","Design systems","Behavioural design","Usability testing"]
   }
 }
-  </script>
+</script>
 </head>
 
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-  <a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="shell">
+    <a class="brand" href="./"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="ux-design-case-studies/">Work</a>
+      <a href="about-sumeet-gokhale-ux-designer/">About</a>
+      <a href="assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--ghost" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- ============ HEADER ============ -->
-  <header class="site-header" id="header">
-    <div class="container">
-      <a class="brand" href="/">
-        <img class="brush" src="/assets/brush-home.webp" alt="" aria-hidden="true" decoding="async" width="153" height="43">
-        SUMEET GOKHALE
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/about-sumeet-gokhale-ux-designer/">About</a>
-        <a href="/assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
-      </nav>
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero">
+    <div class="shell">
+      <p class="avail avail--glass"><span class="dot" aria-hidden="true"></span>Available for new roles</p>
+      <h1 class="display" style="margin-top:var(--s-5)">I design for the moment of decision.</h1>
+      <p class="lead">I'm a Product and UX Designer focused on reducing friction in complex experiences. Whether it's enterprise operations, ordering systems, or habit-forming apps, I design products that help people navigate complexity with clarity and confidence.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="ux-design-case-studies/">View case studies</a>
+        <a class="btn btn--ghost btn--ext" href="assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+      </div>
+
     </div>
-  </header>
+  </section>
 
-  <main id="main">
-
-    <!-- ============ HERO ============ -->
-    <section class="hero" aria-label="Featured work">
-      <div class="container">
-
-        <div class="hero-gallery">
-          <a class="hero-side" data-title="Uniform customizer &middot; e-commerce"
-             href="/galls-uniform-customizer-ecommerce-ux-case-study/">
-            <img src="/assets/uniform-laptop.webp"
-                 alt="Uniform customizer for website e-commerce experience" fetchpriority="high" decoding="async" width="663" height="471">
-          </a>
-          <a class="hero-main" data-title="Optivento &middot; restaurant inventory management"
-             href="/optivento-restaurant-inventory-management-ux-case-study/">
-            <img src="/assets/optivento-hero.webp"
-                 alt="Optivento restaurant inventory management app" fetchpriority="high" decoding="async" width="1035" height="735">
-          </a>
-          <a class="hero-side" data-title="Nirvana &middot; mudra meditation app"
-             href="/nirvana-meditation-app-habit-design-case-study/">
-            <img src="/assets/nirvana-phones.webp"
-                 alt="Nirvana mudra meditation app" fetchpriority="high" decoding="async" width="663" height="471">
-          </a>
+  <!-- ============================ CLIENTS ============================
+       A quiet credibility strip. No numbers here: they mean nothing
+       until you have seen the work they came from. -->
+  <section class="proof" aria-labelledby="clients-h">
+    <div class="shell">
+      <h2 id="clients-h" class="eyebrow eyebrow--plain" style="font-size:var(--t-eyebrow);font-weight:600;margin-bottom:var(--s-5)">Design work for</h2>
+      <div class="clients">
+        <div class="client">
+          <span class="logo logo--galls"><img src="assets/logo-galls.webp" alt="Galls" width="136" height="70" loading="lazy" decoding="async"></span>
+          <span class="role">UX/UI Designer · 2025 to now</span>
         </div>
-
-        <div class="hero-copy">
-          <h1>I design experiences that eliminate uncertainty</h1>
-          <p>UX designer improving trust, clarity, and decision systems</p>
-          <a class="btn" href="/ux-design-case-studies/">View work</a>
+        <div class="client">
+          <span class="logo logo--oleole"><img src="assets/logo-oleole.webp" alt="OleOle" width="108" height="64" loading="lazy" decoding="async"></span>
+          <span class="role">UX Lead · 2024 to 2025</span>
         </div>
-
+        <div class="client">
+          <span class="logo logo--glyph"><img src="assets/logo-glyph.webp" alt="Studio Glyph" width="126" height="47" loading="lazy" decoding="async"></span>
+          <span class="role">Visual Designer · 2021</span>
+        </div>
       </div>
-    </section>
-
-    <!-- ============ TRUST ============ -->
-    <section class="trust" aria-labelledby="trust-heading">
-      <div class="container">
-
-        <div class="reveal">
-          <h2 id="trust-heading">Trust with confidence</h2>
-
-          <article>
-            <h3>Decision architecture</h3>
-            <p>I design structured pathways that reduce ambiguity in complex workflows. From enterprise commerce systems to behavioral platforms, I prioritize clarity before conversion.</p>
-          </article>
-
-          <article>
-            <h3>Research-led validation</h3>
-            <p>Every system I design is grounded in evidence. Quantitative and qualitative research guide architecture, hierarchy, and interaction logic.</p>
-          </article>
-
-          <article>
-            <h3>Behavioral trust</h3>
-            <p>I work across two layers of trust: operational confidence in enterprise systems, and behavioral consistency in user-driven platforms.<br>
-            Trust is not aesthetic. It is measurable and repeatable.</p>
-          </article>
-        </div>
-
-        <!-- Dotted orbit diagram with client logos (desktop) -->
-        <div class="orbits reveal" role="img" aria-label="Clients I have worked with: Galls (corporate), OleOle (startup), Studio Glyph (design studio)">
-          <div class="ring r1"></div>
-          <div class="ring r2"></div>
-          <div class="ring r3"></div>
-
-          <div class="logo-card card-corporate">
-            <span>CORPORATE</span>
-            <img src="/assets/logo-galls.webp"
-                 alt="Galls LLC, e-commerce store for public safety professionals in the United States" loading="lazy" decoding="async" width="136" height="70">
-          </div>
-          <div class="logo-card card-startup">
-            <span>STARTUP</span>
-            <img src="/assets/logo-oleole.webp"
-                 alt="OleOle, sports startup company in LA" loading="lazy" decoding="async" width="108" height="64">
-          </div>
-          <div class="logo-card card-studio">
-            <span>DESIGN STUDIO</span>
-            <img src="/assets/logo-glyph.webp"
-                 alt="Studio Glyph, branding and graphic design studio in Mumbai" loading="lazy" decoding="async" width="126" height="47">
-          </div>
-        </div>
-
-        <!-- Client logos, mobile fallback -->
-        <div class="trust-logos-mobile">
-          <div class="logo-card">
-            <span>CORPORATE</span>
-            <img src="/assets/logo-galls.webp" alt="Galls LLC logo" loading="lazy" decoding="async" width="136" height="70">
-          </div>
-          <div class="logo-card">
-            <span>STARTUP</span>
-            <img src="/assets/logo-oleole.webp" alt="OleOle logo" loading="lazy" decoding="async" width="108" height="64">
-          </div>
-          <div class="logo-card">
-            <span>DESIGN STUDIO</span>
-            <img src="/assets/logo-glyph.webp" alt="Studio Glyph logo" loading="lazy" decoding="async" width="126" height="47">
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ============ CTA BAND ============ -->
-    <section class="cta" aria-labelledby="cta-heading">
-      <div class="container reveal">
-        <h2 id="cta-heading">My work operates at the intersection of research, systems thinking, and behavioral trust</h2>
-        <p>Let&rsquo;s build reliable systems together!</p>
-        <!-- Static mailto link. Swap for a contact form + backend handler (e.g. Formspree, Netlify Forms) if needed. -->
-        <a class="btn" href="mailto:gokhalesumeet2@gmail.com">Contact</a>
-      </div>
-    </section>
-
-    <!-- ============ LIFE AS DESIGN PLAYGROUND ============ -->
-    <section class="playground" aria-labelledby="playground-heading">
-      <div class="container">
-        <div class="reveal">
-          <h2 id="playground-heading">Life as design playground</h2>
-          <p>I apply a designer&rsquo;s mindset to life, from yoga and meditation to my podcast Wisdom of Wednesdays and vlogging, experimenting with routines, human behavior, and everyday challenges to craft meaningful, human-centered experiences on and off the screen.</p>
-        </div>
-
-        <!-- Wisdom of Wednesdays -->
-        <article class="story reveal">
-          <div class="media framed">
-            <a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener"
-               aria-label="Listen to Wisdom of Wednesdays on Spotify">
-              <img src="/assets/wow-poster.webp"
-                   alt="Wisdom of Wednesdays podcast poster" loading="lazy" decoding="async" width="686" height="686">
-            </a>
-          </div>
-          <div>
-            <h3>Wisdom Of Wednesdays.</h3>
-            <p>Wisdom of Wednesdays is a podcast I started back in lockdown, in March 2020. My idea is to share the life hacks I&rsquo;ve learnt through books and conversations with my family and friends, to help cope with everyday challenges.<br>
-            I present to you all my carefully curated take on the magic of life!</p>
-            <a class="arrow-link" href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Give it a listen</a>
-          </div>
-        </article>
-
-        <!-- Lawn tennis -->
-        <article class="story reveal">
-          <div>
-            <h3>Lawn tennis for the win.</h3>
-            <p>Alongside working, hustling, thinking, designing and keeping up with everyday challenges, I take time out to keep my tennis practice going. I love the sport and have kept at it for 20 years!</p>
-          </div>
-          <div class="media rounded">
-            <img src="/assets/tennis.webp"
-                 alt="Sumeet playing lawn tennis on an outdoor court" loading="lazy" decoding="async" width="740" height="840">
-          </div>
-        </article>
-
-        <!-- Staying fit -->
-        <article class="story reveal">
-          <div class="media rounded">
-            <img src="/assets/fitness.webp"
-                 alt="Sumeet hiking, at the gym, and doing yoga" loading="lazy" decoding="async" width="668" height="840">
-          </div>
-          <div>
-            <h3>Staying fit, at least I try to!</h3>
-            <p>I keep mentally and physically fit by going on hikes, gymming and doing yoga. I am a student of Inner Engineering by Sadhguru and do my sadhana (meditation practice) every day.</p>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-links">
-        <a href="/ux-design-case-studies/">Work</a>
-        <a href="/assets/resume-footer.pdf" target="_blank" rel="noopener">Resume</a>
-        <a href="mailto:gokhalesumeet2@gmail.com">Contact</a>
-      </div>
-      <small>&copy; 2026 Sumeet Gokhale &middot; UX Designer</small>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    // Scroll-reveal animation (skipped if user prefers reduced motion)
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    } else {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.15 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    }
+  <!-- ============================ WORK ============================ -->
+  <section class="section" aria-labelledby="work-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">01</span>&nbsp;Selected work</p>
+        <h2 id="work-h">Four systems, each built around a decision someone was struggling to make.</h2>
+      </div>
 
-    // Subtle header border once the page is scrolled
-    const header = document.getElementById('header');
-    addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', scrollY > 10);
-    }, { passive: true });
-  </script>
+      <div class="work-list">
 
+        <article class="work-card">
+          <div class="plate">
+            <img src="assets/work-nirvana-app.webp" alt="A person on a sofa using the Nirvana app, with the Gyan Mudra recommendation on screen" width="900" height="675" loading="lazy" decoding="async">
+            <span class="flag">Interactive prototype</span>
+          </div>
+          <div class="body">
+            <p class="eyebrow eyebrow--plain kicker">Nirvana · Part II · Recommendation engine</p>
+            <h3><a href="nirvana-mudra-recommendation-engine-case-study/">Meditation that adapts to how you feel</a></h3>
+            <p class="thesis">Ten traditional mudras, two questions, one recommendation with its reasoning stated in plain language. A content library replaced by a match.</p>
+            <div class="outcome">
+              <span class="chip">Decision cost: 2 taps</span>
+              <span class="chip">Explainable logic</span>
+              <span class="chip">Working prototype</span>
+            </div>
+            <span class="link-arrow">Read case study</span>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="plate">
+            <img src="assets/work-galls.webp" alt="Galls uniform customizer shown on a laptop screen" width="900" height="675" loading="lazy" decoding="async">
+            <span class="flag">Shipped · enterprise</span>
+          </div>
+          <div class="body">
+            <p class="eyebrow eyebrow--plain kicker">Galls · B2B e-commerce configuration</p>
+            <h3><a href="galls-uniform-customizer-ecommerce-ux-case-study/">Uniform configuration, collapsed into one screen</a></h3>
+            <p class="thesis">Agency compliance rules, embroidery logic and placement standards for U.S. Army and Air Force buyers, spread across pages, pulled into a single checkpoint.</p>
+            <div class="outcome">
+              <span class="chip">+22% customised orders</span>
+              <span class="chip">26% faster to configure</span>
+              <span class="chip">Measured</span>
+            </div>
+            <span class="link-arrow">Read case study</span>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="plate">
+            <img src="assets/work-nirvana.webp" alt="Nirvana meditation app screens on mobile phones" width="900" height="675" loading="lazy" decoding="async">
+            <span class="flag">Self-directed</span>
+          </div>
+          <div class="body">
+            <p class="eyebrow eyebrow--plain kicker">Nirvana · Part I · Behavioural system</p>
+            <h3><a href="nirvana-meditation-app-habit-design-case-study/">A retention system, not a meditation app</a></h3>
+            <p class="thesis">Meditation apps don't fail on content, they fail on consistency. Cue → action → proof → reward → return. External reinforcement, held in place until the internal habit stabilises.</p>
+            <div class="outcome">
+              <span class="chip">Pretotyped &amp; tested</span>
+              <span class="chip">Modelled outcomes</span>
+            </div>
+            <span class="link-arrow">Read case study</span>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="plate">
+            <img src="assets/work-optivento.webp" alt="Optivento inventory dashboard interface" width="900" height="675" loading="lazy" decoding="async">
+            <span class="flag">Concept · graduate work</span>
+          </div>
+          <div class="body">
+            <p class="eyebrow eyebrow--plain kicker">Optivento · Restaurant operations</p>
+            <h3><a href="optivento-restaurant-inventory-management-ux-case-study/">Where a 2% cost change moves profit 29%</a></h3>
+            <p class="thesis">Twelve chefs, one recurring answer. The numbers exist, but never at the moment someone is deciding. An operations platform built around that gap.</p>
+            <div class="outcome">
+              <span class="chip">12 chef interviews</span>
+              <span class="chip">Not shipped</span>
+            </div>
+            <span class="link-arrow">Read case study</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ RESULTS ============================
+       The numbers sit AFTER the work, not before it. On their own they are
+       three percentages with no owner; here they belong to a project the
+       reader has just seen. -->
+  <section class="section section--figures" aria-labelledby="results-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">02</span>&nbsp;Results</p>
+        <h2 id="results-h">What the Galls customizer did in production.</h2>
+        <p class="lead measure-wide">Of the four projects above, one has been live long enough to be measured properly. These are its numbers, two quarters after launch, against the two quarters before it.</p>
+      </div>
+
+      <div class="proof-grid" style="margin-top:var(--s-8)">
+        <div class="stat">
+          <p class="num"><span class="sign">+</span>22<span class="sign">%</span></p>
+          <p class="label">more orders included customisation</p>
+        </div>
+        <div class="stat">
+          <p class="num">26<span class="sign">%</span></p>
+          <p class="label">faster to configure an order</p>
+        </div>
+        <div class="stat">
+          <p class="num"><span class="sign">+</span>17<span class="sign">%</span></p>
+          <p class="label">more customisable orders reached checkout</p>
+        </div>
+      </div>
+
+      <p class="evidence-note" style="margin-top:var(--s-7)"><b>Measured in production.</b> Every other number on this site is a projection from testing, and is labelled as such on the page it appears on.</p>
+
+      <a class="link-arrow" style="margin-top:var(--s-4)" href="galls-uniform-customizer-ecommerce-ux-case-study/">Read how it was built</a>
+    </div>
+  </section>
+
+  <!-- ============================ HOW I WORK ============================ -->
+  <section class="section section--wash" aria-labelledby="how-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">03</span>&nbsp;How I work</p>
+        <h2 id="how-h">Three habits, and where each one is visible in the work.</h2>
+      </div>
+
+      <div class="notes">
+        <div class="note">
+          <span class="n">01</span>
+          <h3>Start at the decision, not the screen.</h3>
+          <p>Before laying anything out I write down the choice the user is actually stuck on, and what it costs them to get it wrong. The interface is whatever makes that choice cheap.</p>
+          <a class="link-arrow" href="nirvana-mudra-recommendation-engine-case-study/#engine">See it in Nirvana Mudra</a>
+        </div>
+        <div class="note">
+          <span class="n">02</span>
+          <h3>Remove options before adding features.</h3>
+          <p>Most configuration problems are subtraction problems. On Galls the fix wasn't a better options panel, it was refusing to show all the options at once.</p>
+          <a class="link-arrow" href="galls-uniform-customizer-ecommerce-ux-case-study/#directions">See it in Galls</a>
+        </div>
+        <div class="note">
+          <span class="n">03</span>
+          <h3>Say what's measured and what's modelled.</h3>
+          <p>Two of these projects shipped and two didn't. The numbers are labelled accordingly, because a result you can't source isn't a result.</p>
+          <a class="link-arrow" href="nirvana-meditation-app-habit-design-case-study/#outcomes">See it in Nirvana</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ AWAY FROM THE SCREEN ============================ -->
+  <section class="section-s" aria-labelledby="off-h">
+    <div class="shell">
+      <div class="sec-head rise">
+        <p class="eyebrow"><span class="idx">04</span>&nbsp;Away from the screen</p>
+        <h2 id="off-h" style="font-size:var(--t-h3)">Three long-running practices.</h2>
+      </div>
+
+      <div class="aside-grid">
+        <article class="aside-card">
+          <div class="plate"><img src="assets/wow-poster.webp" alt="Wisdom of Wednesdays podcast artwork" width="686" height="686" loading="lazy" decoding="async"></div>
+          <div>
+            <h3>Wisdom of Wednesdays</h3>
+            <p>A podcast started in the March 2020 lockdown, still going. Life advice collected from books and from arguing with my family. <a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Listen on Spotify</a></p>
+          </div>
+        </article>
+        <article class="aside-card">
+          <div class="plate"><img src="assets/tennis.webp" alt="Sumeet playing tennis on an outdoor court" width="740" height="840" loading="lazy" decoding="async"></div>
+          <div>
+            <h3>Tennis, twenty years in</h3>
+            <p>Played at state level. Still play weekly. It is where I learned that consistency beats a good day, which turns out to be most of what I believe about product.</p>
+          </div>
+        </article>
+        <article class="aside-card">
+          <div class="plate"><img src="assets/fitness.webp" alt="Three photographs: Sumeet hiking on a forest trail, at the gym, and practising yoga" width="668" height="840" loading="lazy" decoding="async"></div>
+          <div>
+            <h3>A daily practice</h3>
+            <p>Hiking, the gym, and a meditation practice every morning as a student of Inner Engineering. Nirvana came out of noticing how hard that is to keep up, and how little the apps helped.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CONTACT ============================ -->
+  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
+    <div class="shell">
+      <p class="eyebrow"><span class="idx">05</span>&nbsp;Contact</p>
+      <h2 id="contact-h" style="margin-top:var(--s-3)">Looking for my next product team.</h2>
+      <p class="lead">If your product has a complicated middle that nobody wants to touch, that's the part I like. Open to full-time roles and to shorter engagements. Happy to walk through any of this work in detail.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com?subject=Design%20role">Email me</a>
+        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="direct">Or copy it: <a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Work</h2>
+        <ul>
+          <li><a href="nirvana-mudra-recommendation-engine-case-study/">Nirvana Mudra</a></li>
+          <li><a href="galls-uniform-customizer-ecommerce-ux-case-study/">Galls uniform customizer</a></li>
+          <li><a href="nirvana-meditation-app-habit-design-case-study/">Nirvana</a></li>
+          <li><a href="optivento-restaurant-inventory-management-ux-case-study/">Optivento</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul>
+          <li><a href="ux-design-case-studies/">All case studies</a></li>
+          <li><a href="about-sumeet-gokhale-ux-designer/">About</a></li>
+          <li><a href="assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
+          <li><a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Wisdom of Wednesdays</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
+      <span>Open to new roles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js" defer></script>
 </body>
 </html>
