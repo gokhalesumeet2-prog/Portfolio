@@ -146,6 +146,9 @@ for p in html_files():
     for target in re.findall(r'(?:href|src)="([^"#:]+)"', open(p, encoding="utf-8").read()):
         if target.startswith(("http", "mailto", "data", "//")):
             continue
+        target = target.split("?", 1)[0]      # drop ?v= cache-buster before resolving
+        if not target:
+            continue
         base = ROOT if target.startswith("/") else d
         t = os.path.normpath(os.path.join(base, target.lstrip("/") if target.startswith("/") else target))
         if os.path.isdir(t):
