@@ -223,6 +223,30 @@
   .phone.dark .btn-light{ background:#26262b; color:#fff;}
   .phone.dark .chip{ background:#1E1E22; }
   .phone.dark .bottomnav{ background:rgba(30,30,34,.8); border-color:rgba(255,255,255,.06);}
+
+  /* ============================================================
+     Responsive fit
+     The phone is a fixed-size device mock by design. Rather than
+     reflowing its internals, shrink the whole frame to fit small
+     viewports so it is never clipped and never scrolls sideways.
+     ============================================================ */
+  @media (max-width: 460px), (max-height: 900px) {
+    body { padding: 10px; }
+    .phone {
+      width: min(390px, calc(100vw - 20px));
+      height: min(844px, calc(100dvh - 20px));
+      border-radius: min(54px, 12vw);
+    }
+  }
+  @media (max-width: 420px) {
+    .phone { box-shadow: var(--sh-lg), 0 0 0 8px #101013, 0 0 0 9px #2a2a2e; }
+    .pad { padding: 62px 20px 26px; }
+    .h1 { font-size: clamp(30px, 9vw, 40px); }
+    .h2 { font-size: clamp(23px, 6.8vw, 29px); }
+    .h3 { font-size: clamp(18px, 5vw, 21px); }
+    .sub, .body { font-size: clamp(14px, 4vw, 16px); }
+    .btn { font-size: clamp(15px, 4.2vw, 17px); }
+  }
 </style>
 </head>
 <body>

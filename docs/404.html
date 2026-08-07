@@ -15,35 +15,54 @@
     :root {
       --ink: #000; --gray: #5e5e5e; --blue: #2b5be4; --blue-dark: #1e46c0;
       --band: #f7f7f7; --line: #e8e8e8;
+      --fs-xs: .75rem; --fs-sm: .8125rem; --fs-base: .9375rem;
     }
+
+    /* One fluid root: steady 16px up to laptop widths, easing to 18px on
+       large monitors. Everything below is expressed in rem. */
+    html {
+      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
+      -webkit-text-size-adjust: 100%;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: "Inter", system-ui, sans-serif;
       color: var(--gray); background: #fff;
-      font-size: 15px; line-height: 1.6;
+      font-size: var(--fs-base); line-height: 1.6;
       min-height: 100vh;
+      min-height: 100svh;
       display: grid; place-items: center;
-      padding: 40px 6%;
+      padding: clamp(1.5rem, 1rem + 2vw, 2.5rem) 6%;
       -webkit-font-smoothing: antialiased;
     }
-    .wrap { max-width: 560px; text-align: center; }
-    h1 { color: var(--ink); font-size: clamp(28px, 5vw, 44px); font-weight: 700; }
-    .code {
-      color: var(--blue); font-size: 12px; font-weight: 600;
-      letter-spacing: .14em; text-transform: uppercase; margin-bottom: 12px;
+    .wrap { max-width: 35rem; text-align: center; }
+    h1 {
+      color: var(--ink);
+      font-size: clamp(1.5rem, 1.05rem + 2.2vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.2;
+      text-wrap: balance;
     }
-    p { margin-top: 14px; }
-    .links { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .code {
+      color: var(--blue); font-size: var(--fs-xs); font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase; margin-bottom: .75rem;
+    }
+    p { margin-top: .875rem; text-wrap: pretty; }
+    .links { margin-top: 1.875rem; display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
     .links a {
       background: var(--blue); color: #fff;
-      font-size: 13px; font-weight: 500;
-      padding: 10px 26px; border-radius: 999px; text-decoration: none;
+      font-size: var(--fs-sm); font-weight: 500; line-height: 1.4;
+      padding: .625rem 1.625rem; min-height: 2.5rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 999px; text-decoration: none;
       transition: background .2s ease, transform .2s ease;
     }
     .links a:hover { background: var(--blue-dark); transform: translateY(-1px); }
     .links a.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
     .links a.ghost:hover { background: var(--band); }
     a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+    @media (hover: none) { .links a { min-height: 2.75rem; } }
   </style>
 </head>
 <body>

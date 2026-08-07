@@ -40,31 +40,59 @@
       --highlight: #f9f39b;
       --display: "Inter", system-ui, sans-serif;
       --text: "Inter", system-ui, sans-serif;
+      /* Type scale. Everything is in rem so it rides the fluid root size
+         set below: one dial controls the whole page. */
+      --fs-3xs: .5625rem;   /*  9px @ root 16 */
+      --fs-2xs: .6875rem;   /* 11px */
+      --fs-xs:  .75rem;     /* 12px */
+      --fs-sm:  .8125rem;   /* 13px */
+      --fs-md:  .875rem;    /* 14px */
+      --fs-base: .9375rem;  /* 15px */
+      --fs-lg:  1rem;       /* 16px */
+
+      /* Fluid headings: rem bounds keep large monitors in proportion,
+         the vw term smooths everything in between. */
+      --fs-h1: clamp(1.125rem, .875rem + .8vw, 1.375rem);
+      --fs-h2: clamp(1.0625rem, .9rem + .55vw, 1.25rem);
+      --fs-h3: clamp(.9375rem, .875rem + .25vw, 1rem);
+
+      /* Spacing rhythm */
+      --section-y: clamp(1.75rem, 1.125rem + 2.2vw, 2.75rem);
+      --shell: min(70rem, 92%);        /* 1120px at root 16, grows with root */
+      --shell-narrow: min(53.75rem, 92%);
     }
 
+    /* One fluid root: a steady 16px through phone, tablet and laptop widths,
+       then a gentle climb to 18px on large monitors so the page never looks
+       marooned in whitespace. Every rem below scales with it. */
+    html {
+      font-size: clamp(1rem, .7273rem + .303vw, 1.125rem);
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--text);
       color: var(--gray);
       background: #fff;
-      font-size: 15px;
+      font-size: var(--fs-base);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    img { max-width: 100%; display: block; }
-    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; }
+    img { max-width: 100%; height: auto; display: block; }
+    h1, h2, h3 { font-family: var(--display); color: var(--ink); text-wrap: balance; line-height: 1.25; }
+    p { text-wrap: pretty; }
 
-    .container { width: min(1120px, 92%); margin-inline: auto; }
+    .container { width: var(--shell); margin-inline: auto; }
 
     a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
 
     .skip-link {
       position: absolute; left: -9999px; top: 0;
       background: var(--ink); color: #fff;
-      padding: 10px 18px; z-index: 100; text-decoration: none;
+      padding: .625rem 1.125rem; z-index: 100; text-decoration: none;
     }
     .skip-link:focus { left: 0; }
 
@@ -79,20 +107,21 @@
     .site-header.scrolled { border-bottom-color: var(--line); }
     .site-header .container {
       display: flex; align-items: center; justify-content: space-between;
-      padding-block: 20px;
+      flex-wrap: wrap; gap: .75rem;
+      padding-block: clamp(.75rem, .5rem + .8vw, 1.25rem);
     }
     .brand {
       position: relative;
-      font-family: var(--display); font-weight: 700; font-size: 15px;
+      font-family: var(--display); font-weight: 700; font-size: var(--fs-base);
       letter-spacing: .04em; color: var(--ink);
-      text-decoration: none; padding: 6px 10px;
+      text-decoration: none; padding: .375rem .625rem; white-space: nowrap;
     }
     .brand img.brush {
       position: absolute; inset: 0;
       width: 100%; height: 100%; object-fit: fill; z-index: -1;
     }
-    .site-nav { display: flex; gap: clamp(24px, 5vw, 72px); }
-    .site-nav a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .site-nav { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .5rem + 3.5vw, 4.5rem); }
+    .site-nav a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
     .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
     .site-nav a[aria-current="page"] { font-weight: 600; }
 
@@ -105,81 +134,92 @@
 
     /* ============ About layout ============ */
     .about {
-      padding: 64px 0 80px;
+      padding: clamp(2.25rem, 1.5rem + 2.4vw, 4rem) 0 clamp(3rem, 2rem + 3.2vw, 5rem);
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-      gap: clamp(32px, 6vw, 80px);
+      gap: clamp(2rem, 1.25rem + 3.5vw, 5rem);
       align-items: start;
     }
 
-    .about-side { position: sticky; top: 96px; }
+    .about-side { position: sticky; top: 6rem; }
 
     .portrait {
-      border-radius: 12px;
+      border-radius: .75rem;
       overflow: hidden;
       background: var(--card);
     }
     .portrait img { width: 100%; object-fit: cover; }
 
     /* Skill chips */
-    .skills { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .skills { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .625rem; }
     .skills li {
       list-style: none;
-      font-size: 13px;
+      font-size: var(--fs-sm);
+      line-height: 1.5;
       color: var(--ink);
       background: var(--band);
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 6px 16px;
+      padding: .375rem 1rem;
       transition: background .2s ease, border-color .2s ease;
     }
     .skills li:hover { background: var(--highlight); border-color: var(--highlight); }
 
     .about-body h2.journey-label {
       color: var(--blue);
-      font-size: 12px; font-weight: 600;
+      font-size: var(--fs-xs); font-weight: 600;
       letter-spacing: .14em; text-transform: uppercase;
+      line-height: 1.5;
     }
-    .about-body .journey { margin-top: 18px; display: grid; gap: 16px; }
-    .about-body .journey p { font-size: 15px; }
+    .about-body .journey { margin-top: 1.125rem; display: grid; gap: 1rem; }
+    .about-body .journey p { font-size: var(--fs-base); }
 
     /* Facts strip */
     .facts {
-      margin-top: 40px;
+      margin-top: clamp(2rem, 1.5rem + 1.6vw, 2.5rem);
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr));
+      gap: 1.25rem;
       border-top: 1px solid var(--line);
-      padding-top: 28px;
+      padding-top: 1.75rem;
     }
     .facts h3 {
       color: var(--blue);
-      font-size: 11px; font-weight: 600;
+      font-size: var(--fs-2xs); font-weight: 600;
       letter-spacing: .12em; text-transform: uppercase;
+      line-height: 1.5;
     }
-    .facts p { color: var(--ink); font-size: 15px; font-weight: 600; margin-top: 4px; }
+    .facts p { color: var(--ink); font-size: var(--fs-base); font-weight: 600; margin-top: .25rem; }
 
     /* ============ Footer ============ */
-    .site-footer { border-top: 1px solid var(--line); padding: 36px 0; }
+    .site-footer { border-top: 1px solid var(--line); padding: clamp(1.75rem, 1.25rem + 1.5vw, 2.25rem) 0; }
     .site-footer .container {
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
+      flex-wrap: wrap; gap: 1rem;
     }
-    .footer-links { display: flex; gap: 32px; }
-    .footer-links a { color: var(--ink); font-size: 14px; text-decoration: none; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: clamp(1.25rem, .75rem + 1.6vw, 2rem); }
+    .footer-links a { color: var(--ink); font-size: var(--fs-md); text-decoration: none; }
     .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .site-footer small { color: var(--gray); font-size: 12px; }
+    .site-footer small { color: var(--gray); font-size: var(--fs-xs); }
 
     /* ============ Scroll-reveal ============ */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
     /* ============ Responsive ============ */
-    @media (max-width: 820px) {
+    @media (max-width: 51.25em) {       /* 820px */
       .about { grid-template-columns: 1fr; }
-      .about-side { position: static; }
-      .facts { grid-template-columns: 1fr 1fr; }
-      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .about-side { position: static; max-width: 26rem; }
+    }
+    @media (max-width: 43.75em) {       /* 700px */
+      .site-header .container { flex-direction: column; gap: .75rem; }
+      .about-side { max-width: none; }
+      .site-footer .container { flex-direction: column; text-align: center; }
     }
   </style>
   <script type="application/ld+json">
