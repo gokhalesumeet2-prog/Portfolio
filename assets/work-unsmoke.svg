@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675" width="900" height="675" role="img" aria-label="The Unsmoke urge screen: a flask of water at 98 percent purity representing lung health, beside the home screen showing a 14 day streak card.">
+  <defs>
+    <clipPath id="uw-a"><rect x="86" y="96" width="272" height="520" rx="30"/></clipPath>
+    <clipPath id="uw-b"><rect x="430" y="60" width="300" height="580" rx="34"/></clipPath>
+    <linearGradient id="uw-water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6fd3e2"/>
+      <stop offset="100%" stop-color="#45b3c6"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .uw-t   { font-family:"Inter",-apple-system,system-ui,sans-serif; }
+    .uw-lbl { font-size:11px; font-weight:600; letter-spacing:.14em; }
+  </style>
+
+  <rect width="900" height="675" fill="#f0f2f4"/>
+
+  <!-- back phone: home -->
+  <g clip-path="url(#uw-a)" opacity=".96">
+    <rect x="86" y="96" width="272" height="520" fill="#272d2d"/>
+    <text x="150" y="140" class="uw-t uw-lbl" fill="#fff">UNSMOKE</text>
+    <rect x="228" y="129" width="8" height="12" fill="#e3b04b"/>
+    <rect x="239" y="129" width="8" height="12" fill="#fff" opacity=".9"/>
+    <rect x="250" y="129" width="8" height="12" fill="#e3b04b"/>
+    <rect x="261" y="129" width="8" height="12" fill="#e3b04b"/>
+    <path d="M110 130h14M110 136h19M110 142h11" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+
+    <text x="110" y="182" class="uw-t" font-size="17" font-weight="600" fill="#fff">Welcome back, Dan!</text>
+    <text x="110" y="200" class="uw-t" font-size="10.5" fill="#fff" opacity=".62">Where would you like to start?</text>
+
+    <rect x="110" y="220" width="224" height="96" rx="10" fill="#f6f1e6"/>
+    <text x="126" y="244" class="uw-t" font-size="12.5" font-weight="600" fill="#272d2d">Unsmoke streak 1</text>
+    <text x="126" y="262" class="uw-t" font-size="9.5" fill="#5c6360">Start your 14 day streak right away!</text>
+    <text x="126" y="275" class="uw-t" font-size="9.5" fill="#5c6360">Dont worry we got your back!</text>
+    <rect x="126" y="286" width="62" height="22" rx="5" fill="#2d5f6e"/>
+    <text x="157" y="300" class="uw-t" font-size="10.5" font-weight="600" fill="#fff" text-anchor="middle">Start</text>
+    <circle cx="300" cy="266" r="23" fill="#e3b04b" opacity=".9"/>
+    <rect x="289" y="256" width="22" height="18" rx="3" fill="#3a4340"/>
+
+    <rect x="110" y="336" width="224" height="88" rx="10" fill="#f6f1e6"/>
+    <text x="126" y="360" class="uw-t" font-size="12.5" font-weight="600" fill="#272d2d">Community uplifting</text>
+    <text x="126" y="378" class="uw-t" font-size="9.5" fill="#5c6360">Connect with your herd of</text>
+    <text x="126" y="391" class="uw-t" font-size="9.5" fill="#5c6360">non-smokers to achieve benefits</text>
+    <rect x="126" y="399" width="74" height="22" rx="5" fill="#2d5f6e"/>
+    <text x="163" y="413" class="uw-t" font-size="10.5" font-weight="600" fill="#fff" text-anchor="middle">Connect</text>
+
+    <rect x="110" y="452" width="224" height="7" rx="3.5" fill="#4caf50"/>
+    <text x="222" y="477" class="uw-t" font-size="10.5" fill="#fff" text-anchor="middle" font-style="italic">Health meter</text>
+    <text x="222" y="493" class="uw-t" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-style="italic">100%</text>
+  </g>
+  <rect x="86" y="96" width="272" height="520" rx="30" fill="none" stroke="#d3d8dc" stroke-width="1.5"/>
+
+  <!-- front phone: the flask -->
+  <g clip-path="url(#uw-b)">
+    <rect x="430" y="60" width="300" height="580" fill="#272d2d"/>
+    <text x="516" y="106" class="uw-t uw-lbl" fill="#fff">UNSMOKE</text>
+    <rect x="598" y="95" width="8" height="12" fill="#e3b04b"/>
+    <rect x="609" y="95" width="8" height="12" fill="#fff" opacity=".9"/>
+    <rect x="620" y="95" width="8" height="12" fill="#e3b04b"/>
+    <rect x="631" y="95" width="8" height="12" fill="#e3b04b"/>
+    <path d="M454 96h15M454 102h20M454 108h12" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+    <circle cx="698" cy="101" r="12" fill="#4a5450"/>
+    <circle cx="698" cy="97" r="4" fill="#c9b8a4"/>
+    <path d="M690 111a8 8 0 0 1 16 0z" fill="#c9b8a4"/>
+
+    <text x="454" y="146" class="uw-t" font-size="11" fill="#fff">Each time you smoke, the water</text>
+    <text x="454" y="162" class="uw-t" font-size="11" fill="#fff">gets <tspan font-weight="700">muddier</tspan>. This water represents</text>
+    <text x="454" y="178" class="uw-t" font-size="11" fill="#fff">your health at present.</text>
+
+    <g>
+      <path d="M563 212h34v46l44 92a20 20 0 0 1-18 29h-86a20 20 0 0 1-18-29l44-92z" fill="url(#uw-water)"/>
+      <path d="M563 212h34v46l14 30h-62l14-30z" fill="#272d2d"/>
+      <path d="M563 212h34v46l44 92a20 20 0 0 1-18 29h-86a20 20 0 0 1-18-29l44-92z" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+      <rect x="558" y="206" width="44" height="9" rx="4.5" fill="#fff"/>
+      <circle cx="561" cy="277" r="4" fill="#2a3132" opacity=".8"/>
+      <text x="580" y="326" class="uw-t" font-size="27" font-weight="700" fill="#fff" text-anchor="middle">98%</text>
+      <text x="580" y="345" class="uw-t" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">PURE</text>
+    </g>
+
+    <text x="454" y="416" class="uw-t" font-size="10" fill="#fff">Since you just smoked,</text>
+    <text x="454" y="430" class="uw-t" font-size="10" fill="#fff">the water purity was</text>
+    <text x="454" y="444" class="uw-t" font-size="10" fill="#fff">dropped by 2%</text>
+
+    <circle cx="644" cy="416" r="17" fill="#f2c94c"/>
+    <path d="M637 412q3-3 6 0M647 412q3-3 6 0" stroke="#3a3320" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M636 427q8-6 16 0" stroke="#3a3320" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M676 402v22" stroke="#e04b3a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M670 418l6 8 6-8z" fill="#e04b3a"/>
+    <text x="676" y="449" class="uw-t" font-size="16" font-weight="700" fill="#e3b04b" text-anchor="middle">2%</text>
+
+    <rect x="454" y="482" width="252" height="30" rx="15" fill="none" stroke="#fff" stroke-width="1.4" opacity=".9"/>
+    <text x="580" y="502" class="uw-t" font-size="12" fill="#fff" text-anchor="middle" letter-spacing="1">NEXT</text>
+
+    <g stroke="#fff" stroke-width="1.6" fill="none" opacity=".85">
+      <circle cx="486" cy="596" r="7"/><path d="M480 602l12-12"/>
+      <circle cx="574" cy="592" r="5"/><path d="M566 604a8 8 0 0 1 16 0"/>
+      <circle cx="590" cy="592" r="5"/><path d="M584 604a8 8 0 0 1 14 0"/>
+      <circle cx="672" cy="591" r="6"/><path d="M663 604a9 9 0 0 1 18 0"/>
+    </g>
+  </g>
+  <rect x="430" y="60" width="300" height="580" rx="34" fill="none" stroke="#d3d8dc" stroke-width="1.5"/>
+</svg>
