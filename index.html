@@ -70,7 +70,7 @@
 
 <link rel="preload" as="image" href="assets/img/work/nirvana.webp"
       imagesrcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w" imagesizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)">
-<link rel="stylesheet" href="assets/css/site.css?v=38659b6b">
+<link rel="stylesheet" href="assets/css/site.css?v=a6158f1e">
 </head>
 
 <nav>
@@ -291,10 +291,15 @@
     </div>
 
     <div class="mw-rail" role="tablist" aria-label="Meanwhile">
-      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="cook"  aria-label="Cooking"><img src="assets/img/meanwhile/icon-cook.webp"  alt="" width="78" height="54" loading="lazy"></button>
-      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="art"   aria-label="Art"><img src="assets/img/meanwhile/icon-art.webp"   alt="" width="67" height="80" loading="lazy"></button>
-      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="pod"   aria-label="The podcast"><img src="assets/img/meanwhile/icon-pod.webp"   alt="" width="57" height="65" loading="lazy"></button>
-      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="sport" aria-label="Sport"><img src="assets/img/meanwhile/icon-sport.webp" alt="" width="66" height="82" loading="lazy"></button>
+      <!-- The icons are drawings, and a drawing of a whisk only reads as a
+           whisk once you already know that's what it is. The word under each
+           one is the caption and the accessible name at the same time, so
+           there is no aria-label here saying something slightly different
+           from what is on the screen. -->
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="cook"><img src="assets/img/meanwhile/icon-cook.webp"  alt="" width="78" height="54" loading="lazy"><span class="mw-tab-label">cooking</span></button>
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="art"><img src="assets/img/meanwhile/icon-art.webp"   alt="" width="67" height="80" loading="lazy"><span class="mw-tab-label">art</span></button>
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="pod"><img src="assets/img/meanwhile/icon-pod.webp"   alt="" width="57" height="65" loading="lazy"><span class="mw-tab-label">podcast</span></button>
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="sport"><img src="assets/img/meanwhile/icon-sport.webp" alt="" width="66" height="82" loading="lazy"><span class="mw-tab-label">sports</span></button>
     </div>
 
   </div>
@@ -315,10 +320,10 @@
   </button>
 </div>
 
-<script src="assets/js/audio.js?v=b9f48cf1" defer></script>
+<script src="assets/js/audio.js?v=47bb20db" defer></script>
 <script src="assets/js/controls.js?v=4bcdaa4e" defer></script>
-<script src="assets/js/hero.js?v=246a38cd" defer></script>
+<script src="assets/js/hero.js?v=52caa800" defer></script>
 <script src="assets/js/work.js?v=f7b37aee" defer></script>
-<script src="assets/js/meanwhile.js?v=1a551a3b" defer></script>
+<script src="assets/js/meanwhile.js?v=43714de1" defer></script>
 </body>
 </html>

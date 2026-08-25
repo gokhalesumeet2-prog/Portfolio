@@ -339,21 +339,27 @@
     tw.setAttribute('aria-hidden','true');
     tw.textContent = '';
 
-    /* The statement lines are nowrap, so they cannot change height and can
-       simply be appended to. The supporting lines wrap, and #copy is centred,
-       so a line growing from one row to two mid-sentence would shove the
-       whole composition upward. Splitting them into a typed half and a
-       visibility:hidden remainder means the box is already its final height
-       on the first character — and it stays right through a resize, which a
-       measured min-height would not. */
-    if (line.classList.contains('sub')){
-      const done = document.createElement('i'); done.className = 'done';
-      const rest = document.createElement('i'); rest.className = 'rest';
-      rest.textContent = full;
-      tw.append(done, rest);
-      return { tw, full, done, rest };
-    }
-    return { tw, full };
+    /* Every line is split into a typed half and a visibility:hidden
+       remainder, so its box is already its final size on the very first
+       character.
+
+       The wrapping lines need this for the obvious reason: a line growing
+       from one row to two mid-sentence would shove the whole centred
+       composition upward. The nowrap statement lines need it for a less
+       obvious one. #copy is width:max-content, and the statement is what
+       measures it; the supporting lines below are min-width:100% of that.
+       So a statement typing itself out from nothing widens #copy character
+       by character, the supporting lines re-wrap into fewer and fewer rows
+       behind their hidden text, #copy gets shorter, and translate(-50%,-50%)
+       walks the whole block down the screen while you are still reading the
+       first line. Holding the remainder settles the measurement before the
+       first keystroke — and it stays settled through a resize, which a
+       measured min-width would not. */
+    const done = document.createElement('i'); done.className = 'done';
+    const rest = document.createElement('i'); rest.className = 'rest';
+    rest.textContent = full;
+    tw.append(done, rest);
+    return { tw, full, done, rest, sub: line.classList.contains('sub') };
   }
   const typed = lines.map(prepType);
 
@@ -361,19 +367,16 @@
     const store = typed[ix];
     if (!store) return;
     const line = lines[ix];
-    const sub  = !!store.rest;
+    const sub  = store.sub;
     line.classList.add('typing','in');
-    if (sub) store.tw.insertBefore(caret, store.rest);
-    else     store.tw.parentNode.insertBefore(caret, store.tw.nextSibling);
+    /* the caret rides between the two halves, which is exactly where the
+       next character is about to land */
+    store.tw.insertBefore(caret, store.rest);
     for (let i=0; i<store.full.length; i++){
       if (skipped) return;
       const ch = store.full[i];
-      if (sub){
-        store.done.textContent = store.full.slice(0, i+1);
-        store.rest.textContent = store.full.slice(i+1);
-      } else {
-        store.tw.textContent += ch;
-      }
+      store.done.textContent = store.full.slice(0, i+1);
+      store.rest.textContent = store.full.slice(i+1);
       /* These lines are three times the length of the statement and run at
          three times the speed, so a keystroke per character would read as a
          machine gun. Every third one, softer, is enough to keep the sound of
@@ -391,8 +394,7 @@
   function fillInstantly(){
     typed.forEach((st,ix)=>{
       if (!st) return;
-      if (st.rest){ st.done.textContent = st.full; st.rest.textContent = ''; }
-      else st.tw.textContent = st.full;
+      st.done.textContent = st.full; st.rest.textContent = '';
       lines[ix].classList.add('typing','in');
     });
     caret.remove();

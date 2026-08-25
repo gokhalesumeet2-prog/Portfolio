@@ -181,88 +181,136 @@ window.__snd = (function(){
   }
 
 
-  /* --- a keystroke. two parts, the way a real key is: a bright tick as the
-         cap starts moving, and a duller knock as it bottoms out. both are
-         very short — the whole thing is gone in 45ms. --- */
+  /* --- a keystroke, on the low-travel scissor keyboard rather than the
+         mechanical one this used to be. ---
+         The difference between the two is almost entirely travel. A tall
+         key has time to make two separate events — a tick as the cap
+         breaks, then a knock a few milliseconds later as it bottoms out —
+         and a boom in the low end from the air moving under it. A 1mm key
+         has neither: contact and bottom-out are the same instant, the
+         whole event is over in about 25ms, and there is essentially
+         nothing below 300Hz because there is nothing down there to move.
+
+         So: one very tight burst up at 3.2kHz for the crack of the
+         mechanism, a companion at 1.3kHz for the plastic of the cap, and a
+         short mid tap instead of a bass thump. Lowpassed at 9k so it stays
+         crisp without turning into a hiss.
+
+         `strength` still runs 0.55 (the fast supporting lines) to 1.4 (a
+         space bar, which is wider, hollower and duller than every other
+         key on the board). --- */
   function key(strength){
     if (!ctx || ctx.state !== 'running' || muted) return;
     const t = ctx.currentTime;
     const S = strength || 1;
+    const wide = S > 1;                       /* the space bar */
 
     const lp = ctx.createBiquadFilter();
-    lp.type='lowpass'; lp.frequency.value = 7000; lp.Q.value = 0.4;
-    lp.connect(master);
+    lp.type='lowpass'; lp.frequency.value = wide ? 6200 : 9000; lp.Q.value = 0.4;
+    const hp = ctx.createBiquadFilter();
+    hp.type='highpass'; hp.frequency.value = 300; hp.Q.value = 0.5;
+    lp.connect(hp); hp.connect(master);
 
-    /* the tick */
-    const n = ctx.sampleRate*0.03|0;
-    const nb = ctx.createBuffer(1, n, ctx.sampleRate);
-    const nd = nb.getChannelData(0);
-    for (let i=0;i<n;i++) nd[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 9);
-    const ns = ctx.createBufferSource(); ns.buffer = nb;
-    const bp = ctx.createBiquadFilter();
-    bp.type='bandpass';
-    bp.frequency.value = (1750 + Math.random()*750) / (S > 1 ? 1.35 : 1);
-    bp.Q.value = 0.85;
-    const ng = ctx.createGain();
-    ng.gain.value = 0.030 * S * (0.85 + Math.random()*0.3);
-    ns.connect(bp); bp.connect(ng); ng.connect(lp);
-    ns.start(t);
+    /* the crack of the mechanism and the plastic of the cap, together */
+    [[3200, 0.024, 0.011], [1300, 0.020, 0.016]].forEach(([f, lv, dur], k)=>{
+      const n = ctx.sampleRate*dur|0;
+      const nb = ctx.createBuffer(1, n, ctx.sampleRate);
+      const nd = nb.getChannelData(0);
+      for (let i=0;i<n;i++) nd[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 6);
+      const ns = ctx.createBufferSource(); ns.buffer = nb;
+      const bp = ctx.createBiquadFilter();
+      bp.type='bandpass';
+      /* the variance is per-key, not per-partial, so one keystroke stays
+         one object rather than two things that happened at once */
+      bp.frequency.value = f * (wide ? 0.74 : 1) * (0.94 + Math.random()*0.12);
+      bp.Q.value = k ? 1.1 : 0.8;
+      const ng = ctx.createGain();
+      ng.gain.value = lv * Math.min(S, 1.15) * (0.9 + Math.random()*0.2);
+      ns.connect(bp); bp.connect(ng); ng.connect(lp);
+      ns.start(t);
+    });
 
-    /* the bottom-out */
+    /* the tap of the cap reaching the deck — mid, not low, and quiet */
     const o = ctx.createOscillator(); o.type='sine';
-    o.frequency.setValueAtTime((188 + Math.random()*34)/(S > 1 ? 1.3 : 1), t);
-    o.frequency.exponentialRampToValueAtTime(96, t + 0.05);
+    o.frequency.setValueAtTime((wide ? 340 : 470) + Math.random()*40, t);
+    o.frequency.exponentialRampToValueAtTime(wide ? 210 : 300, t + 0.022);
     const og = ctx.createGain();
     og.gain.setValueAtTime(0.0001, t);
-    og.gain.exponentialRampToValueAtTime(0.026*S, t + 0.004);
-    og.gain.exponentialRampToValueAtTime(0.0001, t + 0.055);
+    og.gain.exponentialRampToValueAtTime(0.010 * Math.min(S, 1.2), t + 0.002);
+    og.gain.exponentialRampToValueAtTime(0.0001, t + 0.026);
     o.connect(og); og.connect(lp);
-    o.start(t); o.stop(t + 0.09);
+    o.start(t); o.stop(t + 0.05);
 
-    setTimeout(()=> lp.disconnect(), 400);
+    setTimeout(()=> lp.disconnect(), 300);
   }
 
-  /* --- hover: a clean digital tick. two sine partials a fifth apart, a
-         3ms attack and a 55ms decay, with a sliver of bright noise on the
-         front for the edge. No pitch drop, no ring — it reads as a UI
-         event rather than as something mechanical. --- */
+  /* --- hover: a tactile blip, not a note. ---
+         The version this replaces was two sine partials a perfect fifth
+         apart, which is a chord — a small one, but a chord, and a chord
+         has an opinion. Play it forty times in a minute while somebody
+         reads the nav and the opinion becomes a nag.
+
+         What's wanted instead is the sound of a surface being touched.
+         The body of it is filtered noise rather than oscillators, so
+         there is no pitch to get tired of; the band sits at 4.2kHz, which
+         is airy without being a hiss and clears the drones by two octaves.
+         Under it, one sine at 2.9kHz — deliberately not in key with
+         anything, so it reads as an edge on the transient rather than as a
+         note — and a 4ms sliver up at 7kHz for the very front of the
+         attack. Attack 2ms, body gone by 40ms, a breath of air out to
+         110ms so it lands softly instead of being cut off.
+
+         Every parameter is fixed. No detune, no velocity, no stepping:
+         the tenth one has to sound exactly like the first, or the nav
+         starts performing. --- */
   function tick(){
     if (!ctx || ctx.state !== 'running' || muted) return;
     const t = ctx.currentTime;
 
     /* highpass keeps it weightless, so it never competes with the pad */
     const hp = ctx.createBiquadFilter();
-    hp.type='highpass'; hp.frequency.value = 900; hp.Q.value = 0.5;
+    hp.type='highpass'; hp.frequency.value = 1400; hp.Q.value = 0.5;
     const out = ctx.createGain(); out.gain.value = 1;
     hp.connect(out); out.connect(master);
 
-    /* A6 and the fifth above it — in key with the drones, an octave clear
-       of anything else on the page */
-    const det = 1 + (Math.random()-0.5)*0.012;      /* just enough not to machine-gun */
-    [[1760, 0.030, 0.052], [2637, 0.013, 0.034]].forEach(([f, lv, dur])=>{
-      const o = ctx.createOscillator(); o.type='sine';
-      o.frequency.value = f*det;
-      const g = ctx.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(lv, t + 0.003);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(g); g.connect(hp);
-      o.start(t); o.stop(t + dur + 0.05);
-    });
-
-    /* 5ms of bright noise: the transient that makes it read as digital */
-    const n = ctx.sampleRate*0.005|0;
+    /* the body: 110ms of noise through a narrow band, shaped so almost
+       all of its energy is in the first few milliseconds and the rest is
+       a decay you feel rather than hear */
+    const n = ctx.sampleRate*0.11|0;
     const nb = ctx.createBuffer(1, n, ctx.sampleRate);
     const nd = nb.getChannelData(0);
-    for (let i=0;i<n;i++) nd[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 5);
+    for (let i=0;i<n;i++) nd[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 16);
     const ns = ctx.createBufferSource(); ns.buffer = nb;
     const bp = ctx.createBiquadFilter();
-    bp.type='bandpass'; bp.frequency.value = 5200; bp.Q.value = 0.9;
-    const ng = ctx.createGain(); ng.gain.value = 0.014;
+    bp.type='bandpass'; bp.frequency.value = 4200; bp.Q.value = 2.4;
+    const ng = ctx.createGain(); ng.gain.value = 0.048;
     ns.connect(bp); bp.connect(ng); ng.connect(hp);
     ns.start(t);
 
-    setTimeout(()=> out.disconnect(), 400);
+    /* the edge: one short sine, off the key on purpose */
+    const o = ctx.createOscillator(); o.type='sine';
+    o.frequency.value = 2900;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.014, t + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.038);
+    o.connect(g); g.connect(hp);
+    o.start(t); o.stop(t + 0.07);
+
+    /* 4ms of air right at the front, which is what makes it read as a
+       fingertip on glass rather than as a beep */
+    const n2 = ctx.sampleRate*0.004|0;
+    const nb2 = ctx.createBuffer(1, n2, ctx.sampleRate);
+    const nd2 = nb2.getChannelData(0);
+    for (let i=0;i<n2;i++) nd2[i] = (Math.random()*2-1) * Math.pow(1 - i/n2, 4);
+    const ns2 = ctx.createBufferSource(); ns2.buffer = nb2;
+    const bp2 = ctx.createBiquadFilter();
+    bp2.type='bandpass'; bp2.frequency.value = 7000; bp2.Q.value = 0.9;
+    const ng2 = ctx.createGain(); ng2.gain.value = 0.011;
+    ns2.connect(bp2); bp2.connect(ng2); ng2.connect(hp);
+    ns2.start(t);
+
+    setTimeout(()=> out.disconnect(), 500);
   }
 
   /* --- commit: the same family, one octave down and with a fast pitch
@@ -316,51 +364,66 @@ window.__snd = (function(){
 
     setTimeout(()=> lp.disconnect(), 500);
   }
-  /* --- the work list gets its own voice: a short plucked note that steps
-         up the scale as you move down the list, so running the cursor
-         over the projects plays a phrase instead of five identical
-         clicks. A minor pentatonic — the same key as the drones. --- */
-  const PICK = [440.00, 523.25, 587.33, 659.25, 783.99, 880.00];
+  /* --- the work list: the detent on a picker wheel. ---
+         This used to play a pentatonic note per project, which turned the
+         list into a xylophone — charming for two passes and grating on the
+         tenth. A picker doesn't play a tune. Every stop sounds the same,
+         because the sound is the wheel catching, not the value it landed
+         on: a soft, pitchless knock, more felt than heard, and gone in
+         about 50ms.
+
+         The construction is a single narrow-band burst rather than an
+         oscillator, so there is no note in it at all. The band sits at
+         2kHz — high enough to read as glass rather than wood, low enough
+         that it doesn't sting — with a hair of low end underneath for the
+         body of the click. The 8ms lowpass sweep on the front is what
+         makes it a detent instead of a tick: the wheel arrives, then
+         settles.
+
+         `i` is still accepted so the caller doesn't have to care, and
+         still ignored: every item in the list gets exactly the same
+         sound. --- */
   function pick(i){
     if (!ctx || ctx.state !== 'running' || muted) return;
     const t = ctx.currentTime;
-    const f = PICK[(i|0) % PICK.length];
 
-    /* a filter that opens on the attack and closes again — the pluck */
+    const out = ctx.createGain(); out.gain.value = 1; out.connect(master);
+    /* the settle: bright at the instant of contact, closing immediately */
     const lp = ctx.createBiquadFilter();
-    lp.type='lowpass'; lp.Q.value = 1.1;
-    lp.frequency.setValueAtTime(f*1.6, t);
-    lp.frequency.exponentialRampToValueAtTime(f*7.5, t + 0.018);
-    lp.frequency.exponentialRampToValueAtTime(f*2.2, t + 0.22);
-    const out = ctx.createGain(); out.gain.value = 1;
-    lp.connect(out); out.connect(master);
+    lp.type='lowpass'; lp.Q.value = 0.7;
+    lp.frequency.setValueAtTime(5200, t);
+    lp.frequency.exponentialRampToValueAtTime(1500, t + 0.045);
+    lp.connect(out);
 
-    /* body + a triangle an octave up for the glassy edge */
-    [['sine', 1, 0.050, 0.26], ['triangle', 2, 0.011, 0.16], ['sine', 3, 0.006, 0.10]]
-      .forEach(([type, mult, lv, dur])=>{
-        const o = ctx.createOscillator(); o.type = type;
-        o.frequency.value = f*mult;
-        const g = ctx.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(lv, t + 0.006);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-        o.connect(g); g.connect(lp);
-        o.start(t); o.stop(t + dur + 0.06);
-      });
-
-    /* 4ms of air on the front so the attack has a fingertip to it */
-    const n = ctx.sampleRate*0.004|0;
+    /* the knock itself: 45ms of noise through a narrow band, shaped so it
+       is loudest on the first sample and effectively silent by the end */
+    const n = ctx.sampleRate*0.045|0;
     const nb = ctx.createBuffer(1, n, ctx.sampleRate);
     const nd = nb.getChannelData(0);
-    for (let i2=0;i2<n;i2++) nd[i2] = (Math.random()*2-1) * Math.pow(1 - i2/n, 4);
+    for (let i2=0;i2<n;i2++) nd[i2] = (Math.random()*2-1) * Math.pow(1 - i2/n, 7);
     const ns = ctx.createBufferSource(); ns.buffer = nb;
     const bp = ctx.createBiquadFilter();
-    bp.type='bandpass'; bp.frequency.value = 4200; bp.Q.value = 0.9;
-    const ng = ctx.createGain(); ng.gain.value = 0.010;
+    bp.type='bandpass';
+    /* a whisker of variance so a fast sweep across the list doesn't phase
+       into one flat buzz — far too small to be heard as a pitch change */
+    bp.frequency.value = 2000 * (1 + (Math.random()-0.5)*0.05);
+    bp.Q.value = 1.35;
+    const ng = ctx.createGain(); ng.gain.value = 0.052;
     ns.connect(bp); bp.connect(ng); ng.connect(lp);
     ns.start(t);
 
-    setTimeout(()=> out.disconnect(), 700);
+    /* and just enough weight under it to feel like contact rather than air */
+    const o = ctx.createOscillator(); o.type='sine';
+    o.frequency.setValueAtTime(560, t);
+    o.frequency.exponentialRampToValueAtTime(330, t + 0.035);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.013, t + 0.003);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.042);
+    o.connect(g); g.connect(lp);
+    o.start(t); o.stop(t + 0.07);
+
+    setTimeout(()=> out.disconnect(), 400);
   }
 
   /* --- the meanwhile rail: one voice per interest, so the four icons are

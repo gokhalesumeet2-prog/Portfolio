@@ -190,12 +190,13 @@ nav .mark{color:var(--nav-mark)}
 .line.sub:first-of-type{margin-top:clamp(16px,2.4vh,32px)}
 .line.sub + .line.sub{margin-top:.8em}
 
-/* The untyped remainder is held in the box as hidden text, so a wrapping
-   line is already its final height on the very first character. Without it,
-   every new row would grow #copy and shove the whole centred composition
-   upward mid-sentence. */
-.line.sub .rest{visibility:hidden;font-style:normal}
-.line.sub .done{font-style:normal}
+/* The untyped remainder is held in the box as hidden text, so every line is
+   already its final size on the very first character. Without it a wrapping
+   line grows a row at a time, and a nowrap statement grows #copy itself —
+   either way the centred composition walks up or down the screen while the
+   sentence is still being typed. */
+.line .rest{visibility:hidden;font-style:normal}
+.line .done{font-style:normal}
 
 /* #stage clips, and the hero is only ever one viewport tall. On a short
    window these are the part that has to give. */
@@ -260,7 +261,14 @@ nav .mark{color:var(--nav-mark)}
   display:inline-block;
   width:2px;height:1.02em;
   vertical-align:-.16em;
-  margin-left:.05em;
+  /* It costs nothing horizontally: the negative right margin gives back
+     exactly what the width and the left margin take. One caret is shared
+     by every line, so without this each line would be 3px wider while the
+     caret was in it and 3px narrower the moment it left — and #copy is
+     width:max-content and centred, so the whole composition would twitch
+     sideways at each handover. It sits over the head of the hidden
+     remainder, which nobody can see. */
+  margin-left:.05em;margin-right:calc(-2px - .05em);
   background:var(--ink);
   animation:caret 1.06s steps(1) infinite;
   transition:background-color .45s ease;
@@ -389,8 +397,15 @@ nav .tools{display:flex;gap:9px;align-items:center}
 
 #clock{
   position:fixed;left:clamp(20px,4vw,52px);bottom:22px;z-index:70;
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  /* The mono stack was doing a job — a clock is a number that changes, and
+     tabular figures stop the minute from nudging the city sideways. SF Pro
+     Text does the same job without changing typeface: font-variant-numeric
+     asks for the tabular set, which is exactly the part of a mono face a
+     clock actually needs. */
+  font-family:var(--font-ui);
+  font-variant-numeric:tabular-nums;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:500;
   color:var(--hint);
   opacity:0;transition:opacity .9s ease,color .45s ease;
   pointer-events:none;
@@ -454,20 +469,61 @@ nav .tools{display:flex;gap:9px;align-items:center}
   /* the dashboard's right edge: whichever margin bites first, the plate's
      or the window's */
   --dev-r:max(3.2%, calc(var(--crop-x) + 2.6vw));
+
+  /* ---------- the size of the drawing ----------
+     The other four plates are single images that are meant to be cropped;
+     this one is a composition with a tablet you have to be able to aim at,
+     so it has to fit the window instead. The artboard says the sheet is
+     49.36% of the frame wide, which is 90.13% of the frame tall — but the
+     frame is taller than the window on every screen wider than 1.40625:1,
+     so on a 16:9 laptop that fills the window and then some, and the top
+     and bottom of the drawing get cropped away.
+     So the sheet is whichever is smaller: the size the artboard asks for,
+     or the size that leaves 28px of air above and below it in the actual
+     window. Because the frame's aspect ratio is fixed, the same length can
+     be written two ways -- as a share of the frame's width or of its
+     height -- and the pair below are the same number of pixels expressed
+     for the two kinds of property. That is what lets the tablet hotspot
+     and the dashboard be placed against the drawing rather than against
+     the artboard, and stay placed at every size. */
+  --draw-w:min(49.36%, calc((100svh - 56px) * 912 / 1184));
+  --draw-h:min(90.13%, calc(100svh - 56px));
+  --draw-r:max(4.42%, calc(var(--crop-x) + 3vw));
+  /* the dashboard, at the share of the drawing it holds in the design, so
+     the two shrink together and the composition keeps its proportions */
+  --dev-w:calc(var(--draw-w) * .8104);
+  --dev-h:calc(var(--draw-h) * .4417);
 }
 
-/* the sheet */
+/* the sheet — centred on the window rather than hung off the artboard's top */
 .op-draw{
-  position:absolute;left:46.22%;top:4.88%;width:49.36%;height:auto;
-  transform-origin:50% 46%;
+  position:absolute;
+  right:var(--draw-r);top:50%;
+  width:var(--draw-w);height:auto;
+  transform:translateY(-50%);transform-origin:50% 50%;
   box-shadow:0 1px 2px rgba(28,28,28,.05), 0 14px 40px rgba(28,28,28,.06);
   transition:transform .6s cubic-bezier(.18,.86,.3,1),
              opacity   .45s ease,
              filter    .45s ease;
 }
 
-/* the bubble, at the size and corner it holds in the design */
-.op-bubble{position:absolute;left:1%;bottom:1.2%;width:19%;aspect-ratio:1000 / 854.8}
+/* ---------- the bubble ----------
+   It sits in the artboard's bottom-left corner, which on a cropped frame is
+   somewhere below the bottom of the window. Anchored to the window's own
+   edges instead, and capped in height so that on a short screen it shrinks
+   rather than climbing into the project list above it. */
+.op-bubble{
+  position:absolute;
+  left:max(1%, calc(var(--crop-x) + 2vw));
+  bottom:max(1.2%, calc(var(--crop-y) + 46px));
+  width:min(19%, 32.7svh);
+  aspect-ratio:1000 / 854.8;
+  /* its own container, so the sentence inside is sized against the bubble
+     and not against the plate — otherwise capping the width above would
+     leave full-size type in a smaller shape */
+  container-type:inline-size;
+  transition:opacity .45s ease;
+}
 .op-bubble-shape{
   position:absolute;inset:0;width:100%;height:100%;
   fill:#E3E1DB;stroke:#1C1C1C;stroke-width:8;
@@ -476,10 +532,9 @@ nav .tools{display:flex;gap:9px;align-items:center}
 .op-bubble-text{
   position:absolute;left:16.5%;right:9%;top:15.5%;
   font-family:var(--font-display);
-  font-size:1.02cqw;line-height:1.44;font-weight:400;
+  font-size:5.37cqw;line-height:1.44;font-weight:400;
   color:#1C1C1C;letter-spacing:.002em;
 }
-.op-bubble{transition:opacity .45s ease}
 
 /* ---------- the link ----------
    Full-plate so the dashboard can be positioned against the plate, but
@@ -493,24 +548,32 @@ nav .tools{display:flex;gap:9px;align-items:center}
 }
 .proj-plate.op.on .op-hot{visibility:visible}
 
-/* the tablet in the drawing, measured off the artwork */
+/* ---------- the tablet in the drawing ----------
+   Measured off the artwork as a share of the sheet, not of the plate: the
+   tablet is a thing inside the drawing, so it has to move and scale with
+   the drawing rather than sit at a fixed spot on the artboard. Both edges
+   are quoted from the drawing's right edge and its vertical centre, which
+   are the two things the rule above pins down. */
 .op-tap{
-  position:absolute;left:64.5%;top:36.4%;width:13.1%;height:12.9%;
+  position:absolute;
+  right:calc(var(--draw-r) + .3643 * var(--draw-w));
+  width:calc(.2654 * var(--draw-w));
+  top:calc(50% - .1503 * var(--draw-h));
+  height:calc(.1431 * var(--draw-h));
   pointer-events:auto;cursor:pointer;border-radius:1.2%/1.4%;
 }
 
 /* ---------- the dashboard ----------
-   Anchored by its right edge to whichever is nearer, the plate's margin or
-   the window's, and allowed to give up width rather than reach the list.
-   min() over a calc is what stops it from ever crossing 42%, which is where
-   the list ends. */
+   Anchored by its right edge to whichever margin bites first, the plate's
+   or the window's, and sized as a share of the drawing so the two stay in
+   proportion. Vertically it keeps the offset from the drawing's centre
+   that it has in the design. */
 .op-dev{
   position:absolute;
   right:var(--dev-r);
-  top:max(25.5%, calc(var(--crop-y) + 2.4svh));
-  width:min(40%, calc(100% - var(--dev-r) - 42%));
-  min-width:26%;
-  height:auto;aspect-ratio:684 / 484;
+  top:calc(50% - .2712 * var(--draw-h));
+  width:var(--dev-w);
+  height:var(--dev-h);
   pointer-events:none;cursor:pointer;
   opacity:0;
   /* the origin sits where the tablet falls inside this box, so shrinking
@@ -531,7 +594,9 @@ nav .tools{display:flex;gap:9px;align-items:center}
    dashboard comes forward */
 .proj-plate.op:has(.op-hot:hover) .op-draw,
 .proj-plate.op:has(.op-hot:focus-visible) .op-draw{
-  transform:scale(.955);opacity:.72;filter:saturate(.85)
+  /* the translate has to be restated: it is what centres the sheet, and a
+     transform list replaces the whole list rather than adding to it */
+  transform:translateY(-50%) scale(.955);opacity:.72;filter:saturate(.85)
 }
 .proj-plate.op:has(.op-hot:hover) .op-bubble,
 .proj-plate.op:has(.op-hot:focus-visible) .op-bubble{opacity:.4}
@@ -612,12 +677,17 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
   .op-bubble{display:none}
   .op-tap{display:none}
   .op-hot{pointer-events:auto}
-  /* nothing is cropped here, so the drawing comes back to the middle and
-     the dashboard sits where the hover would have left it */
-  .op-draw{left:22%;opacity:.92;box-shadow:0 1px 2px rgba(28,28,28,.05), 0 6px 18px rgba(28,28,28,.07)}
+  /* The card is a fitted 1440x1024 box inside the viewport rather than a
+     frame overflowing it, so nothing is cropped and none of the window
+     arithmetic above applies: the drawing goes back to sitting on the
+     artboard, and the dashboard sits where the hover would have left it. */
+  .op-draw{
+    right:auto;left:22%;top:4.88%;width:49.36%;transform:none;
+    opacity:.92;box-shadow:0 1px 2px rgba(28,28,28,.05), 0 6px 18px rgba(28,28,28,.07);
+  }
   .op-dev{
     opacity:1;transform:none;pointer-events:auto;
-    top:34%;width:34%;min-width:0;
+    top:34%;width:34%;height:auto;aspect-ratio:684 / 484;
     filter:drop-shadow(0 8px 18px rgba(28,28,28,.16));
   }
 }
@@ -697,7 +767,7 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
     -webkit-mask-image:none!important;mask-image:none!important}
   #reveal .hl{color:var(--accent)!important}
   /* nothing is typed in this mode, so the remainder must not stay hidden */
-  .line.sub .rest{visibility:visible!important}
+  .line .rest{visibility:visible!important}
   .eye{display:none}
   #hint{display:none}
   #clock{opacity:1!important;transition:none!important}
@@ -708,8 +778,10 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
      moving. */
   .op-draw,.op-dev,.op-bubble{transition:opacity .18s ease!important}
   .op-dev{transform:none!important}
+  /* the sheet dims without moving — but the translate stays, because it is
+     what centres it rather than part of the gesture */
   .proj-plate.op:has(.op-hot:hover) .op-draw,
-  .proj-plate.op:has(.op-hot:focus-visible) .op-draw{transform:none!important}
+  .proj-plate.op:has(.op-hot:focus-visible) .op-draw{transform:translateY(-50%)!important}
 }
 
 /* ===================== third fold: meanwhile =====================
@@ -775,8 +847,10 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
 @keyframes mwblink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
 .mw-hint{
   position:absolute;right:3.94%;top:22.4%;margin:0;
-  font-family:var(--font-ui);font-size:.86cqw;letter-spacing:.09em;
-  text-transform:uppercase;color:#98A1DB;
+  /* lowercase, the way the rest of the page talks — the tracking that made
+     the caps legible is dialled back to suit it */
+  font-family:var(--font-ui);font-size:.86cqw;letter-spacing:.03em;
+  color:#98A1DB;
   opacity:0;transition:opacity .7s ease .3s;
 }
 .mw-panel.on .mw-hint.in{opacity:1}
@@ -872,6 +946,25 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
 }
 .mw-tab:hover img, .mw-tab:focus-visible img, .mw-tab.sel img{transform:scale(1.12)}
 .mw-tab:focus-visible{outline:none}
+/* The word sits under the icon, outside the ring rather than inside it:
+   the ring is inset:0 on the button, so anything added to the button's
+   flow would push the ring out around it and the sharpie would stop
+   being a circle. Absolute keeps the ring exactly the size it was drawn
+   at and drops the label into the gap between tabs, which is already
+   3.1cqw of nothing. It carries the sharpie's own colour so it inverts
+   with the panel the same way the ring does — quiet at rest, full
+   strength on the one you're looking at. */
+.mw-tab-label{
+  position:absolute;left:50%;top:calc(100% + .1cqw);
+  transform:translateX(-50%);
+  font-family:var(--font-ui);
+  font-size:.82cqw;line-height:1;letter-spacing:.01em;font-weight:500;
+  color:var(--mw-mark);opacity:.62;white-space:nowrap;pointer-events:none;
+  transition:opacity .25s ease,color .45s ease;
+}
+.mw-tab:hover .mw-tab-label,
+.mw-tab:focus-visible .mw-tab-label{opacity:.85}
+.mw-tab.sel .mw-tab-label{opacity:1}
 /* the sharpie ring: drawn on, wiped off */
 .mw-ring{
   position:absolute;inset:0;

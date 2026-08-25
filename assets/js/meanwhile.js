@@ -178,18 +178,29 @@
       setTimeout(()=>{ total = daysSince(iso); writeDays(total); tick(); }, next - now);
     })();
 
-    let counted = false;
+    /* The climb is the point of the panel, so it runs every time the panel
+       is reached rather than once per page load: look at the other three
+       interests and come back, and the number counts up again instead of
+       already sitting at the answer.
+       The handle is what makes that safe. Arriving twice in quick
+       succession cancels the first run before starting the second, so two
+       animations never end up writing to the same element on alternate
+       frames. */
+    let raf = 0;
     var countUp = function(){
-      if (counted) return;
-      counted = true;
-      if (reduce || total === 0) return;    /* already showing the real figure */
+      if (raf){ cancelAnimationFrame(raf); raf = 0; }
+      if (reduce || total === 0){ writeDays(total); return; }
       const DUR = 1400, t0 = performance.now();
+      writeDays(0);                          /* from nothing, every time */
       (function step(now){
-        const t = Math.min(1, (now - t0) / DUR);
+        /* rAF hands back the frame's start time, which can sit a hair
+           before t0 — and an unclamped negative t rounds to -0, which
+           en-US cheerfully formats as "-0 days" */
+        const t = Math.min(1, Math.max(0, (now - t0) / DUR));
         /* ease-out: quick off the mark, then settling rather than stopping */
         writeDays(Math.round(total * (1 - Math.pow(1 - t, 3))));
-        if (t < 1) requestAnimationFrame(step);
-        else writeDays(total);
+        if (t < 1){ raf = requestAnimationFrame(step); }
+        else { raf = 0; writeDays(total); }
       })(t0);
     };
   }
