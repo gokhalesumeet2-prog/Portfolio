@@ -83,6 +83,9 @@
       section.dataset.chrome = panel.dataset.chrome;
       document.dispatchEvent(new CustomEvent('mw:chrome'));
       raiseGirl(key === 'intro');
+      /* countUp is hoisted from further down, and is only ever assigned if
+         the counter markup is actually on the page */
+      if (panel.dataset.key === 'sport' && countUp) countUp();
     }
     /* the ring only sticks on the one being held; a hover ring is CSS */
     tabs.forEach(t=>{
@@ -130,6 +133,66 @@
     if (ev.pointerType === 'touch') return;
     if (!held) paint('intro');
   });
+
+  /* ---------- the day counter ----------
+     Two separate things are going on here, and they're easy to confuse.
+
+     The number itself is derived from a start date rather than typed into the
+     HTML, so it grows on its own as the days pass — no edit needed, and it
+     can never quietly go stale. A page left open past midnight rolls over on
+     its own too, because there's a timer waiting for it.
+
+     The count-up from zero is only presentation: when the sport panel first
+     comes up, the figure races from 0 to today's total and stops. It runs
+     once. Coming back to the panel shows the settled number, because a
+     counter that re-rolls every visit reads as decoration rather than fact. */
+  const dayEl = section.querySelector('.mw-sp-counter b');
+
+  /* Whole days between two local midnights. Going through midnight rather
+     than raw timestamps is what keeps a daylight-saving jump from adding or
+     eating a day. */
+  function daysSince(iso){
+    const [y,m,d] = iso.split('-').map(Number);
+    const start = new Date(y, m - 1, d);
+    const now   = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.max(0, Math.round((today - start) / 864e5));
+  }
+
+  function writeDays(n){
+    dayEl.textContent = n.toLocaleString('en-US') + (n === 1 ? ' day' : ' days');
+  }
+
+  if (dayEl && dayEl.dataset.since){
+    const iso = dayEl.dataset.since;
+    let total = daysSince(iso);
+    writeDays(total);                       /* correct before anything animates */
+
+    /* Wait for the next local midnight, then keep waiting for the one after.
+       A minute of slack absorbs the drift that long setTimeouts pick up, and
+       recomputing from the date each time means a machine that slept through
+       several days catches up rather than incrementing by one. */
+    (function tick(){
+      const now  = new Date();
+      const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 60);
+      setTimeout(()=>{ total = daysSince(iso); writeDays(total); tick(); }, next - now);
+    })();
+
+    let counted = false;
+    var countUp = function(){
+      if (counted) return;
+      counted = true;
+      if (reduce || total === 0) return;    /* already showing the real figure */
+      const DUR = 1400, t0 = performance.now();
+      (function step(now){
+        const t = Math.min(1, (now - t0) / DUR);
+        /* ease-out: quick off the mark, then settling rather than stopping */
+        writeDays(Math.round(total * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) requestAnimationFrame(step);
+        else writeDays(total);
+      })(t0);
+    };
+  }
 
   /* ---------- the typed line ----------
      Same keyboard the hero uses, so the two folds sound like one site. */

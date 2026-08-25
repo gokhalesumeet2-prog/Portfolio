@@ -5,6 +5,7 @@
   const stage  = document.getElementById('stage');
   const copy   = document.getElementById('copy');
   const reveal = document.getElementById('reveal');
+  const blurb  = document.getElementById('blurb');
   const ring   = document.getElementById('ring');
   const cursorEl = document.getElementById('cursor');
   const hint   = document.getElementById('hint');
@@ -488,6 +489,21 @@
     reveal.classList.add('lit');
     reveal.classList.add('wipe');
     await sleep(1750);          /* the wipe now takes its time */
+    if (skipped) return;
+
+    /* The blurb answers in the same gesture, a beat later, but as one block
+       rather than a line at a time — the statement is the performance, this
+       is just the rest of the sentence. */
+    if (blurb){
+      await sleep(240);
+      if (skipped) return;
+      blurb.classList.add('armed');
+      void blurb.offsetWidth;         /* commit 'armed' before the transition */
+      blurb.classList.add('wipe');
+      await sleep(1500);
+      if (skipped) return;
+      blurb.classList.add('instant');
+    }
 
     frozen = true;
     reveal.classList.add('instant');
@@ -508,6 +524,7 @@
     lines.forEach(l=> l.classList.add('in'));
     head.classList.add('in');
     reveal.classList.add('instant','armed','lit','wipe');
+    if (blurb) blurb.classList.add('instant','armed','wipe');
     hint.classList.add('gone');
     if (fine){ cursorEl.classList.add('on'); document.body.style.cursor='none'; }
   }

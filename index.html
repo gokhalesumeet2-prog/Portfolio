@@ -70,7 +70,7 @@
 
 <link rel="preload" as="image" href="assets/img/work/nirvana.webp"
       imagesrcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w" imagesizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)">
-<link rel="stylesheet" href="assets/css/site.css?v=14572c1e">
+<link rel="stylesheet" href="assets/css/site.css?v=fcf42ff7">
 </head>
 
 <nav>
@@ -115,6 +115,11 @@
     <div class="line" data-i="0"><span class="tw">perception is subjective.</span><span class="head" role="button" tabindex="0" aria-label="a small witness"><img src="assets/img/witness.webp" width="164" height="223" alt="" decoding="async" fetchpriority="high"></span></div>
     <div class="line" data-i="1"><span class="tw">but</span></div>
     <h1 class="line" id="reveal">I see what you <span class="hl">see.</span></h1>
+    <div id="blurb">
+      <p>I&rsquo;ve worked across e-commerce, mental health, fintech and startup to graphic &amp; product design, designing experiences from research and information architecture through interaction, visual systems, prototyping, testing, and delivery.</p>
+      <p>I&rsquo;m just as comfortable figuring out a messy workflow as I am starting something from scratch.</p>
+      <p>I know I can help you in your design thinking, research and execution and would love to connect and build something amazing!</p>
+    </div>
   </div>
   <div id="ring"></div>
 </div>
@@ -242,7 +247,11 @@
         <p class="mw-cap mw-sp-cap">20+ years playing tennis has made me a true sportsman, now I apply it everywhere</p>
         <img class="mw-arrow mw-sp-a1" src="assets/img/meanwhile/arrow.webp" alt="" width="257" height="264" loading="lazy" decoding="async">
         <img class="mw-arrow mw-sp-a2" src="assets/img/meanwhile/arrow.webp" alt="" width="257" height="264" loading="lazy" decoding="async">
-        <p class="mw-cap mw-sp-counter">yoga + meditation day counter<b>2,653 days</b></p>
+        <!-- The day count is derived from the start date below, not typed in,
+             so it stays true on its own instead of going stale the moment it
+             ships. The text inside <b> is the no-JS fallback; edit data-since
+             (YYYY-MM-DD) if the real first day is a different one. -->
+        <p class="mw-cap mw-sp-counter">yoga + meditation day counter<b data-since="2019-05-20">2,653 days</b></p>
         <img class="mw-sp-badge" src="assets/img/meanwhile/sport-badge.webp"
              alt="Just another day." width="682" height="290" loading="lazy" decoding="async">
       </div>
@@ -276,8 +285,8 @@
 
 <script src="assets/js/audio.js?v=b9f48cf1" defer></script>
 <script src="assets/js/controls.js?v=4bcdaa4e" defer></script>
-<script src="assets/js/hero.js?v=42412bee" defer></script>
+<script src="assets/js/hero.js?v=8256c1af" defer></script>
 <script src="assets/js/work.js?v=cf4dc1f0" defer></script>
-<script src="assets/js/meanwhile.js?v=abcfbe88" defer></script>
+<script src="assets/js/meanwhile.js?v=1a551a3b" defer></script>
 </body>
 </html>

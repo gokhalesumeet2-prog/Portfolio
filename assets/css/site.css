@@ -19,6 +19,7 @@
   --bg:#2E398C;
   --ink:#E5FE78;               /* body type            */
   --accent:#FFFFFF;            /* the word "see"       */
+  --copy-ink:#FFFFFF;          /* the blurb under it   */
   --stroke:#E5FE78;            /* drawn lid            */
   --iris-fill:#FFFFFF;
   --pupil-fill:#2E398C;
@@ -46,6 +47,7 @@
   --bg:#FFFFFF;
   --ink:#2E398C;
   --accent:var(--red);
+  --copy-ink:#2E398C;
   --stroke:#2E398C;
   /* the iris carries the colour that lands on the word, so it matches */
   --iris-fill:var(--red);
@@ -159,6 +161,64 @@ nav .mark{color:var(--nav-mark)}
 #reveal.lit .hl{color:var(--accent)}
 #reveal.instant, #reveal.instant .hl{
   -webkit-transition:none!important; transition:none!important;
+}
+
+/* ---------- the blurb ----------
+   The same gesture as the line above it: one soft-edged mask travelling left
+   to right. The difference is that it crosses the whole block rather than a
+   line at a time, so three paragraphs arrive as a single thought instead of
+   being read out to you.
+
+   It ships in the HTML and is only masked, never display:none, so it is in
+   the document for a crawler and in the accessibility tree the moment it is
+   armed. It sets its own measure and wraps, unlike the nowrap lines above,
+   and because it occupies its space from first paint the block above never
+   jumps to make room for it. */
+#blurb{
+  margin-top:clamp(16px,2.4vh,32px);
+  /* #copy is width:max-content, sized by the nowrap lines above. A wrapping
+     paragraph's max-content is the whole paragraph on one line, so left alone
+     this block would drag #copy out to its 92vw ceiling and the statement
+     would no longer sit where it was composed. width:0 makes the block
+     contribute nothing to that measurement; min-width:100% then fills
+     whatever width the lines settled on. So the copy wraps to the width of
+     "perception is subjective." and the layout above is untouched. */
+  width:0;
+  min-width:100%;
+  font-family:var(--font-ui);
+  font-size:clamp(.875rem,1.1vw,1.05rem);
+  line-height:1.62;
+  font-weight:400;
+  letter-spacing:.004em;
+  color:var(--copy-ink);
+  white-space:normal;
+  visibility:hidden;
+  /* identical to #reveal: the opaque half is exactly one element-width wide,
+     so mask-position maps linearly onto "how much is showing" */
+  --mask:linear-gradient(90deg,
+    #000 0 50%,
+    rgba(0,0,0,.5) 54%,
+    transparent 58%);
+  -webkit-mask-image:var(--mask); mask-image:var(--mask);
+  -webkit-mask-size:200% 100%;   mask-size:200% 100%;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:116% 0;  mask-position:116% 0;
+}
+#blurb p + p{margin-top:.95em}
+#blurb.armed{visibility:visible}
+#blurb.wipe{
+  -webkit-mask-position:0% 0; mask-position:0% 0;
+  -webkit-transition:-webkit-mask-position 1.5s cubic-bezier(.35,.05,.25,1);
+  transition:mask-position 1.5s cubic-bezier(.35,.05,.25,1);
+}
+#blurb.instant{
+  -webkit-transition:none!important; transition:none!important;
+}
+/* #stage clips, and the hero is only ever one viewport tall. On a short
+   window the blurb is the part that has to give. */
+@media (max-height:760px){
+  #blurb{font-size:clamp(.8rem,1vw,.94rem);line-height:1.54;margin-top:14px}
+  #blurb p + p{margin-top:.7em}
 }
 
 #copy.jolt{animation:jolt .42s cubic-bezier(.3,1.6,.4,1)}
@@ -527,6 +587,9 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
   #reveal{visibility:visible!important;
     -webkit-mask-image:none!important;mask-image:none!important}
   #reveal .hl{color:var(--accent)!important}
+  #blurb{visibility:visible!important;
+    -webkit-mask-image:none!important;mask-image:none!important;
+    -webkit-transition:none!important;transition:none!important}
   .eye{display:none}
   #hint{display:none}
   #clock{opacity:1!important;transition:none!important}
