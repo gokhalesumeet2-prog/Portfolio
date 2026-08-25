@@ -28,8 +28,8 @@
      system because Apple's licence forbids self-hosting it. On non-Apple
      devices it falls back to Inter, so nothing breaks. */
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --mono: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-          "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "SF Pro Text", "SF Pro Display", "SF Pro", -apple-system,
+          BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
 
   /* Fluid type scale, ratio ~1.25, anchored at 17px body.
      Every step is clamp(min, preferred, max) so it rides the viewport. */
@@ -80,7 +80,10 @@ body {
   background: var(--white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "cv05" 1, "cv08" 1; /* Inter: single-storey l, tail-less t */
+  /* Inter: single-storey l, tail-less t. "zero" 0 keeps the plain oval zero,
+     never the slashed one. */
+  font-feature-settings: "cv05" 1, "cv08" 1, "zero" 0;
+  font-variant-numeric: lining-nums;
   overflow-x: hidden;
 }
 
@@ -137,16 +140,35 @@ strong, b { color: var(--ink); font-weight: 600; }
   align-items: center;
   gap: 0.7rem;
 }
+/* The section marker. This was a 1.5rem hairline, which read as a stray rule
+   rather than a mark, and sat awkwardly beside the index. A plus is a
+   deliberate glyph, holds its weight at every size, and needs no override
+   when the band inverts, only a colour. */
 .eyebrow::before {
-  content: "";
-  width: 1.5rem;
-  height: 1px;
-  background: var(--faint);
+  content: "+";
   flex: none;
+  font-size: 1.15em;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--accent);
+  transform: translateY(-0.02em);
 }
 .eyebrow--plain { display: block; }
 .eyebrow--plain::before { display: none; }
 .eyebrow .idx { color: var(--accent); }
+
+/* Every run set in SF Pro. font-feature-settings is not additive, so naming
+   it here drops the Inter character-variant flags inherited from body, which
+   is what was turning the 0 in "01" into a slashed zero. Figures stay lining
+   and tabular so indices and numbers align in a column. */
+.eyebrow, .mono, .crumb, .avail, .client .role, .note .n, .meta-bar dt,
+.decision::before, .evidence-note, blockquote cite, table.data thead th,
+.dg-t, .dg-lbl, .contact-band .direct, .footer-grid h2, .footer-base,
+.cv-row .when, .stat .num, .stat .src, .chip, .flag {
+  font-feature-settings: "zero" 0;
+  font-variant-numeric: lining-nums tabular-nums;
+}
 
 .lead { font-size: var(--t-lead); line-height: 1.5; color: var(--body); }
 .small { font-size: var(--t-small); }
@@ -718,7 +740,7 @@ table.data td:first-child { color: var(--ink); font-weight: 500; }
    #8b939b measures 5.7:1 on --ink, the index and rule are lighter still. */
 .contact-band .eyebrow { color: #8b939b; }
 .contact-band .eyebrow .idx { color: #fff; }
-.contact-band .eyebrow::before { background: #6b727a; }
+.contact-band .eyebrow::before { color: #8b939b; }
 .contact-band .btn--primary { background: #fff; color: var(--ink); }
 .contact-band .btn--primary:hover { background: #e9ecef; color: var(--ink); }
 .contact-band .btn--ghost { color: #fff; border-color: #3a3f47; }
@@ -841,7 +863,7 @@ table.data td:first-child { color: var(--ink); font-weight: 500; }
 .section--figures h2 { color: #fff; }
 .section--figures .eyebrow { color: var(--body); }
 .section--figures .eyebrow .idx { color: var(--accent); }
-.section--figures .eyebrow::before { background: var(--faint); }
+.section--figures .eyebrow::before { color: var(--accent); }
 .section--figures .lead { color: var(--body); }
 .section--figures .stat .label { color: var(--body); }
 .section--figures .evidence-note { color: var(--muted); border-left-color: var(--accent); }
