@@ -8,6 +8,14 @@ Static checks only, so it runs anywhere with no dependencies:
 Exits non-zero if any rule in DESIGN-SYSTEM.md that can be checked
 statically has been broken. Runtime rules (contrast, target size, overflow,
 image ratios) are covered by the headless render pass, not here.
+
+The site now runs two design systems side by side. The homepage is its own
+thing: its own stylesheet at assets/css/site.css, its own scripts, its own
+typographic rules, and no contact band or CTA row to check. The case studies
+still run the original system out of the flat assets/site.css. So the rules
+below are scoped -- PAGES covers the original system, HOME covers the
+homepage, and the link and asset integrity pass at the end covers everything,
+because a broken reference is a broken reference whichever design it lives in.
 """
 import os
 import re
@@ -16,8 +24,15 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP = ("audit-before", "renders", "prototype", ".git", "tools", "_preview")
 
+# design explorations kept around for reference, not part of the site
+SCRATCH = ("preview-restyle.html", "preview-section-rail.html")
+
+HOME = "index.html"
+HOME_CSS = "assets/css/site.css"
+DOMAIN = "https://sumeetgokhale.com"
+
+# pages running the original design system
 PAGES = [
-    "index.html",
     "ux-design-case-studies/index.html",
     "about-sumeet-gokhale-ux-designer/index.html",
     "nirvana-mudra-recommendation-engine-case-study/index.html",
@@ -25,7 +40,7 @@ PAGES = [
     "nirvana-meditation-app-habit-design-case-study/index.html",
     "optivento-restaurant-inventory-management-ux-case-study/index.html",
 ]
-CASE_STUDIES = PAGES[3:]
+CASE_STUDIES = PAGES[2:]
 
 fails = []
 def check(ok, msg):
@@ -38,7 +53,7 @@ def html_files():
         if any(s in dp for s in SKIP):
             continue
         for f in sorted(fn):
-            if f.endswith(".html"):
+            if f.endswith(".html") and f not in SCRATCH:
                 yield os.path.join(dp, f)
 
 
@@ -52,7 +67,7 @@ for p in html_files():
     s = open(p, encoding="utf-8").read()
     if 'http-equiv="refresh"' in s:
         continue          # legacy redirect stub, deliberately bare
-    check("site.css" in s, f"{rel}: does not link assets/site.css")
+    check("site.css" in s, f"{rel}: does not link a site stylesheet")
     check(":root" not in s, f"{rel}: declares its own :root, tokens must live in site.css")
     n_style = len(re.findall(r"<style", s))
     check(n_style <= 1, f"{rel}: {n_style} <style> blocks, at most one scoped block is allowed")
@@ -64,10 +79,18 @@ for bad in ("IBM Plex", "Plex Mono", "monospace", "SFMono", "Menlo", "Courier"):
 check('--sans: "Inter"' in css, "site.css: --sans should lead with Inter")
 check("SF Pro Text" in css, "site.css: --mono should request SF Pro from the system")
 
+# The homepage runs Poppins over Inter and keeps a system mono stack for the
+# clock and the render panel, so only the faces the old system was actually
+# haunted by are worth guarding here.
+home_css = read(HOME_CSS)
+for bad in ("IBM Plex", "Plex Mono", "Courier"):
+    check(bad not in home_css, f"{HOME_CSS}: typewriter face '{bad}' is back")
+
 # ---------------------------------------------------------------- 3. no em or en dashes
-for p in list(html_files()) + [os.path.join(ROOT, "assets/site.css")]:
-    rel = os.path.relpath(p, ROOT)
-    s = open(p, encoding="utf-8").read()
+# a rule of the original system only. The homepage sets its own voice and
+# uses em dashes deliberately, in the title and the meta description.
+for rel in PAGES + ["assets/site.css"]:
+    s = read(rel)
     check("—" not in s, f"{rel}: contains an em dash")
     check("–" not in s, f"{rel}: contains an en dash")
 
@@ -85,7 +108,8 @@ def bad_colour(text):
             out.append("rgb(" + m.group(1) + ")")
     return out
 fused = re.compile(r"(?:[a-z0-9\]\)]|::[a-z-]+)\.[a-zA-Z][\w-]*\s*\{")
-for p in list(html_files()) + [os.path.join(ROOT, "assets/site.css")]:
+for p in list(html_files()) + [os.path.join(ROOT, "assets/site.css"),
+                               os.path.join(ROOT, HOME_CSS)]:
     rel = os.path.relpath(p, ROOT)
     s = open(p, encoding="utf-8").read()
     for m in mangled.finditer(s):
@@ -138,6 +162,34 @@ for rel in PAGES:
     check(not any("sr-only" in h for h in h1), f"{rel}: the <h1> is hidden with sr-only")
     check('class="skip"' in s, f"{rel}: missing skip link")
     check("contact-band" in s, f"{rel}: missing contact band")
+
+# ---------------------------------------------------------------- 6b. the homepage
+# Different design, so different rules. What matters here is that it is still
+# a real page for a crawler, that it points at the right domain, and that the
+# work list actually leads somewhere -- the project links ship as href="#"
+# placeholders in the design file and are easy to forget.
+home = read(HOME)
+
+h1 = re.findall(r"<h1[^>]*>", home)
+check(len(h1) == 1, f"{HOME}: {len(h1)} <h1> elements, expected exactly 1")
+check(not any("sr-only" in h for h in h1), f"{HOME}: the <h1> is hidden with sr-only")
+
+check(HOME_CSS in home, f"{HOME}: does not link {HOME_CSS}")
+check(f'rel="canonical" href="{DOMAIN}/"' in home,
+      f"{HOME}: canonical does not point at {DOMAIN}/")
+for prop in ("og:url", "og:image", "twitter:image"):
+    m = re.search(rf'"{re.escape(prop)}"[^>]*content="([^"]+)"', home)
+    check(m is not None and m.group(1).startswith(DOMAIN),
+          f"{HOME}: {prop} does not point at {DOMAIN}")
+
+placeholders = len(re.findall(r'href="#"', home))
+check(placeholders == 0,
+      f"{HOME}: {placeholders} link(s) still have the placeholder href=\"#\"")
+
+projects = re.findall(r'<a class="proj[^"]*" href="([^"]+)"', home)
+check(len(projects) == 5, f"{HOME}: {len(projects)} project links, expected 5")
+
+check("TODO" not in home, f"{HOME}: still has a TODO comment in it")
 
 # ---------------------------------------------------------------- 7. links and assets
 for p in html_files():

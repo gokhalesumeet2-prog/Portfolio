@@ -1,12 +1,13 @@
 {
-  "name": "Sumeet Gokhale, Product & UX Designer",
-  "short_name": "Sumeet Gokhale",
+  "name": "sumeet — perception is subjective",
+  "short_name": "sumeet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2E398C",
+  "theme_color": "#2E398C",
   "icons": [
-    { "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ],
-  "theme_color": "#ffd120",
-  "background_color": "#ffffff",
-  "display": "browser",
-  "start_url": "/"
+    { "src": "/assets/icons/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/assets/icons/icon-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "/assets/icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ]
 }

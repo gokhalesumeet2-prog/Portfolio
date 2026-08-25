@@ -5,3 +5,7 @@ Thumbs.db
 # Local-only helper files (not part of the deployed site)
 *.command
 HOW-TO-DEPLOY.md
+
+# Python leaves these behind whenever the tools/ scripts run
+__pycache__/
+*.pyc

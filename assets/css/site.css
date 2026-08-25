@@ -1,0 +1,729 @@
+/* ==========================================================================
+   sumeet — site styles
+   Single stylesheet: tokens, layout, hero scene, work section, chrome.
+   ========================================================================== */
+
+:root{
+  /* palette */
+  --coral:#E4573D;
+  --coral-deep:#D0442A;
+  --cream:#F2DEA2;
+  --paper:#FAFAF8;
+  --red:#E4573D;
+  --ash:#57534E;
+  --ash-deep:#38352F;
+  --iris:#EBD79C;          /* rendered-eye amber, shared by both themes */
+  --iris-deep:#C9A85E;
+
+  /* ---- dark (the default) ---- */
+  --bg:#2E398C;
+  --ink:#E5FE78;               /* body type            */
+  --accent:#FFFFFF;            /* the word "see"       */
+  --stroke:#E5FE78;            /* drawn lid            */
+  --iris-fill:#FFFFFF;
+  --pupil-fill:#2E398C;
+  --sclera:#F6F3EA;
+  --ball-ring:rgba(8,12,44,.30);
+  --ball-shadow:rgba(8,12,44,.45);
+  --nav:#98A1DB;
+  --nav-mark:#C9CFF2;
+  --hint:#6B76C0;
+  --ui-bg:rgba(255,255,255,.08);
+  --ui-line:rgba(255,255,255,.17);
+  --ui-fg:#A9B1E4;
+  --tile:#252F7C;
+  --tile-fg:#E5FE78;
+  --tile-line:rgba(255,255,255,.13);
+  --font-display:'Poppins','Circular Std',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-copy:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  /* SF Pro renders natively on Apple platforms; Inter is metric-close
+     enough to stand in everywhere else */
+  --font-ui:'SF Pro Text','SF Pro Display','SF Pro Icons',-apple-system,
+            BlinkMacSystemFont,system-ui,'Inter','Helvetica Neue',Arial,sans-serif;
+}
+/* ---- light: white ground, the same blue and green as dark ---- */
+:root[data-theme="light"]{
+  --bg:#FFFFFF;
+  --ink:#2E398C;
+  --accent:var(--red);
+  --stroke:#2E398C;
+  /* the iris carries the colour that lands on the word, so it matches */
+  --iris-fill:var(--red);
+  --pupil-fill:#2E398C;
+  --sclera:#FFFFFF;
+  --ball-ring:rgba(46,57,140,.24);
+  --ball-shadow:rgba(46,57,140,.16);
+  --nav:#8990BC;
+  --nav-mark:#2E398C;
+  --hint:#AEB3D0;
+  --ui-bg:rgba(46,57,140,.05);
+  --ui-line:rgba(46,57,140,.16);
+  --ui-fg:#6E76A8;
+  --tile:#F1F2F9;
+  --tile-fg:#2E398C;
+  --tile-line:rgba(46,57,140,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  background:var(--bg);
+  transition:background-color .45s ease;
+  overflow:hidden;                 /* released once the intro finishes */
+  font-family:var(--font-copy);
+  -webkit-font-smoothing:antialiased;
+}
+body.scrollable{overflow:auto;overflow-x:hidden}
+
+/* ---------- stage ---------- */
+#hero{position:relative;height:100svh;min-height:520px}
+#stage{position:absolute;inset:0;overflow:hidden}
+
+/* ---------- nav: reachable during the intro ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:26px clamp(20px,4vw,52px);
+  font-size:13.5px;letter-spacing:.005em;font-weight:400;
+  color:var(--nav);
+}
+nav{transition:color .22s ease}   /* fast enough to stay in step with the section edge */
+nav a{color:inherit;text-decoration:none;transition:color .3s ease;
+      font-family:var(--font-ui);letter-spacing:-.006em}
+nav .links a{position:relative;padding-bottom:3px}
+nav .links a::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+  background:var(--ink);
+  transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .42s cubic-bezier(.3,.75,.25,1);
+}
+nav .links a:hover,
+nav .links a:focus-visible{color:var(--ink)}
+nav .links a:hover::after,
+nav .links a:focus-visible::after{transform:scaleX(1)}
+nav .links a:focus-visible{outline:none}
+nav .links{display:flex;gap:clamp(14px,2.4vw,30px)}
+nav .mark{color:var(--nav-mark)}
+
+/* ---------- copy ---------- */
+#copy{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:max-content;max-width:92vw;
+  z-index:20;
+  padding:0 clamp(12px,3vw,28px);
+}
+.line{
+  font-family:var(--font-display);
+  font-size:clamp(1rem,2.0vw,1.9rem);
+  line-height:1.5;
+  font-weight:300;
+  letter-spacing:.002em;
+  color:var(--ink);
+  opacity:0;
+  transform:translateY(11px);
+  transition:opacity 1.5s ease,transform 1.5s cubic-bezier(.16,.78,.26,1),color .45s ease;
+  white-space:nowrap;
+}
+.line.in{opacity:1;transform:none}
+
+/* reserved space — the reveal never reflows the block */
+/* the reveal is a soft-edged wipe — ink spreading, not a shutter */
+#reveal{
+  position:relative;
+  font-weight:700;
+  letter-spacing:-.008em;
+  opacity:1;
+  transform:none;
+  transition:none;
+  visibility:hidden;
+  /* opaque half is exactly one line-width wide, so mask-position maps
+     linearly onto "how much of the line is showing" */
+  --mask:linear-gradient(90deg,
+    #000 0 50%,
+    rgba(0,0,0,.5) 54%,
+    transparent 58%);
+  -webkit-mask-image:var(--mask); mask-image:var(--mask);
+  -webkit-mask-size:200% 100%;   mask-size:200% 100%;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:116% 0;  mask-position:116% 0;
+}
+#reveal.armed{visibility:visible}
+#reveal.wipe{
+  -webkit-mask-position:0% 0; mask-position:0% 0;
+  -webkit-transition:-webkit-mask-position 1.7s cubic-bezier(.35,.05,.25,1);
+  transition:mask-position 1.7s cubic-bezier(.35,.05,.25,1);
+}
+/* "see" only catches the light once the wipe has reached it */
+#reveal .hl{color:var(--ink);transition:color .8s ease 1.15s}
+#reveal.lit .hl{color:var(--accent)}
+#reveal.instant, #reveal.instant .hl{
+  -webkit-transition:none!important; transition:none!important;
+}
+
+#copy.jolt{animation:jolt .42s cubic-bezier(.3,1.6,.4,1)}
+@keyframes jolt{
+  0%{transform:translate(-50%,-50%)}
+  22%{transform:translate(-50%,calc(-50% + 5px))}
+  55%{transform:translate(-50%,calc(-50% - 2px))}
+  100%{transform:translate(-50%,-50%)}
+}
+
+
+/* ---------- the small witness ---------- */
+/* the footprint stays 1em tall so the head never pushes the lines
+   apart; the image itself overflows it, above and below */
+.head{
+  display:inline-block;
+  position:relative;
+  width:1.95em;height:1em;
+  vertical-align:-.12em;
+  margin-left:.9em;
+  transform-origin:50% 76%;
+  cursor:pointer;
+  will-change:transform;
+  outline:none;
+}
+.head img{
+  position:absolute;left:0;bottom:-.62em;
+  width:100%;height:auto;display:block;
+  -webkit-user-drag:none;user-select:none;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.28));
+}
+.head:hover, .head:focus-visible{ animation:nod 1.45s cubic-bezier(.42,0,.4,1) infinite; }
+.head:focus-visible img{ filter:drop-shadow(0 0 0 2px var(--accent)) drop-shadow(0 3px 10px rgba(0,0,0,.28)); }
+@keyframes nod{
+  0%  {transform:rotate(0deg)}
+  18% {transform:rotate(-14deg)}
+  46% {transform:rotate(12deg)}
+  72% {transform:rotate(-7deg)}
+  88% {transform:rotate(3deg)}
+  100%{transform:rotate(0deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .head:hover, .head:focus-visible{animation:none}
+}
+
+
+/* ---------- typing ---------- */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+/* a typed line reveals itself by being typed — it doesn't also fade in */
+.line.typing{opacity:1;transform:none;transition:color .45s ease}
+.caret{
+  display:inline-block;
+  width:2px;height:1.02em;
+  vertical-align:-.16em;
+  margin-left:.05em;
+  background:var(--ink);
+  animation:caret 1.06s steps(1) infinite;
+  transition:background-color .45s ease;
+}
+@keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* the kid arrives once the sentence he's listening to is finished */
+.head{opacity:0;transition:opacity .9s ease}
+.head.in{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .head{opacity:1!important}
+  .caret{animation:none;opacity:0}
+}
+
+/* ---------- eyes ---------- */
+.eye{
+  position:absolute;left:0;top:0;
+  width:var(--s);height:var(--s);
+  z-index:5;              /* eyes always travel behind the copy */
+  will-change:transform,opacity;
+  pointer-events:none;
+}
+.ball{
+  position:absolute;inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 38% 32%, #fbf6ea 0%, var(--sclera) 46%, #ddd3bf 80%, #b3a892 100%);
+  overflow:hidden;
+  box-shadow:0 0 0 1px var(--ball-ring), 0 6px 22px var(--ball-shadow);
+}
+.iris{
+  position:absolute;left:50%;top:50%;
+  width:52%;height:52%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,
+      var(--iris-deep) 0%, var(--iris) 42%, #b8964e 84%, #6f5828 100%);
+  box-shadow:inset 0 0 0 1px rgba(80,60,20,.35);
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:background .4s ease;
+}
+.pupil{
+  position:absolute;left:50%;top:50%;
+  width:42%;height:42%;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 50%, #0d0b09 60%, #1e1913 100%);
+  transform:translate(-50%,-50%);
+}
+.glint{
+  position:absolute;left:31%;top:25%;
+  width:13%;height:13%;
+  border-radius:50%;
+  background:rgba(255,255,255,.95);
+  filter:blur(.3px);
+}
+.lid{
+  position:absolute;left:-6%;right:-6%;height:56%;
+  background:var(--bg);
+  will-change:transform;
+  transform:scaleY(0);
+}
+.lid.top{top:0;transform-origin:top center}
+.lid.bot{bottom:0;transform-origin:bottom center}
+
+/* ---------- geometric mode ---------- */
+body.geo .ball{
+  background:none;
+  box-shadow:none;
+  overflow:visible;
+  transform-origin:50% 50%;
+  display:flex;align-items:center;justify-content:center;
+}
+body.geo .ball svg{width:100%;height:100%;overflow:visible}
+/* sharpie: two passes per lid, the second lighter and offset —
+   the way a marker line gets gone over twice */
+.g-stroke{
+  fill:none;
+  stroke:var(--stroke);
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+}
+.g-stroke.a{stroke-width:3.3px;opacity:.96}
+.g-stroke.b{stroke-width:1.9px;opacity:.34}
+.g-iris{fill:var(--iris-fill);opacity:.93}
+.g-pupil{fill:var(--pupil-fill)}
+.g-look{will-change:transform}
+
+
+/* ---------- nav controls + clock ---------- */
+nav .right{display:flex;align-items:center;gap:clamp(14px,2.6vw,30px)}
+nav .tools{display:flex;gap:9px;align-items:center}
+#sndHint{
+  font-family:var(--font-ui);font-size:11.5px;letter-spacing:.01em;
+  color:var(--nav);opacity:0;pointer-events:none;
+  margin-right:2px;white-space:nowrap;
+  transition:opacity .6s ease;
+}
+#sndHint.show{opacity:.85}
+@media (max-width:700px){ #sndHint{display:none} }
+.ctl{
+  font-family:var(--font-ui);
+  width:38px;height:38px;border-radius:11px;
+  display:grid;place-items:center;
+  background:var(--tile);color:var(--tile-fg);
+  border:1px solid var(--tile-line);
+  cursor:pointer;padding:0;
+  -webkit-appearance:none;appearance:none;
+  transition:background-color .22s ease,color .22s ease,
+             border-color .22s ease,transform .2s cubic-bezier(.3,1.4,.5,1);
+}
+.ctl:hover{transform:translateY(-1.5px)}
+.ctl:active{transform:translateY(0) scale(.94)}
+.ctl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ctl svg{width:19px;height:19px;display:block;grid-area:1/1}
+:root[data-theme="dark"]  #themeBtn .moon{display:none}
+:root[data-theme="light"] #themeBtn .sun{display:none}
+#soundBtn .cross{opacity:0;transition:opacity .2s ease}
+#soundBtn.muted .wave{opacity:0}
+#soundBtn.muted .cross{opacity:1}
+#soundBtn .wave{transition:opacity .2s ease}
+/* breathes until the browser lets the ambience actually start */
+#soundBtn.pending{animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.45}}
+
+#clock{
+  position:fixed;left:clamp(20px,4vw,52px);bottom:22px;z-index:70;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--hint);
+  opacity:0;transition:opacity .9s ease,color .45s ease;
+  pointer-events:none;
+}
+#clock.in{opacity:1}
+#clock .sep{opacity:.45;margin:0 .5em}
+
+@media (max-width:560px){
+  nav{padding:20px 18px;font-size:12px}
+  nav .links{gap:15px}
+  nav .right{gap:15px}
+  .ctl{width:34px;height:34px;border-radius:10px}
+  .ctl svg{width:17px;height:17px}
+  #clock{font-size:10px;letter-spacing:.12em;bottom:58px}
+}
+
+
+/* ===================== second fold: work =====================
+   Each project is a full-bleed plate with its background keyed out, laid
+   over a flat section colour. The list sits underneath the plates, so the
+   artwork can crop into it exactly the way it does in the designs. */
+:root{ --pbg:#FEFDED; --cream-ink:#1C1C1C; --cream-mute:#A5A5A5; }
+#work{
+  position:relative;
+  min-height:100svh;
+  overflow:hidden;
+  background:var(--pbg);
+  transition:background-color .55s ease;
+}
+.proj-frame{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:max(100%, calc(100svh * 1440 / 1024));
+  aspect-ratio:1440 / 1024;
+  container-type:inline-size;
+}
+.proj-plates{position:absolute;inset:0;z-index:2;pointer-events:none}
+.proj-plate{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:fill;
+  opacity:0;transition:opacity .5s ease;
+}
+.proj-plate.on{opacity:1}
+
+/* the list never moves */
+.proj-nav{
+  position:absolute;left:21.7%;top:49.2%;transform:translateY(-50%);
+  z-index:1;
+  font-family:var(--font-display);line-height:1.38;
+}
+.proj-label{
+  font-size:1.55cqw;font-weight:300;color:var(--cream-mute);
+  margin-bottom:1.38em;
+}
+.proj-list{list-style:none}
+.proj{
+  display:inline-flex;align-items:center;gap:.42em;
+  font-size:1.55cqw;font-weight:300;
+  color:var(--cream-mute);text-decoration:none;white-space:nowrap;
+  transition:color .3s ease;
+}
+.proj.on{color:var(--cream-ink);font-weight:700}
+
+/* the marker: the same eye, still following you */
+.marker{
+  width:1.02em;height:1.02em;border-radius:50%;position:relative;flex:none;
+  background:radial-gradient(circle at 38% 32%, #fbf6ea 0%, #F1EBDA 46%, #ddd3bf 80%, #b3a892 100%);
+  box-shadow:0 0 0 1px rgba(0,0,0,.16), 0 2px 5px rgba(0,0,0,.16);
+  overflow:hidden;opacity:0;transition:opacity .3s ease;
+}
+.proj.on .marker{opacity:1}
+.marker i{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%)}
+.marker .mi{width:56%;height:56%;will-change:transform;
+  background:radial-gradient(circle at 50% 50%, #7C9455 0%, #6E8C4A 44%, #4E6531 86%, #33421F 100%)}
+.marker .mp{width:44%;height:44%;background:#14120E}
+.marker .mg{left:30%;top:26%;width:16%;height:16%;transform:none;background:rgba(255,255,255,.9)}
+
+/* the fixed chrome has to survive a light section */
+body.nav-cream nav{color:#8C887E}
+body.nav-cream nav .mark{color:var(--cream-ink)}
+body.nav-cream nav .links a:hover,
+body.nav-cream nav .links a:focus-visible{color:var(--cream-ink)}
+body.nav-cream nav .links a::after{background:var(--cream-ink)}
+body.nav-cream .ctl{background:rgba(0,0,0,.05);color:var(--cream-ink);border-color:rgba(0,0,0,.12)}
+body.nav-cream #sndHint{color:#8C887E}
+body.on-cream #clock{color:#B4AF9E}
+body.on-cream #panel button{background:rgba(0,0,0,.05);color:#8C887E;border-color:rgba(0,0,0,.12)}
+body.on-cream #panel button:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
+body.on-cream #panel button.sel{background:var(--cream-ink);color:#fff;border-color:var(--cream-ink)}
+body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
+
+/* on a phone the full-bleed frame would push the list off-screen,
+   so it stacks instead */
+@media (max-width:820px){
+  #work{display:grid;align-content:center;padding:clamp(84px,11vh,110px) 0 clamp(112px,15vh,140px)}
+  .proj-frame{
+    position:static;transform:none;
+    width:100%;aspect-ratio:auto;
+    display:grid;gap:clamp(20px,4vh,34px);justify-items:center;
+  }
+  .proj-nav{position:static;transform:none;text-align:center}
+  .proj-label{font-size:1rem;margin-bottom:1.2em}
+  .proj{font-size:1rem}
+  .proj-plates{position:relative;width:min(94vw,540px);aspect-ratio:1440/1024;inset:auto}
+  .proj-plate{object-fit:contain}
+}
+
+/* impact ring */
+#ring{
+  position:absolute;left:0;top:0;
+  width:20px;height:20px;margin:-10px 0 0 -10px;
+  border-radius:50%;
+  border:1.5px solid var(--accent);
+  opacity:0;z-index:25;pointer-events:none;
+}
+#ring.go{animation:ring .6s cubic-bezier(.15,.85,.3,1) forwards}
+@keyframes ring{
+  0%{opacity:.7;transform:scale(.3)}
+  100%{opacity:0;transform:scale(6.5)}
+}
+
+/* ---------- cursor pupil (the transfer) ---------- */
+/* after the eye is gone, the cursor is what's left watching */
+#cursor{
+  position:fixed;left:0;top:0;width:42px;height:42px;
+  margin:-21px 0 0 -21px;
+  z-index:80;pointer-events:none;opacity:0;
+  transform:translate(-300px,-300px);
+  transition:opacity .6s ease;
+}
+#cursor i{
+  display:block;width:100%;height:100%;
+  background:url("../img/cursor-sun.png") center/contain no-repeat;
+  animation:sunspin 30s linear infinite;
+  scale:1;
+  transition:scale .2s cubic-bezier(.3,1.6,.5,1);
+  filter:drop-shadow(0 2px 7px rgba(0,0,0,.28));
+}
+#cursor.press i{scale:.8}
+@keyframes sunspin{to{transform:rotate(360deg)}}
+#cursor.on{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  #cursor i{animation:none}
+}
+
+/* ---------- prototype controls (not part of the design) ---------- */
+#panel{
+  position:fixed;right:16px;bottom:14px;z-index:90;
+  display:flex;gap:8px;align-items:center;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
+}
+#panel button{
+  font-family:var(--font-ui);
+  font-size:11.5px;line-height:1;letter-spacing:.012em;
+  background:var(--ui-bg);color:var(--ui-fg);
+  border:1px solid var(--ui-line);
+  padding:7px 12px;border-radius:99px;cursor:pointer;
+  transition:.2s;
+}
+#panel button:hover{color:var(--ink);border-color:var(--ink)}
+#panel button.sel{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+#panel .sep{width:1px;height:14px;background:var(--ui-line);display:inline-block}
+#panel #replay{padding:6px;width:27px;height:27px;display:grid;place-items:center}
+#panel #replay svg{width:14px;height:14px}
+#hint{
+  position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
+  z-index:70;color:var(--hint);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;font-family:ui-monospace,monospace;
+  transition:opacity .5s ease;
+}
+#hint.gone{opacity:0}
+
+@media (max-width:560px){
+  .line{white-space:normal}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .line{opacity:1!important;transform:none!important;transition:none!important}
+  #reveal{visibility:visible!important;
+    -webkit-mask-image:none!important;mask-image:none!important}
+  #reveal .hl{color:var(--accent)!important}
+  .eye{display:none}
+  #hint{display:none}
+  #clock{opacity:1!important;transition:none!important}
+  #soundBtn.pending{animation:none}
+}
+
+/* ===================== third fold: meanwhile =====================
+   The panel is one artboard, 1320 x 938 in the design. Every element is
+   placed as a percentage of that, and type is sized in cqw, so the whole
+   composition scales as a single picture instead of reflowing. */
+#meanwhile{
+  --mw-top:96px;                     /* the fixed nav owns this much */
+  --mwbg:#2E398C;
+  --mw-ink:#17181C;
+  --mw-mark:#2F4BE8;                 /* the sharpie */
+  position:relative;
+  min-height:100svh;
+  overflow:hidden;
+  background:var(--mwbg);
+  transition:background-color .55s ease;
+}
+/* Unlike the work plates this fold is not full-bleed: the artboard is
+   fitted whole into the space under the nav, so every photo, sticker and
+   caption stays inside the fold at any window shape. The section colour
+   fills whatever is left over. */
+.mw-frame{
+  position:absolute;left:50%;
+  top:calc(var(--mw-top) + (100svh - var(--mw-top)) / 2);
+  transform:translate(-50%,-50%);
+  width:min(100%, calc((100svh - var(--mw-top)) * 1320 / 938));
+  aspect-ratio:1320 / 938;
+  container-type:inline-size;
+}
+.mw-panels{position:absolute;inset:0}
+.mw-panel{
+  position:absolute;inset:0;
+  opacity:0;visibility:hidden;
+  transition:opacity .45s ease, visibility 0s linear .45s;
+}
+.mw-panel.on{opacity:1;visibility:visible;transition:opacity .45s ease}
+.mw-panel img{position:absolute;display:block}
+
+/* --- shared bits --- */
+.mw-cap{
+  position:absolute;
+  font-family:var(--font-ui);
+  font-size:1.06cqw;line-height:1.42;letter-spacing:-.004em;
+  color:var(--mw-ink);margin:0;
+}
+.mw-arrow{width:7.1cqw;height:auto;filter:drop-shadow(0 1px 2px rgba(0,0,0,.10))}
+.mw-photo, .mw-panel .rounded{border-radius:1.05cqw}
+
+/* --- intro --- */
+.mw-lockup{left:59.77%;top:4.7%;width:35.2%;height:auto}
+.mw-sub{
+  position:absolute;right:3.94%;top:15.1%;margin:0;
+  font-family:var(--font-display);font-weight:300;
+  font-size:1.44cqw;letter-spacing:.002em;color:#E5FE78;
+  white-space:nowrap;
+}
+.mw-caret{
+  display:inline-block;width:.07em;height:1em;margin-left:.06em;
+  background:#E5FE78;vertical-align:-.12em;
+  animation:mwblink 1s steps(1,end) infinite;
+}
+.mw-sub.done .mw-caret{display:none}
+@keyframes mwblink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+.mw-hint{
+  position:absolute;right:3.94%;top:22.4%;margin:0;
+  font-family:var(--font-ui);font-size:.86cqw;letter-spacing:.09em;
+  text-transform:uppercase;color:#98A1DB;
+  opacity:0;transition:opacity .7s ease .3s;
+}
+.mw-panel.on .mw-hint.in{opacity:1}
+#meanwhile.picked .mw-hint{opacity:0;transition-delay:0s}
+/* She is the one thing meant to run off the screen. The artboard is fitted,
+   so it can be narrower than the window — anchor her to the window's own
+   left edge and grow her by exactly that difference, which keeps her the
+   same share of the screen that she has in the design. */
+.mw-girl{
+  --gap:max(0px, (100vw - 100%) / 2);
+  left:calc(-1 * var(--gap));top:31.9%;width:calc(46.2% + var(--gap));height:auto;
+  transform:translateY(16%);opacity:0;
+  transition:transform 1.05s cubic-bezier(.18,.72,.24,1), opacity .7s ease;
+}
+.mw-panel.on .mw-girl.up{transform:none;opacity:1}
+
+/* --- cooking --- */
+.mw-cook-cap{
+  left:0;right:0;top:13.9%;text-align:center;
+  font-size:1.14cqw;font-weight:700;color:#E1503A;letter-spacing:-.01em;
+}
+.mw-cook-grid{
+  position:absolute;left:13.33%;top:20.8%;width:73.5%;
+  display:grid;grid-template-columns:repeat(3,1fr);aspect-ratio:970/551;
+}
+.mw-cook-grid img{position:relative;width:100%;height:100%;object-fit:cover}
+.mw-cook-sticker{left:2.4%;top:59.5%;width:18.2%;height:auto;z-index:2}
+
+/* --- art --- */
+.mw-art-canvas{left:11.36%;top:12.3%;width:32.9%;height:auto;border-radius:1.05cqw;
+  box-shadow:0 .9cqw 1.8cqw rgba(20,22,40,.13)}
+.mw-art-stall {left:47.88%;top:7.0%;width:20.6%;height:auto;border-radius:1.05cqw;
+  box-shadow:0 .8cqw 1.5cqw rgba(20,22,40,.13)}
+.mw-art-fair  {left:64.92%;top:15.3%;width:19.9%;height:auto;border-radius:1.05cqw;
+  box-shadow:0 .8cqw 1.5cqw rgba(20,22,40,.13)}
+.mw-art-merch {left:67.58%;top:42.6%;width:18.7%;height:auto;border-radius:1.05cqw;
+  box-shadow:0 .9cqw 1.8cqw rgba(20,22,40,.16);z-index:2}
+.mw-art-a1{left:42.6%;top:48.8%;width:7.1%;z-index:3}
+.mw-art-c1{left:46.06%;top:56.9%;width:13.5%}
+.mw-art-a2{left:69.6%;top:71.6%;width:5.0%;z-index:3;transform:rotate(-118deg)}
+.mw-art-c2{left:58.18%;top:79.6%;width:11.5%}
+
+/* --- podcast --- */
+.mw-pod-room{left:10.76%;top:16.3%;width:33.9%;height:auto;border-radius:1.05cqw;
+  box-shadow:0 .9cqw 1.7cqw rgba(20,22,40,.12)}
+.mw-pod-cube{left:39.6%;top:20.6%;width:30.4%;height:auto;z-index:2;
+  filter:drop-shadow(0 1cqw 1.6cqw rgba(20,22,40,.18))}
+.mw-pod-card{
+  position:absolute;left:60.4%;top:20.1%;width:17.0%;z-index:3;display:block;
+  border-radius:.8cqw;overflow:hidden;
+  transition:transform .25s cubic-bezier(.3,1.4,.5,1), box-shadow .25s ease;
+}
+.mw-pod-card img{position:relative;width:100%;height:auto;display:block}
+.mw-pod-card:hover{transform:translateY(-2px);box-shadow:0 .7cqw 1.4cqw rgba(20,22,40,.22)}
+.mw-pod-card:focus-visible,.mw-pod-link:focus-visible{outline:2px solid var(--mw-mark);outline-offset:3px;border-radius:.4cqw}
+.mw-pod-blob{
+  position:absolute;left:61.3%;top:69.0%;width:5.2%;aspect-ratio:1;
+  background:#FBE7AE;border-radius:50%;
+}
+.mw-pod-link{position:absolute;z-index:2;display:block;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.mw-pod-link img{position:relative;width:100%;height:auto}
+.mw-pod-link:hover{transform:translateY(-2px)}
+.mw-pod-spotify{left:63.7%;top:71.4%;width:7.1%}
+.mw-pod-apple  {left:63.7%;top:76.7%;width:9.8%}
+
+/* --- sport --- */
+.mw-sp-cluster{left:17.73%;top:13.2%;width:29.0%;height:auto;border-radius:1.05cqw}
+.mw-sp-tennis {left:46.36%;top:22.9%;width:30.8%;height:auto;border-radius:1.05cqw;
+  box-shadow:0 .9cqw 1.7cqw rgba(20,22,40,.12)}
+.mw-sp-cap{left:52.27%;top:13.2%;width:18.5%}
+.mw-sp-a1{left:49.0%;top:20.8%;width:4.6%;z-index:3;transform:rotate(-105deg) scaleY(-1)}
+.mw-sp-a2{left:29.8%;top:62.6%;width:4.8%;z-index:3;transform:rotate(150deg)}
+.mw-sp-counter{left:9.7%;top:66.6%;width:24%}
+.mw-sp-counter b{display:block;margin-top:.5em;font-weight:700}
+.mw-sp-badge{left:32.73%;top:71.6%;width:22.9%;height:auto;z-index:2}
+
+/* --- the rail --- */
+.mw-rail{
+  position:absolute;right:4.2%;top:36%;
+  display:grid;gap:3.1cqw;justify-items:center;
+  z-index:6;
+}
+.mw-tab{
+  position:relative;display:grid;place-items:center;
+  width:5.2cqw;height:5.2cqw;padding:0;border:0;background:none;
+  cursor:pointer;-webkit-appearance:none;appearance:none;
+  transition:transform .3s cubic-bezier(.3,1.5,.5,1);
+}
+.mw-tab img{
+  position:relative;width:auto;height:auto;
+  max-width:2.6cqw;max-height:2.6cqw;
+  transition:transform .3s cubic-bezier(.3,1.5,.5,1);
+}
+.mw-tab:hover img, .mw-tab:focus-visible img, .mw-tab.sel img{transform:scale(1.12)}
+.mw-tab:focus-visible{outline:none}
+/* the sharpie ring: drawn on, wiped off */
+.mw-ring{
+  position:absolute;inset:0;
+  overflow:visible;pointer-events:none;
+}
+.mw-ring path{
+  fill:none;stroke:var(--mw-mark);
+  stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;
+  opacity:0;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  transition:stroke-dashoffset .42s cubic-bezier(.35,.85,.3,1), opacity .18s ease;
+}
+.mw-tab:hover .mw-ring path,
+.mw-tab:focus-visible .mw-ring path{opacity:.62;stroke-dashoffset:0}
+.mw-tab.sel .mw-ring path{opacity:1;stroke-dashoffset:0}
+.mw-tab.sel .mw-ring path:not(.b){stroke-width:3.1}
+.mw-tab .mw-ring path.b{stroke-width:1.5;opacity:0;transition-delay:.06s}
+.mw-tab:hover .mw-ring path.b,
+.mw-tab:focus-visible .mw-ring path.b{opacity:.34}
+.mw-tab.sel .mw-ring path.b{opacity:.6}
+/* on the blue panel the sharpie has to be lighter than the ground */
+#meanwhile[data-chrome="dark"]{--mw-mark:#7FB4FF}
+
+/* --- phone: the artboard stops being full-bleed and just fits --- */
+@media (max-width:820px){
+  #meanwhile{display:grid;align-content:center;padding:clamp(84px,11vh,110px) 0 clamp(112px,15vh,140px)}
+  .mw-frame{position:static;transform:none;width:100%;aspect-ratio:1320/938}
+  .mw-rail{right:2%}
+}
+@media (prefers-reduced-motion:reduce){
+  .mw-girl{transition:none}
+  .mw-ring path{transition:opacity .2s ease}
+  .mw-caret{animation:none}
+}
