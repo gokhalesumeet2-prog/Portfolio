@@ -41,6 +41,17 @@
     });
   });
 
+  /* ---------- optivento: the tablet in the drawing ----------
+     The reveal is CSS. The dashboard's resting place sits inside the link,
+     so moving from the tablet onto the dashboard never crosses a gap the
+     browser can lose you in, and the anchor handles the click on its own.
+     The only thing left to add is the sound the rest of the page would
+     have made for a commitment this size. */
+  const tap = document.querySelector('.op-tap');
+  if (tap) tap.addEventListener('pointerenter', ev=>{
+    if (ev.pointerType !== 'touch' && window.__snd) window.__snd.select();
+  });
+
   /* the marker eye keeps watching you, same as the ones in the hero */
   const irises = [...document.querySelectorAll('.marker .mi')];
   let mx = innerWidth/2, my = innerHeight/2, raf = 0;

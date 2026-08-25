@@ -70,7 +70,7 @@
 
 <link rel="preload" as="image" href="assets/img/work/nirvana.webp"
       imagesrcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w" imagesizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)">
-<link rel="stylesheet" href="assets/css/site.css?v=119711ff">
+<link rel="stylesheet" href="assets/css/site.css?v=38659b6b">
 </head>
 
 <nav>
@@ -131,7 +131,7 @@
       <p class="proj-label">work</p>
       <ul class="proj-list">
           <li><a class="proj on" href="nirvana-meditation-app-habit-design-case-study/" data-key="nirvana" data-bg="#FEFDED">nirvana<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
-          <li><a class="proj" href="optivento-restaurant-inventory-management-ux-case-study/" data-key="optivento" data-bg="#C6C6C6">optivento<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+          <li><a class="proj" href="optivento-restaurant-inventory-management-ux-case-study/" data-key="optivento" data-bg="#FFFFFF">optivento<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
           <li><a class="proj" href="galls-uniform-customizer-ecommerce-ux-case-study/" data-key="uniform" data-bg="#FFFFFF">uniform customizer<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
           <li><a class="proj" href="nirvana-mudra-recommendation-engine-case-study/" data-key="nirvana2" data-bg="#FEFDEB">nirvana 2.0<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
           <li><a class="proj" href="unsmoke-gamification-quit-smoking-app-ux-case-study/" data-key="unsmoke" data-bg="#FFFFFF">unsmoke<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
@@ -144,12 +144,45 @@
            sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
            alt="Nirvana — a psychedelic line-drawn Buddha in a mudra, above the project caption."
            decoding="async" fetchpriority="high">
-      <img class="proj-plate" data-key="optivento"
-           src="assets/img/work/optivento.webp"
-           srcset="assets/img/work/optivento.webp 1440w, assets/img/work/optivento@2x.webp 2880w, assets/img/work/optivento@3x.webp 4320w"
-           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
-           alt="Optivento — the restaurant inventory dashboard on a tablet, beside a paper speech bubble."
-           decoding="async" loading="lazy">
+      <!-- Optivento is the one plate that isn't a flat picture. The drawing
+           annotates its own iPad with "click/hover to access live order
+           dashboard", so the plate has to make good on that: hovering the
+           tablet lifts the real dashboard out over the drawing, and the whole
+           affordance is one link into the case study. Everything inside is
+           positioned as a percentage of the 1440 x 1024 plate, so the
+           composition survives every size the frame is asked to be. -->
+      <div class="proj-plate op" data-key="optivento">
+        <img class="op-draw"
+             src="assets/img/work/optivento-drawing.webp"
+             srcset="assets/img/work/optivento-drawing.webp 912w, assets/img/work/optivento-drawing@2x.webp 1824w"
+             sizes="(max-width: 820px) 47vw, 35vw" width="912" height="1184"
+             alt="An engineering drawing of a restaurant pass: clipboards on a rail, an iPad on a stand, annotated as the POS terminal."
+             decoding="async" loading="lazy">
+
+        <!-- drawn rather than photographed, so the line stays crisp at any
+             size and the copy stays copy -->
+        <div class="op-bubble">
+          <svg class="op-bubble-shape" viewBox="0 0 1000 854.8" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M 84.2 854.8 L 75.9 826.7 L 132 625.4 L 29.7 509.9 L 0 387.8 L 33 262.4 L 146.9 148.5 L 311.9 69.3 L 645.2 0 L 813.5 36.3 L 877.9 87.5 L 950.5 176.6 L 1000 338.3 L 973.6 480.2 L 942.2 514.9 L 820.1 623.8 L 575.9 689.8 L 374.6 719.5 L 239.3 686.5 Z"/>
+          </svg>
+          <p class="op-bubble-text">Are you a restaurant manager?<br>This is going to blow your mind. Who doesn&rsquo;t want to save $20,000?!</p>
+        </div>
+
+        <!-- The anchor spans the plate but passes pointer events straight
+             through; only the tablet and the dashboard it lifts out are
+             live. Because the dashboard's resting place sits inside the
+             anchor, hovering it keeps the anchor hovered, so there is no gap
+             to fall through on the way from one to the other. -->
+        <a class="op-hot" href="optivento-restaurant-inventory-management-ux-case-study/">
+          <span class="op-tap" aria-hidden="true"></span>
+          <img class="op-dev"
+               src="assets/img/work/optivento-device.webp"
+               srcset="assets/img/work/optivento-device.webp 684w, assets/img/work/optivento-device@2x.webp 1368w"
+               sizes="(max-width: 820px) 40vw, 30vw" width="684" height="484"
+               alt="" decoding="async" loading="lazy">
+          <span class="sr-only">Optivento: open the case study</span>
+        </a>
+      </div>
       <img class="proj-plate" data-key="uniform"
            src="assets/img/work/uniform.webp"
            srcset="assets/img/work/uniform.webp 1440w, assets/img/work/uniform@2x.webp 2880w, assets/img/work/uniform@3x.webp 4320w"
@@ -285,7 +318,7 @@
 <script src="assets/js/audio.js?v=b9f48cf1" defer></script>
 <script src="assets/js/controls.js?v=4bcdaa4e" defer></script>
 <script src="assets/js/hero.js?v=246a38cd" defer></script>
-<script src="assets/js/work.js?v=cf4dc1f0" defer></script>
+<script src="assets/js/work.js?v=f7b37aee" defer></script>
 <script src="assets/js/meanwhile.js?v=1a551a3b" defer></script>
 </body>
 </html>

@@ -434,6 +434,113 @@ nav .tools{display:flex;gap:9px;align-items:center}
 }
 .proj-plate.on{opacity:1}
 
+/* ---------- optivento: the plate that answers back ----------
+   The drawing labels its own iPad "click/hover to access live order
+   dashboard", so this plate is built rather than drawn: a layer for the
+   sheet, a layer for the bubble, and a link that lifts the real dashboard
+   out over the top of both. Its own container-type means every cq unit in
+   here measures against the plate, which is the frame on a desktop and the
+   540px card on a phone -- so one set of numbers covers both. */
+.proj-plate.op{
+  container-type:inline-size;
+  /* The frame is deliberately bigger than the viewport on anything squarer
+     than 1.40625:1, and #work crops the overflow. These say how much is
+     being cropped off each edge, which is what keeps the dashboard inside
+     the window rather than inside the artboard. */
+  --fw:max(100vw, calc(100svh * 1440 / 1024));
+  --fh:max(100svh, calc(100vw * 1024 / 1440));
+  --crop-x:calc((var(--fw) - 100vw) / 2);
+  --crop-y:calc((var(--fh) - 100svh) / 2);
+  /* the dashboard's right edge: whichever margin bites first, the plate's
+     or the window's */
+  --dev-r:max(3.2%, calc(var(--crop-x) + 2.6vw));
+}
+
+/* the sheet */
+.op-draw{
+  position:absolute;left:46.22%;top:4.88%;width:49.36%;height:auto;
+  transform-origin:50% 46%;
+  box-shadow:0 1px 2px rgba(28,28,28,.05), 0 14px 40px rgba(28,28,28,.06);
+  transition:transform .6s cubic-bezier(.18,.86,.3,1),
+             opacity   .45s ease,
+             filter    .45s ease;
+}
+
+/* the bubble, at the size and corner it holds in the design */
+.op-bubble{position:absolute;left:1%;bottom:1.2%;width:19%;aspect-ratio:1000 / 854.8}
+.op-bubble-shape{
+  position:absolute;inset:0;width:100%;height:100%;
+  fill:#E3E1DB;stroke:#1C1C1C;stroke-width:8;
+  stroke-linejoin:round;stroke-linecap:round;
+}
+.op-bubble-text{
+  position:absolute;left:16.5%;right:9%;top:15.5%;
+  font-family:var(--font-display);
+  font-size:1.02cqw;line-height:1.44;font-weight:400;
+  color:#1C1C1C;letter-spacing:.002em;
+}
+.op-bubble{transition:opacity .45s ease}
+
+/* ---------- the link ----------
+   Full-plate so the dashboard can be positioned against the plate, but
+   transparent to the pointer: only the tablet and the dashboard are live.
+   Hidden outright until the plate is the one on screen, which also keeps it
+   out of the tab order while it is invisible. */
+.op-hot{
+  position:absolute;inset:0;display:block;
+  pointer-events:none;visibility:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.proj-plate.op.on .op-hot{visibility:visible}
+
+/* the tablet in the drawing, measured off the artwork */
+.op-tap{
+  position:absolute;left:64.5%;top:36.4%;width:13.1%;height:12.9%;
+  pointer-events:auto;cursor:pointer;border-radius:1.2%/1.4%;
+}
+
+/* ---------- the dashboard ----------
+   Anchored by its right edge to whichever is nearer, the plate's margin or
+   the window's, and allowed to give up width rather than reach the list.
+   min() over a calc is what stops it from ever crossing 42%, which is where
+   the list ends. */
+.op-dev{
+  position:absolute;
+  right:var(--dev-r);
+  top:max(25.5%, calc(var(--crop-y) + 2.4svh));
+  width:min(40%, calc(100% - var(--dev-r) - 42%));
+  min-width:26%;
+  height:auto;aspect-ratio:684 / 484;
+  pointer-events:none;cursor:pointer;
+  opacity:0;
+  /* the origin sits where the tablet falls inside this box, so shrinking
+     the dashboard collapses it back into the drawing rather than into
+     nowhere */
+  transform-origin:35% 44%;
+  transform:translate(-2%, 7%) scale(.8);
+  filter:drop-shadow(0 18px 38px rgba(28,28,28,.18));
+  transition:opacity .2s ease, transform .34s cubic-bezier(.4,0,.2,1);
+}
+
+.op-hot:hover .op-dev,
+.op-hot:focus-visible .op-dev{
+  opacity:1;transform:none;pointer-events:auto;
+  transition:opacity .3s ease, transform .62s cubic-bezier(.18,.86,.3,1);
+}
+/* attention transfers rather than competes: the sheet steps back as the
+   dashboard comes forward */
+.proj-plate.op:has(.op-hot:hover) .op-draw,
+.proj-plate.op:has(.op-hot:focus-visible) .op-draw{
+  transform:scale(.955);opacity:.72;filter:saturate(.85)
+}
+.proj-plate.op:has(.op-hot:hover) .op-bubble,
+.proj-plate.op:has(.op-hot:focus-visible) .op-bubble{opacity:.4}
+
+.op-hot:focus-visible{outline:none}
+.op-hot:focus-visible .op-tap{
+  outline:2px solid var(--cream-ink);outline-offset:3px;border-radius:4px;
+}
+
 /* the list never moves */
 .proj-nav{
   position:absolute;left:21.7%;top:49.2%;transform:translateY(-50%);
@@ -495,6 +602,24 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
   .proj{font-size:1rem}
   .proj-plates{position:relative;width:min(94vw,540px);aspect-ratio:1440/1024;inset:auto}
   .proj-plate{object-fit:contain}
+
+  /* There is no hover to hang the reveal on and no room for four lines of
+     bubble at this size, so the plate resolves into its own end state: the
+     sheet and the dashboard it opens, both there from the start, the whole
+     card a link. The frame is no longer wider than the window here, so the
+     cropping arithmetic goes back to a plain margin. */
+  .proj-plate.op{--dev-r:12%}
+  .op-bubble{display:none}
+  .op-tap{display:none}
+  .op-hot{pointer-events:auto}
+  /* nothing is cropped here, so the drawing comes back to the middle and
+     the dashboard sits where the hover would have left it */
+  .op-draw{left:22%;opacity:.92;box-shadow:0 1px 2px rgba(28,28,28,.05), 0 6px 18px rgba(28,28,28,.07)}
+  .op-dev{
+    opacity:1;transform:none;pointer-events:auto;
+    top:34%;width:34%;min-width:0;
+    filter:drop-shadow(0 8px 18px rgba(28,28,28,.16));
+  }
 }
 
 /* impact ring */
@@ -577,6 +702,14 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
   #hint{display:none}
   #clock{opacity:1!important;transition:none!important}
   #soundBtn.pending{animation:none}
+
+  /* The optivento reveal is information, not decoration, so it stays --
+     it just arrives instead of travelling, and the sheet dims without
+     moving. */
+  .op-draw,.op-dev,.op-bubble{transition:opacity .18s ease!important}
+  .op-dev{transform:none!important}
+  .proj-plate.op:has(.op-hot:hover) .op-draw,
+  .proj-plate.op:has(.op-hot:focus-visible) .op-draw{transform:none!important}
 }
 
 /* ===================== third fold: meanwhile =====================
