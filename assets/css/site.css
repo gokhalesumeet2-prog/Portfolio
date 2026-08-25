@@ -999,3 +999,138 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
   .mw-ring path{transition:opacity .2s ease}
   .mw-caret{animation:none}
 }
+
+/* ===================== fourth fold: the sign-off =====================
+   Unlike the three folds above it this one is not an artboard: it is a short
+   piece of writing and five links, so it is set in real type at real sizes
+   and allowed to reflow. Scaling a paragraph as a picture is what gives you
+   8px body copy on a laptop and 30px on a television.
+
+   One colour is doing the work of the whole design. In the dark theme it is
+   the green the hero already speaks in; in the light theme the green would
+   vanish against white, so it becomes the red the rest of the light theme
+   uses -- and everything else stays exactly where it was. */
+.ft{
+  --ft-accent:var(--ink);
+  --ft-line:rgba(255,255,255,.42);
+  position:relative;
+  background:var(--bg);
+  color:var(--copy-ink);
+  /* the bottom is deep on purpose: the clock is fixed 22px off the foot of
+     the window and lands in this corner when the page is scrolled home */
+  padding:clamp(72px,12vh,140px) clamp(24px,6vw,110px) clamp(96px,14vh,150px);
+  display:grid;align-content:space-between;
+  /* the sentence and the links are two separate thoughts, and the design
+     leaves about a quarter of the fold empty between them */
+  gap:clamp(56px,13vh,150px);
+  min-height:min(82svh,720px);
+  transition:background-color .45s ease,color .45s ease;
+}
+:root[data-theme="light"] .ft{
+  --ft-accent:var(--red);
+  --ft-line:rgba(46,57,140,.34);
+}
+
+.ft-line{
+  font-family:var(--font-display);
+  font-size:clamp(1.02rem,1.72vw,1.62rem);
+  line-height:1.36;font-weight:700;letter-spacing:-.008em;
+  color:var(--ft-accent);
+  /* wide enough to hold the sentence on one line on a laptop, which is how
+     it is drawn, and narrow enough that it breaks rather than running the
+     width of a very wide window */
+  max-width:64ch;
+  transition:color .45s ease;
+}
+.ft-note{
+  margin-top:1.05em;
+  font-family:var(--font-ui);
+  font-size:clamp(.8rem,1.02vw,.95rem);
+  line-height:1.66;letter-spacing:-.004em;
+  color:var(--copy-ink);
+}
+.ft-open{
+  margin-top:2.6em;
+  font-family:var(--font-display);
+  font-size:clamp(.95rem,1.45vw,1.38rem);
+  line-height:1.3;font-weight:700;letter-spacing:-.006em;
+  color:var(--ft-accent);
+  transition:color .45s ease;
+}
+.ft-roles{
+  display:flex;flex-wrap:wrap;gap:.62em;
+  margin-top:1.15em;list-style:none;
+}
+.ft-roles li{
+  font-family:var(--font-ui);
+  font-size:clamp(.78rem,.95vw,.9rem);line-height:1;letter-spacing:-.004em;
+  padding:.82em 1.25em;
+  border:1px solid var(--ft-line);border-radius:99px;
+  color:var(--copy-ink);
+  transition:border-color .45s ease,color .45s ease;
+}
+
+/* --- the five links --- */
+.ft-links{list-style:none;display:grid;justify-items:start;gap:clamp(13px,1.7vh,20px)}
+.ft-links a,
+.ft-copy{
+  position:relative;display:inline-block;
+  font-family:var(--font-ui);
+  font-size:clamp(.8rem,1.02vw,.95rem);line-height:1.2;
+  font-weight:600;letter-spacing:-.006em;
+  color:var(--copy-ink);text-decoration:none;
+  padding-bottom:4px;
+  /* a <button> centres its own label, which nothing else in this column
+     does — on a narrow screen the copy line would wrap into a centred stack
+     beside four left-aligned links */
+  text-align:left;
+  background:none;border:0;cursor:pointer;
+  transition:color .3s ease;
+}
+/* the same underline that wipes in under the nav links, so the two lists
+   behave like one another */
+.ft-links a::after,
+.ft-copy::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+  background:var(--ft-accent);
+  transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .42s cubic-bezier(.3,.75,.25,1),background-color .45s ease;
+}
+.ft-links a:hover,.ft-links a:focus-visible,
+.ft-copy:hover,.ft-copy:focus-visible{color:var(--ft-accent)}
+.ft-links a:hover::after,.ft-links a:focus-visible::after,
+.ft-copy:hover::after,.ft-copy:focus-visible::after{transform:scaleX(1)}
+.ft-links a:focus-visible,.ft-copy:focus-visible{outline:none}
+
+/* "copied" arrives beside the address rather than replacing it, so the line
+   does not change width and shove the underline about while you read it */
+.ft-said{
+  margin-left:.7em;font-style:normal;font-weight:500;
+  color:var(--ft-accent);
+  opacity:0;transform:translateX(-4px);
+  transition:opacity .2s ease,transform .3s cubic-bezier(.2,.9,.3,1);
+}
+.ft-copy.said .ft-said{opacity:1;transform:none}
+
+/* the fold arrives once, from just below where it settles */
+.ft-say,.ft-links{
+  opacity:0;transform:translateY(14px);
+  transition:opacity .9s ease,transform .9s cubic-bezier(.16,.78,.26,1);
+}
+.ft-links{transition-delay:.14s}
+.ft.in .ft-say,.ft.in .ft-links{opacity:1;transform:none}
+
+/* the live region that announces the copy: heard, never seen */
+.sr-only{
+  position:absolute;width:1px;height:1px;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;
+}
+
+@media (max-width:820px){
+  .ft{min-height:0;gap:clamp(40px,7vh,64px)}
+  .ft-line{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ft-say,.ft-links{opacity:1!important;transform:none!important;transition:none!important}
+  .ft-said{transition:opacity .12s ease}
+}

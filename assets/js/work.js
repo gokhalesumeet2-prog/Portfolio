@@ -77,7 +77,9 @@
      nav's own baseline and under the bottom chrome, and read the tone each
      one declares. #meanwhile rewrites its own data-chrome as panels swap. */
   const nav = document.querySelector('nav');
-  const sections = [...document.querySelectorAll('section[data-chrome]')];
+  /* not section[data-chrome]: the sign-off is a <footer>, and it declares a
+     tone like every other fold does */
+  const sections = [...document.querySelectorAll('[data-chrome]')];
   let ticking = false;
   function toneAt(y){
     for (const s of sections){
