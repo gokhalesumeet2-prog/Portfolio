@@ -5,7 +5,6 @@
   const stage  = document.getElementById('stage');
   const copy   = document.getElementById('copy');
   const reveal = document.getElementById('reveal');
-  const blurb  = document.getElementById('blurb');
   const ring   = document.getElementById('ring');
   const cursorEl = document.getElementById('cursor');
   const hint   = document.getElementById('hint');
@@ -339,6 +338,21 @@
     line.insertBefore(sr, tw);
     tw.setAttribute('aria-hidden','true');
     tw.textContent = '';
+
+    /* The statement lines are nowrap, so they cannot change height and can
+       simply be appended to. The supporting lines wrap, and #copy is centred,
+       so a line growing from one row to two mid-sentence would shove the
+       whole composition upward. Splitting them into a typed half and a
+       visibility:hidden remainder means the box is already its final height
+       on the first character — and it stays right through a resize, which a
+       measured min-height would not. */
+    if (line.classList.contains('sub')){
+      const done = document.createElement('i'); done.className = 'done';
+      const rest = document.createElement('i'); rest.className = 'rest';
+      rest.textContent = full;
+      tw.append(done, rest);
+      return { tw, full, done, rest };
+    }
     return { tw, full };
   }
   const typed = lines.map(prepType);
@@ -347,24 +361,38 @@
     const store = typed[ix];
     if (!store) return;
     const line = lines[ix];
+    const sub  = !!store.rest;
     line.classList.add('typing','in');
-    store.tw.parentNode.insertBefore(caret, store.tw.nextSibling);
+    if (sub) store.tw.insertBefore(caret, store.rest);
+    else     store.tw.parentNode.insertBefore(caret, store.tw.nextSibling);
     for (let i=0; i<store.full.length; i++){
       if (skipped) return;
       const ch = store.full[i];
-      store.tw.textContent += ch;
-      if (window.__snd) window.__snd.key(ch === ' ' ? 1.4 : 1);
+      if (sub){
+        store.done.textContent = store.full.slice(0, i+1);
+        store.rest.textContent = store.full.slice(i+1);
+      } else {
+        store.tw.textContent += ch;
+      }
+      /* These lines are three times the length of the statement and run at
+         three times the speed, so a keystroke per character would read as a
+         machine gun. Every third one, softer, is enough to keep the sound of
+         a keyboard without the racket. */
+      if (window.__snd && (!sub || i % 3 === 0)){
+        window.__snd.key(sub ? 0.55 : (ch === ' ' ? 1.4 : 1));
+      }
       /* an uneven hand: a beat after a space, a longer one after a stop */
-      let d = 40 + Math.random()*38;
-      if (ch === ' ') d += 34;
-      if (ch === '.' && i < store.full.length-1) d += 210;
+      let d = sub ? 13 + Math.random()*13 : 40 + Math.random()*38;
+      if (ch === ' ') d += sub ? 12 : 34;
+      if ((ch === '.' || ch === ',') && i < store.full.length-1) d += sub ? 60 : 210;
       await sleep(d);
     }
   }
   function fillInstantly(){
     typed.forEach((st,ix)=>{
       if (!st) return;
-      st.tw.textContent = st.full;
+      if (st.rest){ st.done.textContent = st.full; st.rest.textContent = ''; }
+      else st.tw.textContent = st.full;
       lines[ix].classList.add('typing','in');
     });
     caret.remove();
@@ -491,25 +519,29 @@
     await sleep(1750);          /* the wipe now takes its time */
     if (skipped) return;
 
-    /* The blurb answers in the same gesture, a beat later, but as one block
-       rather than a line at a time — the statement is the performance, this
-       is just the rest of the sentence. */
-    if (blurb){
-      await sleep(240);
-      if (skipped) return;
-      blurb.classList.add('armed');
-      void blurb.offsetWidth;         /* commit 'armed' before the transition */
-      blurb.classList.add('wipe');
-      await sleep(1500);
-      if (skipped) return;
-      blurb.classList.add('instant');
-    }
-
     frozen = true;
     reveal.classList.add('instant');
-    phase = 'done';
+
+    /* The intro is over here, not when the typing stops. Holding the scroll
+       lock for the remaining few seconds would mean the page ignores the
+       first thing a visitor tries to do with it. Phase stays out of 'done'
+       so the escape hatches can still cut the typing short. */
     document.body.classList.add('scrollable');
     if (fine){ cursorEl.classList.add('on'); document.body.style.cursor='none'; }
+
+    /* The statement was the performance. The rest just answers the question
+       it raises, so it comes back on the keyboard the hero opened with —
+       one line, a breath, then the other. */
+    await sleep(260);
+    for (let i = 2; i < lines.length; i++){
+      if (skipped) return;
+      await typeLine(i);
+      if (skipped) return;
+      await sleep(200);
+    }
+    if (skipped) return;
+    caret.remove();
+    phase = 'done';
   }
 
   /* ---------- escape hatches ---------- */
@@ -524,7 +556,6 @@
     lines.forEach(l=> l.classList.add('in'));
     head.classList.add('in');
     reveal.classList.add('instant','armed','lit','wipe');
-    if (blurb) blurb.classList.add('instant','armed','wipe');
     hint.classList.add('gone');
     if (fine){ cursorEl.classList.add('on'); document.body.style.cursor='none'; }
   }

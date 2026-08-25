@@ -22,7 +22,10 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP = ("audit-before", "renders", "prototype", ".git", "tools", "_preview")
+# "explorations" is a scratch pad, not the site: things in there are supposed
+# to break the rules, which is the whole reason to have somewhere to put them.
+SKIP = ("audit-before", "renders", "prototype", ".git", "tools", "_preview",
+        "explorations", "_shots")
 
 # design explorations kept around for reference, not part of the site
 SCRATCH = ("preview-restyle.html", "preview-section-rail.html")
