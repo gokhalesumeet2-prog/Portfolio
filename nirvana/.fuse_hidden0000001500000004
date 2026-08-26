@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>nirvana — a retention system for meditation | Sumeet Gokhale</title>
+<meta name="description" content="Meditation apps do not fail on content, they fail on consistency. A loop of cue, action, proof, reward and return, tested before a line of UI was drawn.">
+<meta name="author" content="Sumeet Gokhale">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://sumeetgokhale.com/nirvana/">
+
+<meta name="theme-color" content="#2E398C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="sumeet">
+<meta property="og:title" content="nirvana — a retention system for daily meditation">
+<meta property="og:description" content="Meditation apps do not fail because the content is bad. They fail in week one, when motivation runs out and nothing has replaced it.">
+<meta property="og:url" content="https://sumeetgokhale.com/nirvana/">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/og-nirvana.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Nirvana: a retention system for daily meditation.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="nirvana — a retention system for daily meditation">
+<meta name="twitter:description" content="Meditation apps do not fail because the content is bad. They fail in week one.">
+<meta name="twitter:image" content="https://sumeetgokhale.com/assets/og-nirvana.png">
+
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" href="../assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../assets/icons/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+
+<!-- The page is written in a voice, and its headings are lowercase. The plain
+     facts a crawler wants, and the fact that this is part one of two, live
+     here instead. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Nirvana: a retention system for daily meditation",
+  "url": "https://sumeetgokhale.com/nirvana/",
+  "image": "https://sumeetgokhale.com/assets/og-nirvana.png",
+  "datePublished": "2023-05-31",
+  "about": ["Behavioural design","Habit formation","Mobile app design","UX research"],
+  "author": {
+    "@type": "Person",
+    "@id": "https://sumeetgokhale.com/#sumeet",
+    "name": "Sumeet Gokhale",
+    "url": "https://sumeetgokhale.com/"
+  },
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Nirvana",
+    "url": "https://sumeetgokhale.com/nirvana-mudra/"
+  }
+}
+</script>
+
+<!-- theme is resolved before first paint: dark is the design, light is a choice -->
+<script src="../assets/js/theme-init.js?v=e35251c3"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Poppins 500 is loaded on top of the site's usual cut: the headings on
+     this page are set in the medium weight the mockup uses, and asking the
+     browser to fake it out of 300 or 700 would not be the same letterform. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:ital,wght@0,300;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="../assets/img/nirvana/nv-hero.webp">
+<link rel="stylesheet" href="../assets/css/site.css?v=8166171b">
+</head>
+<body class="scrollable">
+
+<a class="skip" href="#main">skip to the case study</a>
+
+<nav>
+  <a class="mark" href="../" aria-label="Sumeet Gokhale — home">sumeet</a>
+  <div class="right">
+    <div class="links">
+      <!-- work goes back to the project list on the home page rather than the
+           plain case-study index: that list is the current front door, and
+           work.js opens the home page straight onto it when it sees the hash. -->
+      <a href="../#work">work</a><a href="../about/">about</a><a href="mailto:gokhalesumeet2@gmail.com">contact</a>
+    </div>
+    <div class="tools">
+      <span id="sndHint" aria-hidden="true">tap anywhere for sound</span>
+      <button class="ctl" id="themeBtn" type="button" aria-label="Switch colour theme">
+        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.1" fill="currentColor" stroke="none"/>
+          <path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.15 5.15l1.63 1.63M17.22 17.22l1.63 1.63M18.85 5.15l-1.63 1.63M6.78 17.22l-1.63 1.63"/>
+        </svg>
+        <svg class="ic moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <g transform="translate(-1.9,2.1) scale(0.84)">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+          </g>
+          <path d="M18.6 1.6 Q19.18 4.22 21.8 4.8 Q19.18 5.38 18.6 8 Q18.02 5.38 15.4 4.8 Q18.02 4.22 18.6 1.6 Z"/>
+          <path d="M21.6 8.1 Q21.98 9.82 23.7 10.2 Q21.98 10.58 21.6 12.3 Q21.22 10.58 19.5 10.2 Q21.22 9.82 21.6 8.1 Z"/>
+        </svg>
+      </button>
+      <button class="ctl" id="soundBtn" type="button" aria-label="Toggle sound">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 9.4v5.2h3.5L12 18.7V5.3L7.5 9.4H4Z" fill="currentColor"/>
+          <path class="wave" d="M15.3 9.3a4 4 0 0 1 0 5.4"/>
+          <path class="wave" d="M18.1 6.7a8 8 0 0 1 0 10.6"/>
+          <path class="cross" d="M15.8 10.1l5 3.8M20.8 10.1l-5 3.8"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<div id="clock" aria-live="off"></div>
+
+<main id="main" class="cst">
+
+  <!-- ---------- the head ----------
+       The claim on the left with the sun dot behind it, the facts about the
+       project on a card beside it. Anyone scanning gets both in one screen
+       and can decide whether to read the rest. -->
+  <section class="cst-head" data-chrome="light">
+    <div class="cst-shell cst-shell--text">
+      <p class="cst-wordmark">nirvana</p>
+      <div class="cst-head-grid">
+        <div>
+          <h1 class="cst-kicker cst-mark cst-mark--sun">a retention system</h1>
+          <p class="cst-lead">meditation apps don't fail because the content is bad. They fail in week one, when motivation runs out and nothing has replaced it. So I stopped designing sessions and started designing the loop that brings someone back to one.</p>
+          <div class="cst-btns">
+            <a class="cst-btn cst-btn--go" href="https://xd.adobe.com/view/727c71db-7f3f-4407-ac1d-b9aebdc34a5a-272f/" target="_blank" rel="noopener">try the prototype</a>
+            <a class="cst-btn cst-btn--line" href="../nirvana-mudra/">jump to part 2</a>
+          </div>
+        </div>
+
+        <div class="cst-meta">
+          <img class="cst-pen" src="../assets/img/nirvana/nv-pen.webp"
+               alt="" aria-hidden="true" width="135" height="114" decoding="async">
+          <dl>
+            <div>
+              <dt>my role</dt>
+              <dd><span>Research &amp; behavioural framing</span><span>Rapid prototyping</span><span>UI design</span></dd>
+            </div>
+            <div>
+              <dt>method</dt>
+              <dd><span>Pretotyping</span><span>Cross-cultural comprehension testing</span></dd>
+            </div>
+            <div>
+              <dt>users</dt>
+              <dd><span>People who intend to meditate daily and don't</span></dd>
+            </div>
+            <div>
+              <dt>status</dt>
+              <dd><span>Self-directed, not shipped</span><span>Jan to May 2023</span></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cst-sec cst-sec--tight" data-chrome="light">
+    <div class="cst-shell">
+      <div class="cst-plateshot">
+        <img src="../assets/img/nirvana/nv-hero.webp"
+             alt="Five Nirvana screens overlapping: the lotus wallet, the morning check-in, a completed session, the analytics view and a mudra held up to the camera."
+             width="2400" height="1600" fetchpriority="high" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- the problem, and what else could have answered it ---------- -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="prob-h">
+    <div class="cst-shell cst-shell--text">
+      <div class="cst-two">
+        <div>
+          <h2 class="cst-h2 cst-mark cst-mark--coral" id="prob-h">the problem</h2>
+          <p class="cst-q" style="margin-top:.85em">How do you convert intention into daily action?</p>
+          <p class="cst-p">Almost everyone who downloads a meditation app wants to meditate. That is not the constraint. The constraint is that the reward for meditating arrives weeks later, and the cost arrives every single morning.</p>
+          <p class="cst-p">Most platforms answer this with more content, more teachers, more courses, more categories, on the assumption that people leave because they ran out of things to listen to. The retention curves say otherwise. Drop-off concentrates in the first week, before content variety could plausibly matter.</p>
+        </div>
+
+        <div>
+          <h2 class="cst-h2">directions considered</h2>
+          <div class="cst-opts">
+            <div class="cst-opt">
+              <h3 class="cst-h3">more and better content</h3>
+              <p>Expand the library, add teachers, add themes. Rejected because it addresses boredom, and people are not leaving out of boredom, they are leaving before they have heard enough to be bored. It also makes the choosing problem worse, which is exactly what part two ended up having to fix.</p>
+              <span class="cst-verdict cst-verdict--out">Rejected: solves week six, not week one</span>
+            </div>
+            <div class="cst-opt">
+              <h3 class="cst-h3">streaks and gamification</h3>
+              <p>Cheap to build. A streak turns one missed day into a loss, and guilt is a poor motivator for a practice that is supposed to be about not fighting yourself. So I kept the rewards that build up over time, but removed the punishment. Miss a day and your progress stays where it was, and it never resets to zero.</p>
+              <span class="cst-verdict cst-verdict--out">Used in part: kept the rewards, dropped the penalty</span>
+            </div>
+            <div class="cst-opt">
+              <h3 class="cst-h3">external reinforcement until the habit holds</h3>
+              <p>Treat intrinsic motivation as something that arrives late, and design a scaffold that carries the user until it does: a cue they didn't have to remember, an action sized to the time they actually have, proof that it happened, a reward that accumulates, and a reason to return.</p>
+              <span class="cst-verdict cst-verdict--in">built</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cst-sec cst-sec--tight" data-chrome="light">
+    <div class="cst-shell">
+      <div class="cst-plateshot">
+        <img src="../assets/img/nirvana/nv-frame1.webp"
+             alt="Four Nirvana screens: the opening promise, the daily check-in with symptoms, a breathing reminder, and the lotus wallet explaining what the rewards unlock."
+             width="2400" height="1124" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- the loop ----------
+       The page of notes it was actually drawn on. Five words and four arrows
+       are the entire system, and redrawing them as a tidy flowchart would
+       make a set of working assumptions look like a finding. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="loop-h">
+    <div class="cst-shell">
+      <h2 class="sr-only" id="loop-h">The reinforcement loop</h2>
+      <img class="cst-loop" src="../assets/img/nirvana/nv-loop.webp"
+           alt="A hand-drawn loop. Cue leads to action, action to proof, proof to reward, reward to return, and a dashed line carries return back around to cue. Written underneath in blue: this loop is the product."
+           width="1800" height="996" loading="lazy" decoding="async">
+
+      <div class="cst-three" style="margin-top:clamp(38px,6vh,76px)">
+        <div>
+          <h3 class="cst-h3">time adaptive entry</h3>
+          <p class="cst-p">The user picks length before content, from what they actually have available. Deciding how long is far cheaper than deciding which one, and it moves the hardest decision out of the moment of least capacity.</p>
+        </div>
+        <div>
+          <h3 class="cst-h3">variable reward</h3>
+          <p class="cst-p">You earn lotuses for every minute completed, and they unlock a store. The amount varies enough to stay interesting. There is no streak to break. Missing a day means you simply don't earn that day, and it never takes away what you already have.</p>
+        </div>
+        <div>
+          <h3 class="cst-h3">accountability</h3>
+          <p class="cst-p">Daily prompts arrive over direct messaging and are answered with an image. Confirming to a person is a materially stronger commitment than tapping done in an app, and it moves the cue outside the product.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- what happened when it ran ----------
+       The WhatsApp sheet was exported as one flat image with its own note
+       already set on it, so it goes down whole rather than being taken apart
+       and reassembled in markup that would only re-say what it says. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="test-h">
+    <div class="cst-shell">
+      <h2 class="cst-h2 cst-mark cst-mark--sun" id="test-h">when we tested it</h2>
+      <img class="cst-shot" style="margin-top:clamp(26px,4vh,52px)"
+           src="../assets/img/nirvana/nv-whatsapp.webp"
+           alt="Three WhatsApp conversations beside a note: the following screenshots show an example of the daily nudges sent by the Nirvana app, and the users sent a picture back to indicate the completion of the practice. A tester writes: I really enjoyed doing the practice, the regular notifications and follow up messages definitely nudged me stay consistent."
+           width="1200" height="564" loading="lazy" decoding="async">
+      <p class="cst-cap">The accountability loop running in the wild during testing. Users were sending photographic proof unprompted by the second week, the strongest signal in the whole project.</p>
+    </div>
+  </section>
+
+  <section class="cst-sec cst-sec--tight" data-chrome="light">
+    <div class="cst-shell">
+      <div class="cst-plateshot">
+        <img src="../assets/img/nirvana/nv-frame1b.webp"
+             alt="Four more Nirvana screens: the feeling picker, the analytics and progress view, the session briefing, and the camera confirming a mudra."
+             width="2400" height="1124" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- the assumption underneath all of it ---------- -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="assume-h">
+    <div class="cst-shell">
+      <h2 class="cst-h2 cst-mark cst-mark--sun" id="assume-h">assumption</h2>
+      <div class="cst-flow" style="margin-top:.85em">
+        <p class="cst-p">Nirvana anchors each session on a mudra, an Indian hand gesture. The whole concept rests on people across different cultural contexts being able to look at a depiction of one and reproduce it correctly, without instruction they'd have to read.</p>
+        <p class="cst-p">If that failed, nothing after it mattered. So I tested the assumption before designing any interface, using pretotyping. People from different cultural backgrounds were shown a gesture and asked to copy it, and I looked at whether they got it right rather than whether they liked it.</p>
+        <p class="cst-p">It held. That single result is what let the rest of the product proceed, and it is the reason part two could build its whole library out of drawn gestures.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- the numbers, and the caveat they travel with ---------- -->
+  <section class="cst-figures" data-chrome="dark" aria-labelledby="out-h">
+    <div class="cst-shell">
+      <h2 id="out-h">What the testing indicated.</h2>
+
+      <div class="cst-stats">
+        <div class="cst-stat">
+          <p class="cst-num"><span class="sg">+</span>60<span class="sg">%</span></p>
+          <p>projected increase in 7-day retention, from nudges and accountability</p>
+        </div>
+        <div class="cst-stat">
+          <p class="cst-num"><span class="sg">+</span>40<span class="sg">%</span></p>
+          <p>projected increase in session completion, from time-adaptive entry</p>
+        </div>
+        <div class="cst-stat">
+          <p class="cst-num">35<span class="sg">%</span></p>
+          <p>projected improvement in first-week consistency</p>
+        </div>
+      </div>
+
+      <p class="cst-note"><b>MODELLED, NOT MEASURED.</b> These come from prototype testing with a small cohort, projected against published retention benchmarks for habit-formation products. They are directional evidence that the behavioural model works, not production results. Nirvana has never shipped to a live user base. The measured findings I do stand behind are simpler: participants completed the mudra-comprehension task accurately, and the accountability loop produced unprompted daily proof by week two.</p>
+    </div>
+  </section>
+
+  <!-- ---------- the close ----------
+       Part one worked, and the reward for it was a second problem. Saying so
+       is the honest version, and it is also the reason there is a part two. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="next-h">
+    <div class="cst-shell cst-shell--text">
+      <div class="cst-close">
+        <img class="cst-dude" src="../assets/img/nirvana/nv-dude.webp"
+             alt="" aria-hidden="true" width="639" height="381" loading="lazy" decoding="async">
+        <h2 class="cst-h2" id="next-h">a new problem?</h2>
+        <p class="cst-p" style="margin-top:.85em">The reinforcement loop got people back past the first week. Then they opened the app, faced a library of sessions, and closed it again. Reinforcement can take you one step closer but it does not give enough clarity to make a decision. That is the problem Part II was built to remove, and it is the reason these are two case studies rather than one.</p>
+      </div>
+
+      <!-- The mockup closes on a suit with a missing piece where its head
+           should be. It is the joke part two is the answer to, so it arrives
+           as the artwork it is rather than as a redrawing of it. -->
+      <div class="cst-off">
+        <div class="cst-off-say">
+          <h2 class="cst-h2">see Nirvana 2.0</h2>
+          <div class="cst-btns">
+            <a class="cst-btn cst-btn--go" href="../nirvana-mudra/">I want to see it for myself</a>
+          </div>
+        </div>
+        <img class="cst-suit" src="../assets/img/nirvana/nv-suit.webp"
+             alt="" aria-hidden="true" width="750" height="1050" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- the same sign-off every other page ends on -->
+<footer class="ft" id="contact" data-chrome="dark">
+  <div class="ft-say">
+    <h2 class="ft-line">I am confident that we are going to create something spectacular.</h2>
+    <p class="ft-note">if you are stuck in your process and need someone to get in the muck and fix it for you<br>you know I am here.</p>
+
+    <h3 class="ft-open">open to full-time and contract roles</h3>
+    <ul class="ft-roles">
+      <li>product designer</li>
+      <li>ux ui designer</li>
+      <li>visual designer</li>
+    </ul>
+  </div>
+
+  <ul class="ft-links">
+    <li><a href="mailto:gokhalesumeet2@gmail.com">email me</a></li>
+    <li><button class="ft-copy" type="button" data-copy="gokhalesumeet2@gmail.com">
+      or copy this: gokhalesumeet2@gmail.com<i class="ft-said" aria-hidden="true">copied</i></button>
+      <span class="sr-only" role="status" aria-live="polite"></span></li>
+    <li><a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">resumé</a></li>
+    <li><a class="ft-work" href="../#work">work</a></li>
+    <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">linkedin</a></li>
+  </ul>
+</footer>
+
+<button class="totop" type="button" aria-label="Back to the top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19.2V5.4"/><path d="M5.9 11.5 12 5.4l6.1 6.1"/>
+  </svg>
+</button>
+
+<script src="../assets/js/audio.js?v=47bb20db" defer></script>
+<script src="../assets/js/controls.js?v=2336e678" defer></script>
+<script src="../assets/js/footer.js?v=e498034f" defer></script>
+<script src="../assets/js/totop.js?v=07517e0f" defer></script>
+</body>
+</html>

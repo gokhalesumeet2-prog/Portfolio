@@ -16,13 +16,13 @@ Open your repo on github.com and look at the root file list. It should contain *
 404.html
 CNAME
 assets/
-about-sumeet-gokhale-ux-designer/
-galls-uniform-customizer-ecommerce-ux-case-study/
+about/
+galls/
 index.html
-nirvana-meditation-app-habit-design-case-study/
-nirvana-mudra-recommendation-engine-case-study/
-optivento-restaurant-inventory-management-ux-case-study/
-ux-design-case-studies/
+nirvana/
+nirvana-mudra/
+optivento/
+case-studies/
 robots.txt
 sitemap.xml
 
@@ -141,7 +141,7 @@ Or on github.com: navigate to the file, pencil icon, edit, Commit changes.
 | Old pages still appear | Browser cache. Cmd + Shift + R |
 | Two versions of a page in Google | Old files still in the repo. Go back to Step 1 |
 | Domain still shows Wix | Old Wix DNS records at your registrar. Remove them |
-| Prototype panel is blank | The `prototype` folder must stay inside `nirvana-mudra-recommendation-engine-case-study/` |
+| Prototype panel is blank | The `prototype` folder must stay inside `nirvana-mudra/` |
 | Certificate warning | Untick and re-tick Enforce HTTPS, wait an hour |
 | Case study links 404 | A folder uploaded without its `index.html` inside it |
 

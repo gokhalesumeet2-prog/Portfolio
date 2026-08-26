@@ -3,6 +3,16 @@
    One stylesheet. One token set. One grid. One left edge.
    ============================================================ */
 
+/* Two faces site-wide: Test Söhne Breit (self-hosted) and SF Pro (system). */
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:300;font-display:swap;src:url("fonts/sohne-breit-300.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:italic;font-weight:300;font-display:swap;src:url("fonts/sohne-breit-300i.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:400;font-display:swap;src:url("fonts/sohne-breit-400.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:italic;font-weight:400;font-display:swap;src:url("fonts/sohne-breit-400i.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:500;font-display:swap;src:url("fonts/sohne-breit-500.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:italic;font-weight:500;font-display:swap;src:url("fonts/sohne-breit-500i.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:600;font-display:swap;src:url("fonts/sohne-breit-600.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:700;font-display:swap;src:url("fonts/sohne-breit-700.woff2") format("woff2")}
+
 /* ---------- 1. Tokens ---------------------------------------------------- */
 :root {
   /* Ink & surface */
@@ -23,13 +33,13 @@
   --mark:        #f7f0a0;  /* highlighter yellow                */
 
   /* Type */
-  /* Body and headings: Inter, as before.
+  /* Body and headings: Test Söhne Breit, self-hosted.
      Labels, meta and diagram type: SF Pro, requested from the operating
      system because Apple's licence forbids self-hosting it. On non-Apple
-     devices it falls back to Inter, so nothing breaks. */
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+     devices it falls back to Söhne Breit, so nothing breaks. */
+  --sans: "Test Sohne Breit", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --mono: "SF Pro Text", "SF Pro Display", "SF Pro", -apple-system,
-          BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+          BlinkMacSystemFont, "Test Sohne Breit", "Segoe UI", system-ui, sans-serif;
 
   /* Fluid type scale, ratio ~1.25, anchored at 17px body.
      Every step is clamp(min, preferred, max) so it rides the viewport. */

@@ -70,38 +70,9 @@
     }
   }
 
-  /* The fixed chrome has to invert against whatever is actually behind it,
-     not against a percentage of one section — otherwise mid-scroll you get
-     white type on cream, or dark type on blue, for as long as the ratio
-     takes to cross its threshold. So measure it: find the section under the
-     nav's own baseline and under the bottom chrome, and read the tone each
-     one declares. #meanwhile rewrites its own data-chrome as panels swap. */
-  const nav = document.querySelector('nav');
-  /* not section[data-chrome]: the sign-off is a <footer>, and it declares a
-     tone like every other fold does */
-  const sections = [...document.querySelectorAll('[data-chrome]')];
-  let ticking = false;
-  function toneAt(y){
-    for (const s of sections){
-      const r = s.getBoundingClientRect();
-      if (r.top <= y && r.bottom > y) return s.dataset.chrome;
-    }
-    return null;
-  }
-  function paintChrome(){
-    ticking = false;
-    const navLine = nav ? nav.getBoundingClientRect().bottom - 6 : 40;
-    const light = toneAt(navLine) === 'light';
-    document.body.classList.toggle('nav-cream', light);
-    document.body.classList.toggle('on-cream', toneAt(innerHeight - 54) === 'light');
-  }
-  function queueChrome(){
-    if (!ticking){ ticking = true; requestAnimationFrame(paintChrome); }
-  }
-  addEventListener('scroll', queueChrome, {passive:true});
-  addEventListener('resize', queueChrome);
-  document.addEventListener('mw:chrome', queueChrome);
-  paintChrome();
+  /* The chrome painter used to live here. It moved to controls.js when the
+     about page arrived: this file returns early on any page without a
+     project list, and the nav has to keep inverting on every page. */
 
   const link = [...document.querySelectorAll('nav .links a')]
     .find(a=> a.textContent.trim() === 'work');
@@ -112,5 +83,23 @@
       document.body.classList.add('scrollable');
       work.scrollIntoView({behavior:'smooth', block:'start'});
     });
+  }
+
+  /* ---------- arriving from somewhere else ----------
+     The case studies send their nav and footer "work" links here as ../#work,
+     so the page can open on the list instead of on the plain case-study index.
+     Someone arriving that way has already said what they want, so the intro
+     does not get to hold them for eight seconds: Escape is what hero.js
+     listens for to cut the performance short, and the page starts scrolled to
+     the list rather than travelling to it, since there was nothing above it
+     to travel from. The scroll lock is released here too, because under
+     reduced motion hero.js has already returned and there is no listener. */
+  if (location.hash === '#work'){
+    dispatchEvent(new KeyboardEvent('keydown', {key:'Escape'}));
+    document.body.classList.add('scrollable');
+    /* after paint, so the hero has been laid out and the offset is real */
+    requestAnimationFrame(()=> requestAnimationFrame(()=>{
+      work.scrollIntoView({block:'start'});
+    }));
   }
 })();

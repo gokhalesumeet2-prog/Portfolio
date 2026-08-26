@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Every page worth indexing, newest work first. lastmod tells a crawler which
+     pages are worth re-reading; the two Nirvana case studies and the homepage
+     carry today's date because they were rebuilt for this launch.
+     The prototype at /nirvana-mudra/prototype/
+     is deliberately absent: it is an artefact of the case study, not a page.
+     /case-studies/ is absent too, for a different reason: it is now a
+     redirect to the rail on the homepage, and a sitemap should only list the
+     destination. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://sumeetgokhale.com/</loc><priority>1.0</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/ux-design-case-studies/</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/nirvana-mudra-recommendation-engine-case-study/</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/galls-uniform-customizer-ecommerce-ux-case-study/</loc><priority>0.9</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/nirvana-meditation-app-habit-design-case-study/</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/optivento-restaurant-inventory-management-ux-case-study/</loc><priority>0.7</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/unsmoke-gamification-quit-smoking-app-ux-case-study/</loc><priority>0.7</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://sumeetgokhale.com/about-sumeet-gokhale-ux-designer/</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/</loc><lastmod>2026-08-26</lastmod><priority>1.0</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/nirvana-mudra/</loc><lastmod>2026-08-26</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/nirvana/</loc><lastmod>2026-08-26</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/about/</loc><lastmod>2026-08-26</lastmod><priority>0.8</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/galls/</loc><lastmod>2026-08-07</lastmod><priority>0.8</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/optivento/</loc><lastmod>2026-08-07</lastmod><priority>0.7</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://sumeetgokhale.com/unsmoke/</loc><lastmod>2026-08-21</lastmod><priority>0.7</priority><changefreq>yearly</changefreq></url>
 </urlset>

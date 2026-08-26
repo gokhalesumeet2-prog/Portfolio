@@ -9,3 +9,16 @@ HOW-TO-DEPLOY.md
 # Python leaves these behind whenever the tools/ scripts run
 __pycache__/
 *.pyc
+
+# Working files. GitHub Pages serves everything in the repo, so anything that
+# lands here is on the public site whether it is linked or not.
+#
+# explorations/ holds the full-resolution source art the published webp files
+# were made from -- about 10 MB of PNGs that nothing on the site references.
+# Committing it would put all of it on the domain and make every future clone
+# carry it forever.
+explorations/
+
+# Mac screenshots dropped on the folder while working
+Screenshot*.png
+Screen Shot*.png

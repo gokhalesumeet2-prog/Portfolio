@@ -3,6 +3,22 @@
    Single stylesheet: tokens, layout, hero scene, work section, chrome.
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   Test Söhne Breit — the display/copy face across the site.
+   SF Pro stays the UI face; everything that used to be Poppins, Inter or
+   Circular now resolves to this. Klim's German weight names map to the CSS
+   scale: Leicht 300 · Buch 400 · Kräftig 500 · Halbfett 600 · Dreiviertelfett
+   700. swap keeps text visible in a fallback until the face arrives.
+   -------------------------------------------------------------------------- */
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:300;font-display:swap;src:url("../fonts/sohne-breit-300.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:italic;font-weight:300;font-display:swap;src:url("../fonts/sohne-breit-300i.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/sohne-breit-400.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:italic;font-weight:400;font-display:swap;src:url("../fonts/sohne-breit-400i.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:500;font-display:swap;src:url("../fonts/sohne-breit-500.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:italic;font-weight:500;font-display:swap;src:url("../fonts/sohne-breit-500i.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:600;font-display:swap;src:url("../fonts/sohne-breit-600.woff2") format("woff2")}
+@font-face{font-family:'Test Sohne Breit';font-style:normal;font-weight:700;font-display:swap;src:url("../fonts/sohne-breit-700.woff2") format("woff2")}
+
 :root{
   /* palette */
   --coral:#E4573D;
@@ -35,12 +51,12 @@
   --tile:#252F7C;
   --tile-fg:#E5FE78;
   --tile-line:rgba(255,255,255,.13);
-  --font-display:'Poppins','Circular Std',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-  --font-copy:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-  /* SF Pro renders natively on Apple platforms; Inter is metric-close
-     enough to stand in everywhere else */
+  --font-display:'Test Sohne Breit',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --font-copy:'Test Sohne Breit',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  /* SF Pro renders natively on Apple platforms; Söhne Breit stands in
+     everywhere SF Pro is unavailable */
   --font-ui:'SF Pro Text','SF Pro Display','SF Pro Icons',-apple-system,
-            BlinkMacSystemFont,system-ui,'Inter','Helvetica Neue',Arial,sans-serif;
+            BlinkMacSystemFont,system-ui,'Test Sohne Breit','Helvetica Neue',Arial,sans-serif;
 }
 /* ---- light: white ground, the same blue and green as dark ---- */
 :root[data-theme="light"]{
@@ -449,6 +465,20 @@ nav .tools{display:flex;gap:9px;align-items:center}
 }
 .proj-plate.on{opacity:1}
 
+/* the four still plates now open their case study. The anchor itself stays
+   transparent to the pointer so it never covers the project list underneath
+   (which is what the hover swap and its sound live on); a hotspot over the
+   artwork on the right is the only live part, and only while the plate is the
+   one on screen. Mirrors how optivento's tablet is the only live thing there. */
+a.proj-plate{pointer-events:none;cursor:pointer}
+a.proj-plate>img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.plate-hot{
+  position:absolute;inset:0 0 0 50%;
+  pointer-events:none;visibility:hidden;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+a.proj-plate.on .plate-hot{pointer-events:auto;visibility:visible}
+
 /* ---------- optivento: the plate that answers back ----------
    The drawing labels its own iPad "click/hover to access live order
    dashboard", so this plate is built rather than drawn: a layer for the
@@ -663,10 +693,27 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
     display:grid;gap:clamp(20px,4vh,34px);justify-items:center;
   }
   .proj-nav{position:static;transform:none;text-align:center}
-  .proj-label{font-size:1rem;margin-bottom:1.2em}
-  .proj{font-size:1rem}
-  .proj-plates{position:relative;width:min(94vw,540px);aspect-ratio:1440/1024;inset:auto}
-  .proj-plate{object-fit:contain}
+  .proj-label{font-size:1.05rem;margin-bottom:1.1em;letter-spacing:.02em}
+  /* the list is the primary control on a phone, so give every option a real
+     tap target: bigger type, and vertical padding between rows so a thumb
+     lands on one name at a time instead of a cramped stack */
+  .proj-list{display:grid;justify-items:center;gap:.2rem}
+  .proj{font-size:1.4rem;padding:.42em .3em;line-height:1.15}
+  /* the plate art sits on the right of each landscape artboard (on desktop
+     the list fills the left). With the list moved above on mobile, a square
+     card plus object-fit:cover crops each plate down to its own artwork, and
+     a per-plate object-position centres that artwork instead of leaving it
+     hanging off to one side. */
+  .proj-plates{position:relative;width:min(90vw,440px);aspect-ratio:1/1;inset:auto}
+  .proj-plate{object-fit:cover}
+  a.proj-plate>img{object-fit:cover}
+  a.proj-plate[data-key="nirvana"] >img{object-position:67% 50%}
+  a.proj-plate[data-key="uniform"] >img{object-position:50% 48%}
+  a.proj-plate[data-key="nirvana2"]>img{object-position:75% 50%}
+  a.proj-plate[data-key="unsmoke"] >img{object-position:63% 52%}
+  /* the list is its own block above the card here, not laid over it, so the
+     whole card is a safe tap target */
+  .plate-hot{inset:0}
 
   /* There is no hover to hang the reveal on and no room for four lines of
      bubble at this size, so the plate resolves into its own end state: the
@@ -958,7 +1005,10 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
   position:absolute;left:50%;top:calc(100% + .1cqw);
   transform:translateX(-50%);
   font-family:var(--font-ui);
-  font-size:.82cqw;line-height:1;letter-spacing:.01em;font-weight:500;
+  /* the cqw size alone renders around 10px on a laptop — under the readable
+     floor — so hold it at 16px and only let it grow past that on very tall or
+     very wide screens where the artboard is genuinely large */
+  font-size:max(16px, .82cqw);line-height:1;letter-spacing:.01em;font-weight:500;
   color:var(--mw-mark);opacity:.62;white-space:nowrap;pointer-events:none;
   transition:opacity .25s ease,color .45s ease;
 }
@@ -990,9 +1040,59 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
 
 /* --- phone: the artboard stops being full-bleed and just fits --- */
 @media (max-width:820px){
-  #meanwhile{display:grid;align-content:center;padding:clamp(84px,11vh,110px) 0 clamp(112px,15vh,140px)}
-  .mw-frame{position:static;transform:none;width:100%;aspect-ratio:1320/938}
-  .mw-rail{right:2%}
+  /* mobile: the intro fold stops being a fitted landscape picture and becomes
+     a vertical stack — sticker at the top, the four tabs across the middle,
+     then the girl large underneath. The frame is made a normal, tall block
+     (position:relative so it is the containing block for everything inside,
+     which is why the rail no longer resolves against the section and vanishes
+     off the top). container-type stays, so cqw is still frame-width based. */
+  #meanwhile{display:block;padding:0}
+  .mw-frame{
+    position:relative; left:auto; right:auto; top:auto; transform:none;
+    width:100%; max-width:none;
+    aspect-ratio:auto;
+    min-height:calc(100svh - var(--mw-top));
+    margin-top:var(--mw-top);
+  }
+
+  /* MEANWHILE sticker — front and centre, up top */
+  .mw-lockup{left:50%; transform:translateX(-50%); top:5%; width:60%}
+
+  /* the typed line centres under the sticker; the hover/click hint is dropped
+     since there is no hover on touch */
+  .mw-sub{
+    left:0; right:auto; width:100%; top:12.5%;
+    text-align:center; white-space:normal;
+    font-size:clamp(14px, 4.4cqw, 19px);
+  }
+  .mw-hint{display:none}
+
+  /* the tabs: a horizontal bar under the sticker, four even columns so every
+     label sits centred beneath its own icon and nothing clips at the edge */
+  .mw-rail{
+    top:19%; bottom:auto;
+    left:0; right:auto; width:100%;
+    grid-auto-flow:column; grid-auto-columns:1fr;
+    justify-items:center; gap:0;
+    z-index:7;
+  }
+  .mw-tab{width:64px; height:64px}
+  .mw-tab img{max-width:32px; max-height:32px}
+  .mw-tab-label{font-size:15px; top:calc(100% + 4px)}
+
+  /* the girl, large, anchoring the fold underneath the tabs. She centres on
+     her own width instead of bleeding off the left edge on mobile. */
+  .mw-girl{
+    --gap:0px;
+    left:6%; width:88%; top:36%;
+  }
+
+  /* the tab bar is pinned near the top for every panel, so the four content
+     panels (cooking, art, podcast, sport) have to start below it or the
+     labels sit on top of the photos. Shift each one down as a whole — a plain
+     translate, so their internal composition is untouched — to clear the bar
+     with room to spare. (The intro is excluded; it has its own stack above.) */
+  .mw-panel:not([data-key="intro"]){transform:translateY(26%)}
 }
 @media (prefers-reduced-motion:reduce){
   .mw-girl{transition:none}
@@ -1133,4 +1233,813 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
 @media (prefers-reduced-motion:reduce){
   .ft-say,.ft-links{opacity:1!important;transform:none!important;transition:none!important}
   .ft-said{transition:opacity .12s ease}
+}
+
+
+/* ===================== the about page =====================
+   Prose, like the sign-off above it and unlike the three artboard folds:
+   real type at real sizes, allowed to reflow. Everything here is prefixed
+   .ab- so it can share a stylesheet with the homepage without either page
+   having to know the other exists.
+
+   One page-wide gutter, set once, so the eyebrow, the title, the paragraphs
+   and the CV dates all hang off the same line down the left edge. It is the
+   same measurement the sign-off uses.                                      */
+:root{
+  --ab-gutter:clamp(24px,6vw,110px);
+  /* The quiet type -- the eyebrow, the dates, the sub-labels. It cannot be
+     --hint: that token is tuned for the clock, which is decoration, and it
+     lands at 2.4:1 on the blue. Dates and job subtitles are content, so this
+     is the lowest either theme can go and still clear 4.5:1. */
+  --ab-mute:rgba(255,255,255,.72);
+}
+:root[data-theme="light"]{ --ab-mute:rgba(46,57,140,.72); }
+
+/* the first thing a keyboard reaches, and the only thing that shows it */
+.skip{
+  position:fixed;top:8px;left:8px;z-index:200;
+  transform:translateY(-160%);
+  font-family:var(--font-ui);font-size:13px;font-weight:500;
+  color:var(--bg);background:var(--ink);
+  padding:10px 16px;border-radius:10px;text-decoration:none;
+  transition:transform .2s ease;
+}
+.skip:focus{transform:none}
+
+.ab-head,.ab-story,.ab-do,.ab-cv{
+  background:var(--bg);
+  color:var(--copy-ink);
+  padding:0 var(--ab-gutter);
+  transition:background-color .45s ease,color .45s ease;
+}
+/* the nav is fixed, so the first fold has to clear it on its own */
+.ab-head{padding-top:clamp(132px,21vh,230px);padding-bottom:clamp(56px,9vh,110px)}
+.ab-story{padding-top:clamp(56px,9vh,104px);padding-bottom:clamp(40px,6vh,72px)}
+.ab-do{padding-top:clamp(40px,6vh,72px);padding-bottom:clamp(40px,6vh,72px)}
+/* the sign-off starts immediately below, and it brings its own deep top pad */
+.ab-cv{padding-top:clamp(40px,6vh,72px);padding-bottom:clamp(24px,4vh,48px)}
+
+.ab-eyebrow{
+  font-family:var(--font-ui);
+  font-size:11px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ab-mute);
+  margin-bottom:clamp(14px,2.4vh,26px);
+  transition:color .45s ease;
+}
+.ab-title{
+  font-family:var(--font-display);
+  font-size:clamp(1.6rem,4.1vw,3.3rem);
+  line-height:1.13;font-weight:700;letter-spacing:-.021em;
+  color:var(--ink);
+  transition:color .45s ease;
+}
+.ab-lead{
+  margin-top:clamp(20px,3.2vh,38px);
+  font-family:var(--font-ui);
+  font-size:clamp(.95rem,1.32vw,1.16rem);
+  line-height:1.66;font-weight:400;letter-spacing:.002em;
+  color:var(--copy-ink);
+  max-width:58ch;
+}
+
+/* ---------- the board ----------
+   Full-bleed and edge to edge: it is a wall, not an illustration. The ground
+   is the image's own paper white, so the fold has no visible seam at either
+   side however wide the window gets. */
+.ab-building{
+  background:#F5F5F5;
+  padding:0 0 clamp(20px,3.4vh,40px);
+}
+.ab-fig{display:grid;justify-items:center}
+/* the whole picture is the control — at page size the hand-lettering is
+   texture rather than writing, and the only useful thing to offer is more of
+   it */
+.ab-zoom{
+  display:block;width:100%;padding:0;border:0;background:none;
+  cursor:zoom-in;position:relative;
+  -webkit-appearance:none;appearance:none;
+}
+.ab-zoom img{display:block;width:100%;height:auto}
+.ab-cue{
+  position:absolute;right:clamp(14px,3vw,34px);bottom:clamp(14px,3vw,34px);
+  font-family:var(--font-ui);font-style:normal;
+  font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:#3A3733;background:rgba(255,255,255,.86);
+  border:1px solid rgba(0,0,0,.10);
+  padding:8px 14px;border-radius:99px;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;transform:translateY(5px);
+  transition:opacity .3s ease,transform .3s cubic-bezier(.16,.78,.26,1);
+  pointer-events:none;
+}
+.ab-zoom:hover .ab-cue,
+.ab-zoom:focus-visible .ab-cue{opacity:1;transform:none}
+/* nothing hovers on a touch screen, so there the invitation is simply on */
+@media (hover:none){ .ab-cue{opacity:1;transform:none} }
+.ab-zoom:focus-visible{outline:2px solid #3A3733;outline-offset:-4px}
+.ab-fig figcaption{
+  margin-top:clamp(14px,2.4vh,26px);
+  font-family:var(--font-ui);
+  font-size:clamp(.78rem,.95vw,.9rem);letter-spacing:.004em;
+  color:#6F6B62;text-align:center;
+  padding:0 var(--ab-gutter);
+}
+
+/* ---------- the writing ---------- */
+.ab-col{max-width:min(66ch,100%)}
+.ab-story p,.ab-cv .ab-row p{
+  font-family:var(--font-ui);
+  font-size:clamp(.92rem,1.14vw,1.05rem);
+  line-height:1.72;font-weight:400;letter-spacing:.003em;
+  color:var(--copy-ink);
+}
+.ab-story p + p{margin-top:1.15em}
+.ab-story strong{font-weight:600;color:var(--ink);transition:color .45s ease}
+
+.ab-h2{
+  font-family:var(--font-display);
+  font-size:clamp(1.06rem,1.85vw,1.6rem);
+  line-height:1.3;font-weight:700;letter-spacing:-.012em;
+  color:var(--ink);
+  margin-bottom:clamp(18px,3vh,32px);
+  transition:color .45s ease;
+}
+/* a heading arriving in the middle of a column needs air above it that the
+   first one does not */
+.ab-h2-later{margin-top:clamp(48px,8vh,96px)}
+
+/* the ten things, set as the same pills the sign-off uses for the three roles */
+.ab-tags{
+  list-style:none;display:flex;flex-wrap:wrap;
+  gap:clamp(7px,.9vw,11px);
+  max-width:64ch;
+}
+.ab-tags li{
+  font-family:var(--font-ui);
+  font-size:clamp(.76rem,.94vw,.88rem);line-height:1;
+  font-weight:500;letter-spacing:.004em;
+  color:var(--copy-ink);
+  border:1px solid var(--ui-line);border-radius:99px;
+  padding:9px 15px 10px;
+  transition:color .45s ease,border-color .45s ease;
+}
+.ab-tools{
+  margin-top:clamp(18px,2.6vh,28px);
+  font-family:var(--font-ui);
+  font-size:clamp(.8rem,1vw,.93rem);line-height:1.62;
+  color:var(--ab-mute);
+  max-width:64ch;
+}
+.ab-tools + .ab-tools{margin-top:.45em}
+
+/* ---------- the CV ----------
+   Wider than the prose measure on purpose: the dates hang in their own
+   column off the same left line, and the rhythm of that column is most of
+   what makes a list of jobs readable at a glance. */
+.ab-cv .ab-col{max-width:min(86ch,100%)}
+.ab-row{
+  display:grid;
+  grid-template-columns:11.5rem minmax(0,1fr);
+  gap:clamp(14px,2.6vw,40px);
+  padding:clamp(20px,3vh,30px) 0;
+  border-top:1px solid var(--ui-line);
+  transition:border-color .45s ease;
+}
+.ab-row:first-of-type{border-top:0;padding-top:0}
+.ab-when{
+  font-family:var(--font-ui);
+  font-size:11.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ab-mute);
+  padding-top:.42em;         /* optically level with the cap height beside it */
+  transition:color .45s ease;
+}
+.ab-row h3{
+  font-family:var(--font-display);
+  font-size:clamp(.98rem,1.3vw,1.14rem);
+  line-height:1.35;font-weight:700;letter-spacing:-.008em;
+  color:var(--ink);
+  transition:color .45s ease;
+}
+.ab-where{
+  margin-top:5px;
+  font-family:var(--font-ui);
+  font-size:clamp(.78rem,.94vw,.86rem);line-height:1.5;
+  color:var(--ab-mute);
+}
+.ab-row .ab-where + p{margin-top:.9em}
+.ab-link{
+  display:inline-block;position:relative;
+  margin-top:.85em;
+  font-family:var(--font-ui);
+  font-size:clamp(.78rem,.94vw,.88rem);line-height:1.2;
+  font-weight:600;letter-spacing:-.004em;
+  color:var(--ink);text-decoration:none;
+  padding-bottom:3px;
+  transition:color .45s ease;
+}
+.ab-link::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+  background:currentColor;
+  transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .42s cubic-bezier(.3,.75,.25,1);
+}
+.ab-link:hover::after,
+.ab-link:focus-visible::after{transform:scaleX(1)}
+.ab-link:focus-visible{outline:none;text-decoration:underline}
+
+/* ---------- the board, full size ----------
+   Fit-to-window would be no larger than the page already shows it, so this
+   opens the image well past the width of the viewport and lets the visitor
+   move around inside it. That is the whole point of asking to look closer. */
+.ab-lightbox{
+  position:fixed;inset:0;z-index:150;
+  background:rgba(9,12,44,.95);
+  overflow:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  cursor:grab;
+  opacity:0;transition:opacity .3s ease;
+}
+.ab-lightbox[hidden]{display:none}
+.ab-lightbox.in{opacity:1}
+.ab-lightbox.drag{cursor:grabbing}
+.ab-lightbox img{
+  display:block;
+  /* wide enough that the hand-lettering is type again rather than texture:
+     the smallest writing on the board is around 20px at the image's native
+     2589, so anything under about 1700 puts it back under reading size */
+  width:min(2589px,max(1700px,172vw));
+  max-width:none;height:auto;
+  /* margin:auto centres it in the scroll box on screens wide enough that it
+     fits, and does nothing on the ones where it does not */
+  margin:auto;
+  user-select:none;-webkit-user-drag:none;
+}
+.ab-close{
+  position:fixed;top:clamp(12px,2vw,22px);right:clamp(12px,2vw,22px);z-index:2;
+  display:grid;place-items:center;
+  width:42px;height:42px;padding:0;
+  color:#fff;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);border-radius:99px;
+  cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  transition:background-color .25s ease,transform .25s cubic-bezier(.3,1.4,.5,1);
+}
+.ab-close svg{width:19px;height:19px}
+.ab-close:hover{background:rgba(255,255,255,.22);transform:scale(1.06)}
+.ab-close:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* the page underneath must not scroll while the board is open */
+body.boarded{overflow:hidden}
+
+/* ---------- back to the start ----------
+   Bottom left, stacked above the clock in the same gutter, so the corner
+   reads as one small cluster rather than two floating objects. It appears
+   only once there is something to go back up to. */
+.totop{
+  position:fixed;left:clamp(20px,4vw,52px);bottom:52px;z-index:70;
+  display:grid;place-items:center;
+  width:34px;height:34px;padding:0;
+  color:var(--ui-fg);background:var(--ui-bg);
+  border:1px solid var(--ui-line);border-radius:99px;
+  cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  opacity:0;transform:translateY(6px);pointer-events:none;
+  transition:opacity .4s ease,transform .4s cubic-bezier(.16,.78,.26,1),
+             color .45s ease,background-color .45s ease,border-color .45s ease;
+}
+.totop svg{width:16px;height:16px}
+.totop.in{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{color:var(--ink);border-color:var(--ink)}
+.totop:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+/* over a cream fold it has to invert with the rest of the bottom chrome */
+body.on-cream .totop{background:rgba(0,0,0,.05);color:#8C887E;border-color:rgba(0,0,0,.12)}
+body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
+
+@media (max-width:820px){
+  .ab-row{grid-template-columns:1fr;gap:9px}
+  .ab-when{padding-top:0}
+  .ab-lead,.ab-tags,.ab-tools{max-width:none}
+}
+@media (max-width:560px){
+  /* the clock drops to bottom:58px there, so the arrow steps up with it */
+  .totop{bottom:100px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ab-cue,.ab-lightbox,.totop,.ab-close{transition:none}
+  .ab-link::after{transition:none}
+}
+
+/* ===================== the case studies =====================
+   A case study is a long read on a page of paper, and paper does not have a
+   dark mode. The work fold on the homepage already settled this: the plates
+   sit on their own ground whichever theme the site is in, because the
+   project is the project. So everything from the masthead down to the card
+   here is theme-independent, and the only fold that answers to the toggle is
+   the sign-off at the bottom, which is shared with every other page.
+
+   Every class is prefixed .cst- (case study) rather than .cs-, which is what
+   the original stylesheet at assets/site.css calls its own version of these
+   parts. The two systems run side by side while the studies are ported over,
+   and a shared name between them would be a trap for whoever ports the next
+   one.                                                                     */
+.cst{
+  /* Every colour below was sampled off the mockup rather than chosen, so the
+     page is the mockup and not a reading of it. */
+  --cst-paper:#FFFFFF;
+  --cst-ink:#000000;          /* headings, labels, the bold lines           */
+  --cst-body:#696969;         /* every paragraph on the page                */
+  --cst-line:#E7E7E7;         /* card edges and the rules between options   */
+  --cst-plate:#CFCFCF;        /* the grey the device shots are mounted on   */
+  --cst-lime:#DFFF5E;
+  --cst-red:#F13F36;
+  --cst-green:#7BEE8A;
+  --cst-blue:#0086FF;
+  /* The shell is set so the content column lands on the 1208px the mockup
+     measures at a 1440 viewport, gutter included. */
+  --cst-shell:86.5rem;
+  /* Söhne Breit is the display face across the site, including the case-study
+     headings that were originally drawn in Circular. */
+  --cst-display:'Test Sohne Breit',var(--font-display);
+  /* A case study is a long read, so it is given more air at the edges than the
+     rest of the site: the page gutter is widened past --ab-gutter to keep the
+     imagery clear of the screen edge on a laptop without letting the margin
+     eat the page on a phone. */
+  --cst-gutter:clamp(30px,10.6vw,200px);
+  background:var(--cst-paper);
+  color:var(--cst-ink);
+}
+/* one gutter for the whole page */
+.cst-shell{
+  max-width:var(--cst-shell);
+  margin-inline:auto;
+  padding-inline:var(--cst-gutter);
+}
+/* The mockup holds its prose to a much shorter measure than its imagery: the
+   folds that are only words sit inside about 800px while the plates, the
+   drawing and the black band run the full shell. That difference is the page's
+   rhythm, so it is a modifier rather than something the sections improvise. */
+.cst-shell--text{max-width:calc(50rem + 2 * var(--cst-gutter))}
+/* The folds are separated by air rather than by rules, so the padding is the
+   only thing telling you one idea has ended and the next has started. It is
+   set generously on purpose: a case study read at length wants the pauses. */
+.cst-sec{padding-block:clamp(96px,17vh,210px)}
+.cst-sec--tight{padding-block:clamp(60px,10.5vh,128px)}
+
+/* ---------- type ----------
+   Two families and nothing else. Circular sets the headings, the card labels
+   and the buttons; the UI face sets every paragraph. The mockup never mixes
+   them inside a line, so neither does this.
+   Every size below was measured off the mockup at its own scale and written
+   back as the size it works out to on a 1440 viewport, with a vw term so it
+   travels down to narrow screens without redrawing the relationships. */
+.cst-wordmark{
+  font-family:var(--cst-display);
+  font-size:clamp(1.35rem,2.08vw,1.875rem);
+  font-weight:400;letter-spacing:-.022em;line-height:1;
+  text-align:center;color:var(--cst-ink);
+}
+.cst-kicker{
+  font-family:var(--cst-display);
+  font-size:clamp(1.45rem,2.08vw,1.875rem);
+  line-height:1.16;font-weight:500;letter-spacing:-.03em;
+  color:var(--cst-ink);
+}
+.cst-h2{
+  font-family:var(--cst-display);
+  font-size:clamp(1.45rem,2.08vw,1.875rem);
+  line-height:1.16;font-weight:500;letter-spacing:-.03em;
+  color:var(--cst-ink);
+}
+/* the bold line that states the question, tight under the heading */
+.cst-q{
+  font-family:var(--font-ui);
+  font-size:clamp(.94rem,1.11vw,1rem);
+  line-height:1.55;font-weight:700;letter-spacing:-.002em;
+  color:var(--cst-ink);
+}
+.cst-h3{
+  font-family:var(--font-ui);
+  font-size:clamp(.94rem,1.18vw,1.0625rem);
+  line-height:1.5;font-weight:700;letter-spacing:-.002em;
+  color:#1C1C1C;
+}
+.cst-p,.cst-lead{
+  font-family:var(--font-ui);
+  font-size:clamp(.875rem,1.04vw,.9375rem);
+  line-height:1.6;letter-spacing:.001em;
+  color:var(--cst-body);
+  max-width:34em;
+}
+.cst-p + .cst-p{margin-top:1.55em}
+/* the assumption runs as one block of prose in the mockup, with no gap
+   between its paragraphs at all, so that case gets its own modifier */
+.cst-flow .cst-p + .cst-p{margin-top:0}
+.cst-p strong{font-weight:700;color:var(--cst-ink)}
+
+/* ---------- the sticker dots ----------
+   Flat circles of colour, dropped behind the first word of a heading and
+   sized off that heading's own type size so they travel with it. They are
+   the artwork from the mockup, not a redraw of it. */
+.cst-mark{position:relative;isolation:isolate}
+.cst-mark::before{
+  content:"";position:absolute;z-index:-1;
+  width:3.72em;height:3.72em;
+  left:-1.92em;top:-1.5em;
+  background:var(--dot) center/contain no-repeat;
+}
+.cst-mark--sun{--dot:url("../img/nirvana/nv-dot-sun.png")}
+.cst-mark--coral{--dot:url("../img/nirvana/nv-dot-coral.png")}
+/* the coral one sits higher than the yellow ones on the sheet: it clears the
+   bold line under the heading instead of tinting it */
+.cst-mark--coral::before{top:-2.35em}
+
+/* ---------- the head ----------
+   The claim on the left with the dot behind it, the facts about the project
+   on a card beside it, the way the mockup lays them out. */
+.cst-head{padding-top:clamp(118px,17vh,196px);padding-bottom:clamp(26px,4vh,52px)}
+.cst-head .cst-wordmark{margin-bottom:clamp(64px,17vh,152px)}
+.cst-head-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  gap:clamp(24px,5.1vw,74px);
+  align-items:start;
+}
+/* the card hangs lower than the claim in the mockup, and stays there */
+.cst-head-grid > .cst-meta{margin-top:clamp(28px,12vh,108px)}
+.cst-head .cst-lead{margin-top:.5em}
+
+/* the buttons: one filled in the green the site speaks in, one outlined */
+.cst-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(22px,3.4vh,38px)}
+.cst-btn{
+  display:inline-flex;align-items:center;gap:.5em;
+  font-family:var(--cst-display);
+  font-size:clamp(.9rem,1.06vw,1rem);font-weight:400;letter-spacing:-.012em;
+  line-height:1;
+  padding:14px 22px;border-radius:99px;
+  color:var(--cst-ink);text-decoration:none;
+  border:1.4px solid transparent;
+  transition:transform .25s cubic-bezier(.3,1.4,.5,1),
+             background-color .25s ease,border-color .25s ease;
+}
+.cst-btn--go{background:var(--cst-lime)}
+.cst-btn--go:hover{transform:translateY(-2px);background:#D5FA46}
+.cst-btn--line{border-color:#1C1C1C}
+.cst-btn--line:hover{transform:translateY(-2px);background:#F4F4F4}
+.cst-btn:focus-visible{outline:2px solid var(--cst-ink);outline-offset:3px}
+
+/* the facts card, with the pen sticker pinned in its corner */
+.cst-meta{
+  background:#FFFFFF;
+  border:1px solid var(--cst-line);
+  border-radius:14px;
+  padding:clamp(20px,2.4vw,30px);
+  position:relative;
+}
+.cst-pen{
+  position:absolute;top:clamp(14px,1.7vw,20px);right:clamp(14px,1.7vw,20px);
+  width:clamp(38px,4.2vw,54px);height:auto;
+}
+.cst-meta dl{display:grid;gap:clamp(16px,2.2vh,24px)}
+.cst-meta dt{
+  font-family:var(--cst-display);
+  font-size:clamp(.9rem,1.06vw,1rem);font-weight:700;letter-spacing:-.014em;
+  color:var(--cst-ink);
+  margin-bottom:.55em;
+}
+.cst-meta dd{
+  font-family:var(--font-ui);
+  font-size:clamp(.9rem,1.08vw,1rem);line-height:1.58;
+  color:var(--cst-body);
+}
+.cst-meta dd span{display:block}
+
+/* ---------- the device shots ----------
+   Every one of these shots was exported with its own ground already on it,
+   grey behind the devices or white behind the chat windows. So the frame
+   adds no padding of its own: it rounds the corners and otherwise gets out
+   of the way. Padding here would put a second, slightly different grey
+   around the first one, which is exactly the seam it is meant to avoid. */
+.cst-plateshot{
+  background:var(--cst-plate);
+  border-radius:clamp(12px,1.4vw,20px);
+  overflow:hidden;
+}
+.cst-plateshot img{display:block;width:100%;height:auto}
+/* the WhatsApp sheet arrived as one flat export on its own white, so it goes
+   down as it is, with no frame around it at all */
+.cst-shot{display:block;width:100%;height:auto}
+.cst-cap{
+  margin-top:clamp(10px,1.6vh,16px);
+  font-family:var(--font-ui);
+  font-size:clamp(.875rem,1.04vw,.9375rem);line-height:1.6;
+  color:var(--cst-body);
+  max-width:46em;
+}
+
+/* ---------- the problem, and what else could have answered it ----------
+   Side by side on purpose: the objection and the answer to it should not be
+   a scroll apart. */
+.cst-two{
+  display:grid;
+  grid-template-columns:minmax(0,.85fr) minmax(0,1fr);
+  gap:clamp(26px,4.6vw,66px);
+  align-items:start;
+}
+.cst-two .cst-p,.cst-two .cst-q{max-width:none}
+/* the right column starts lower than the left one, as it does on the sheet */
+.cst-two > *:last-child{margin-top:clamp(40px,17.4vw,250px)}
+.cst-opts{margin-top:clamp(24px,4vh,52px);display:grid;gap:clamp(24px,3.4vh,38px)}
+.cst-opt + .cst-opt{border-top:1px solid var(--cst-line);padding-top:clamp(24px,3.4vh,38px)}
+.cst-opt p{
+  margin-top:.5em;
+  font-family:var(--font-ui);
+  font-size:clamp(.875rem,1.04vw,.9375rem);line-height:1.6;
+  color:var(--cst-body);
+}
+/* the verdict is the point of the option, so it is a pill and not a sentence.
+   It stays on one line the way it does on the sheet, even where that runs it
+   past the column, and only wraps once the screen is too narrow to allow it. */
+.cst-verdict{
+  display:inline-flex;align-items:center;gap:.62em;
+  margin-top:1.1em;
+  font-family:var(--font-ui);
+  font-size:clamp(.875rem,1.04vw,.9375rem);font-weight:400;line-height:1;
+  padding:13px 20px;border-radius:99px;
+  white-space:nowrap;
+}
+@media (max-width:640px){
+  .cst-verdict{white-space:normal;line-height:1.35}
+}
+.cst-verdict::before{
+  content:"";width:1.05em;height:1.05em;flex:none;
+  background:currentColor;
+  -webkit-mask:var(--gl) center/contain no-repeat;
+          mask:var(--gl) center/contain no-repeat;
+}
+.cst-verdict--out{
+  color:var(--cst-red);border:1.4px solid #1C1C1C;
+  --gl:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 2l8 8M10 2l-8 8' stroke='%23000' stroke-width='1.7' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+}
+.cst-verdict--in{
+  color:#1C1C1C;background:var(--cst-green);
+  --gl:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.8 6.4l2.8 2.8L10.2 3.2' stroke='%23000' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+}
+
+/* ---------- the loop ----------
+   Drawn by hand on paper and kept that way. A tidy boxes-and-arrows diagram
+   would claim more certainty than a sketch does, and a sketch is what this
+   was. */
+/* the drawing does not run the width of the fold in the mockup: it sits
+   centred at about two thirds of it, so it is sized to the width the
+   handwriting itself measures rather than stretched to the shell */
+.cst-loop{display:block;width:min(100%,802px);height:auto;margin-inline:auto}
+
+/* the three mechanisms, ruled off with one green line across the row */
+.cst-three{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(20px,3.4vw,54px);
+  border-top:3px solid var(--cst-lime);
+  padding-top:clamp(18px,2.6vh,26px);
+}
+.cst-three p{margin-top:.5em;max-width:none}
+
+/* ---------- what the testing indicated ----------
+   The one fold on the page that is not paper. The numbers are projections,
+   and putting them on black with the caveat attached is the only honest way
+   to give them the size they deserve. */
+.cst-figures{background:#000000;color:#fff;padding-block:clamp(52px,8vh,104px)}
+.cst-figures h2{
+  font-family:var(--font-ui);
+  font-size:clamp(1.55rem,2.7vw,2.4375rem);
+  font-weight:700;letter-spacing:-.022em;line-height:1.1;
+  color:#fff;
+}
+.cst-stats{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(22px,3.4vw,54px);
+  margin-top:clamp(30px,4.6vh,56px);
+}
+.cst-num{
+  font-family:var(--font-ui);
+  font-size:clamp(2.6rem,5.7vw,5.125rem);
+  line-height:1;font-weight:700;letter-spacing:-.035em;
+  color:var(--cst-blue);
+}
+.cst-stat p:last-child{
+  margin-top:clamp(14px,2vh,22px);
+  font-family:var(--font-ui);
+  font-size:clamp(.8rem,.94vw,.84375rem);line-height:1.7;
+  color:#E8E8E8;
+}
+.cst-note{
+  margin-top:clamp(30px,4.6vh,58px);
+  padding-left:clamp(14px,1.6vw,20px);
+  border-left:2px solid var(--cst-blue);
+  font-family:var(--font-ui);
+  font-size:clamp(.7rem,.8vw,.71875rem);line-height:1.7;
+  color:#CFCFCF;
+  max-width:36em;
+}
+.cst-note b{color:#FFFFFF;font-weight:700;letter-spacing:0}
+
+/* ---------- the close ----------
+   Part one worked, and the reward for it was a second problem. The sticker
+   and the suit are the mockup's own jokes about that, so they arrive as the
+   artwork they are. */
+.cst-dude{
+  display:block;height:auto;
+  width:clamp(120px,13vw,175px);
+  margin-left:clamp(-136px,-9.5vw,-40px);
+  margin-bottom:clamp(6px,1vh,12px);
+}
+.cst-close .cst-p{max-width:38em}
+/* the send-off: the line, the button and the figure it is being said to */
+.cst-off{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:clamp(16px,2.6vw,40px);
+  align-items:center;
+  margin-top:clamp(56px,9vh,120px);
+}
+.cst-off-say{text-align:right}
+.cst-off h2{margin-bottom:.5em}
+.cst-off .cst-btns{justify-content:flex-end;margin-top:0}
+.cst-suit{display:block;height:auto;width:clamp(150px,19vw,250px)}
+
+/* ===================== part two: the additions =====================
+   Nirvana 2.0 is the same paper as part one and reuses almost all of it. What
+   it adds is a different kind of image. Part one's screens arrived already
+   mounted on their grey; part two's arrive as a photograph and a device that
+   have to be put together on the page, and as a prototype that is not an
+   image at all. Everything below is that, and nothing else.                */
+
+/* ---------- the photographic bands ----------
+   Two folds on the sheet run edge to edge in a landscape rather than sitting
+   inside the gutter. They are the only places the page leaves its margin, so
+   the break has to be complete: no shell, no radius, no seam. */
+.cst-band{position:relative;overflow:hidden;background:#7E9A86}
+.cst-band img{display:block;width:100%;height:auto}
+/* The first band is assembled here rather than exported flat, because the
+   phone on it is the product and wants to stay sharp at every width while the
+   water behind it can be cropped freely. So the landscape is given a height
+   and told to cover, and the device is placed on top of it. */
+.cst-band--set{height:clamp(300px,46vw,660px)}
+.cst-band--set .cst-band-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+/* two classes deep on purpose: .cst-band img above is width:100%, which
+   out-specifies a single class and would blow the device up to the width of
+   the landscape it is standing in */
+.cst-band .cst-band-phone{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:auto;height:88%;
+}
+
+/* ---------- the two models, ruled off in their own colour ----------
+   The library and the match are the same kind of list, and the only thing
+   separating them is which one the page is arguing for. A red rule and a green
+   one say that in less space than a sentence would. */
+/* wider than the prose above it, narrower than the shell it sits in: the two
+   lists are the argument's evidence, not its imagery */
+.cst-models{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(24px,4.4vw,64px);
+  margin-top:clamp(30px,5vh,64px);
+  max-width:62rem;margin-inline:auto;
+}
+.cst-model{border-top:3px solid var(--cst-line);padding-top:clamp(14px,2vh,20px)}
+.cst-model--out{border-top-color:var(--cst-red)}
+.cst-model--in{border-top-color:var(--cst-green)}
+.cst-model ul{list-style:none;margin:0;padding:0;margin-top:.9em;display:grid;gap:.7em}
+.cst-model li{
+  position:relative;padding-left:1.05em;
+  font-family:var(--font-ui);
+  font-size:clamp(.875rem,1.04vw,.9375rem);line-height:1.55;
+  color:var(--cst-body);
+}
+.cst-model li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:.34em;height:.34em;border-radius:50%;background:currentColor;
+}
+
+/* the small blue infinity that sits between the two columns on the sheet */
+.cst-inf{
+  display:block;height:auto;width:clamp(52px,6.4vw,92px);
+  margin-inline:auto;
+}
+
+/* ---------- the engine, and the hand it is reasoning about ----------
+   The explanation is prose and the mudra beside it is a photograph with
+   handwriting on it. Neither is a caption for the other, so they sit as two
+   columns rather than as a figure. */
+.cst-aside{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);
+  gap:clamp(24px,4.4vw,60px);
+  align-items:center;
+}
+.cst-aside img{display:block;width:100%;height:auto}
+/* the engine diagram was drawn wide and reads at its own size, so it runs the
+   whole shell rather than the prose measure */
+.cst-diagram{display:block;width:100%;height:auto}
+
+/* ---------- the decisions, next to the thing they produced ----------
+   The three calls on the left, the prototype they add up to on the right. The
+   argument and the evidence for it stay on one screen, and the prototype holds
+   its place while the decisions scroll past it. */
+.cst-dec{
+  display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1fr);
+  gap:clamp(28px,5.2vw,76px);
+  align-items:start;
+}
+/* the thin lilac rule the mockup runs above this heading, and only this one */
+.cst-ruled{border-top:3px solid #CFC6E0;padding-top:clamp(14px,2vh,20px)}
+.cst-proto{position:sticky;top:clamp(88px,11vh,116px)}
+/* The prototype draws its own device frame, so this adds none: it is a window
+   of the right proportion and nothing more. A second frame around the first
+   read as two stacked phones. 410 x 920 is its natural size -- the smallest box
+   the prototype renders its 390 x 844 device in at full scale, padding included.
+
+   It is tempting to size this off the viewport height so the whole phone lands
+   inside one fold, and that was tried. It does not work. The prototype scales
+   its frame to fit but does NOT reflow its internals -- padding, chip sizes and
+   most of its type are fixed pixels -- so squeezing the frame much below its
+   drawn size crushes the screens inside it. Frame integrity wins over fitting
+   the fold, so the stage stays width-first and only comes down a little from
+   the natural 410: enough to lighten the column, not enough to compromise
+   anything the prototype draws. */
+.cst-proto-stage{
+  width:100%;max-width:372px;
+  aspect-ratio:410 / 920;
+  margin-inline:auto;
+  border:1px solid var(--cst-line);border-radius:clamp(12px,1.4vw,20px);
+  overflow:hidden;background:#FBFBFD;
+}
+.cst-proto-stage iframe{display:block;width:100%;height:100%;border:0}
+.cst-proto-note{
+  margin-top:clamp(10px,1.6vh,16px);
+  font-family:var(--font-ui);
+  font-size:clamp(.8rem,.94vw,.84375rem);line-height:1.6;
+  color:var(--cst-body);text-align:center;
+}
+.cst-proto-note a{color:var(--cst-ink);text-underline-offset:3px}
+
+/* the honesty note, on paper rather than on the black band: part two has a
+   working prototype and no cohort behind it, and that is worth saying plainly
+   instead of dressing it up as a result */
+.cst-caveat{
+  margin-top:clamp(26px,4vh,48px);
+  padding-left:clamp(14px,1.6vw,20px);
+  border-left:2px solid var(--cst-blue);
+  font-family:var(--font-ui);
+  font-size:clamp(.75rem,.86vw,.78125rem);line-height:1.7;
+  color:#7A7A7A;max-width:38em;
+}
+.cst-caveat b{color:var(--cst-ink);font-weight:700}
+
+/* ---------- the last fold ----------
+   The page closes by asking you to do the thing it has spent the whole scroll
+   describing. It is centred, it is one gesture and one instruction, and there
+   is nothing to click. */
+.cst-breath{text-align:center}
+/* the tilt is the mockup's: the sculpture was shot square and set down on the
+   sheet at an angle, which is what stops it reading as a product photograph */
+.cst-breath-hand{
+  display:block;height:auto;width:clamp(240px,42vw,560px);
+  margin-inline:auto;
+  transform:rotate(-5deg);
+}
+.cst-breath .cst-inf{margin-top:clamp(-10px,-.8vw,0px)}
+.cst-breath-note{
+  margin-top:clamp(18px,2.6vh,30px);
+  margin-inline:auto;
+  font-family:var(--font-ui);
+  font-size:clamp(.8rem,.94vw,.84375rem);line-height:1.75;
+  color:var(--cst-body);max-width:42em;
+}
+
+@media (max-width:900px){
+  .cst-models,.cst-aside,.cst-dec{grid-template-columns:minmax(0,1fr)}
+  .cst-aside img{max-width:420px;margin-inline:auto}
+  /* sticky needs a column taller than the thing stuck inside it, and once the
+     grid is one column there is no such column left */
+  .cst-proto{position:static}
+  .cst-band--set{height:clamp(260px,58vw,420px)}
+  .cst-head-grid,.cst-two{grid-template-columns:minmax(0,1fr)}
+  .cst-head-grid > .cst-meta,.cst-two > *:last-child{margin-top:0}
+  .cst-three{grid-template-columns:minmax(0,1fr);gap:clamp(20px,3vh,28px)}
+  .cst-stats{grid-template-columns:minmax(0,1fr);gap:clamp(22px,3vh,32px)}
+  .cst-p,.cst-lead,.cst-two .cst-p,.cst-two .cst-q{max-width:none}
+  .cst-off{grid-template-columns:minmax(0,1fr) auto;gap:16px;margin-top:clamp(40px,6vh,72px)}
+}
+@media (max-width:560px){
+  /* the dots hang off the left of their heading, which the gutter can take on
+     a desktop and cannot on a phone, so they pull in rather than get cropped */
+  .cst-mark::before,.cst-mark--coral::before{left:-1.05em}
+  .cst-off{grid-template-columns:minmax(0,1fr)}
+  .cst-off-say{text-align:left}
+  .cst-off .cst-btns{justify-content:flex-start}
+  .cst-suit{margin-left:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .cst-btn{transition:none}
 }

@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>sumeet gokhale — perception is subjective</title>
+<meta name="description" content="Product design portfolio of Sumeet Gokhale: Nirvana and its mudra recommendation engine, Optivento, a military uniform customizer, and Unsmoke.">
+<meta name="author" content="Sumeet Gokhale">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://sumeetgokhale.com/">
+
+<meta name="theme-color" content="#2E398C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="sumeet">
+<meta property="og:title" content="sumeet gokhale — perception is subjective">
+<meta property="og:description" content="Product design portfolio of Sumeet Gokhale: Nirvana and its mudra recommendation engine, Optivento, a military uniform customizer, and Unsmoke.">
+<meta property="og:url" content="https://sumeetgokhale.com/">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/img/social/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="perception is subjective. but I see what you see.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="sumeet gokhale — perception is subjective">
+<meta name="twitter:description" content="Product design portfolio of Sumeet Gokhale: Nirvana and its mudra recommendation engine, Optivento, a military uniform customizer, and Unsmoke.">
+<meta name="twitter:image" content="https://sumeetgokhale.com/assets/img/social/og-cover.jpg">
+
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/icons/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<!-- The visible page speaks in lowercase and in a voice, which is the point of
+     it. Search engines need the plain facts as well, so they live here: the
+     name, the job title, the schools, the things worth being found for. This
+     block came off the previous homepage unchanged. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": "https://sumeetgokhale.com/",
+  "mainEntity": {
+    "@type": "Person",
+    "@id": "https://sumeetgokhale.com/#sumeet",
+    "name": "Sumeet Gokhale",
+    "url": "https://sumeetgokhale.com/",
+    "image": "https://sumeetgokhale.com/assets/portrait.webp",
+    "jobTitle": "Product & UX Designer",
+    "email": "mailto:gokhalesumeet2@gmail.com",
+    "sameAs": ["https://www.linkedin.com/in/sumeetgokhale/"],
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Thomas Jefferson University, Kanbar School of Design" },
+      { "@type": "CollegeOrUniversity", "name": "MIT Institute of Design, Pune" }
+    ],
+    "knowsAbout": ["Product design","UX design","Interaction design","UX research","Information architecture","Design systems","Behavioural design","Usability testing"]
+  }
+}
+</script>
+
+<!-- theme is resolved before first paint: dark is the design, light is a choice -->
+<script src="assets/js/theme-init.js?v=e35251c3"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="assets/img/work/nirvana.webp"
+      imagesrcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w" imagesizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)">
+<link rel="stylesheet" href="assets/css/site.css?v=sohne1">
+</head>
+
+<nav>
+  <a class="mark" href="/" aria-label="Sumeet Gokhale — home">sumeet</a>
+  <div class="right">
+    <div class="links">
+      <!-- work.js intercepts this and scrolls; the href is the no-JS fallback,
+           which jumps to the same rail further down this page. -->
+      <a href="#work">work</a><a href="about/">about</a><a href="mailto:gokhalesumeet2@gmail.com">contact</a>
+    </div>
+    <div class="tools">
+      <span id="sndHint" aria-hidden="true">tap anywhere for sound</span>
+      <button class="ctl" id="themeBtn" type="button" aria-label="Switch colour theme">
+        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.1" fill="currentColor" stroke="none"/>
+          <path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.15 5.15l1.63 1.63M17.22 17.22l1.63 1.63M18.85 5.15l-1.63 1.63M6.78 17.22l-1.63 1.63"/>
+        </svg>
+        <svg class="ic moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <g transform="translate(-1.9,2.1) scale(0.84)">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+          </g>
+          <path d="M18.6 1.6 Q19.18 4.22 21.8 4.8 Q19.18 5.38 18.6 8 Q18.02 5.38 15.4 4.8 Q18.02 4.22 18.6 1.6 Z"/>
+          <path d="M21.6 8.1 Q21.98 9.82 23.7 10.2 Q21.98 10.58 21.6 12.3 Q21.22 10.58 19.5 10.2 Q21.22 9.82 21.6 8.1 Z"/>
+        </svg>
+      </button>
+      <button class="ctl" id="soundBtn" type="button" aria-label="Toggle sound">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 9.4v5.2h3.5L12 18.7V5.3L7.5 9.4H4Z" fill="currentColor"/>
+          <path class="wave" d="M15.3 9.3a4 4 0 0 1 0 5.4"/>
+          <path class="wave" d="M18.1 6.7a8 8 0 0 1 0 10.6"/>
+          <path class="cross" d="M15.8 10.1l5 3.8M20.8 10.1l-5 3.8"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<div id="clock" aria-live="off"></div>
+
+<section id="hero" data-chrome="dark">
+<div id="stage">
+  <div id="copy">
+    <div class="line" data-i="0"><span class="tw">perception is subjective.</span><span class="head" role="button" tabindex="0" aria-label="a small witness"><img src="assets/img/witness.webp" width="164" height="223" alt="" decoding="async" fetchpriority="high"></span></div>
+    <div class="line" data-i="1"><span class="tw">but</span></div>
+    <h1 class="line" id="reveal">I see what you <span class="hl">see.</span></h1>
+    <!-- Typed in after the reveal, on the same keyboard as the lines above.
+         Unlike them these wrap, which is why they carry their own class. -->
+    <p class="line sub" data-i="2"><span class="tw">I turn messy problems into clear, thoughtful experiences across product, graphic design, and everything in between.</span></p>
+    <p class="line sub" data-i="3"><span class="tw">I research, design, prototype, test, and occasionally make things look way cooler than they started.</span></p>
+  </div>
+  <div id="ring"></div>
+</div>
+</section>
+
+
+<section id="work" data-chrome="light">
+  <div class="proj-frame">
+    <div class="proj-nav" role="navigation" aria-label="Work">
+      <p class="proj-label">work</p>
+      <ul class="proj-list">
+          <li><a class="proj on" href="nirvana/" data-key="nirvana" data-bg="#FEFDED">nirvana<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+          <li><a class="proj" href="optivento/" data-key="optivento" data-bg="#FFFFFF">optivento<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+          <li><a class="proj" href="galls/" data-key="uniform" data-bg="#FFFFFF">uniform customizer<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+          <li><a class="proj" href="nirvana-mudra/" data-key="nirvana2" data-bg="#FEFDEB">nirvana 2.0<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+          <li><a class="proj" href="unsmoke/" data-key="unsmoke" data-bg="#FFFFFF">unsmoke<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+      </ul>
+    </div>
+    <div class="proj-plates">
+      <img class="proj-plate on" data-key="nirvana"
+           src="assets/img/work/nirvana.webp"
+           srcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w"
+           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
+           alt="Nirvana — a psychedelic line-drawn Buddha in a mudra, above the project caption."
+           decoding="async" fetchpriority="high">
+      <!-- Optivento is the one plate that isn't a flat picture. The drawing
+           annotates its own iPad with "click/hover to access live order
+           dashboard", so the plate has to make good on that: hovering the
+           tablet lifts the real dashboard out over the drawing, and the whole
+           affordance is one link into the case study. Everything inside is
+           positioned as a percentage of the 1440 x 1024 plate, so the
+           composition survives every size the frame is asked to be. -->
+      <div class="proj-plate op" data-key="optivento">
+        <img class="op-draw"
+             src="assets/img/work/optivento-drawing.webp"
+             srcset="assets/img/work/optivento-drawing.webp 912w, assets/img/work/optivento-drawing@2x.webp 1824w"
+             sizes="(max-width: 820px) 47vw, 35vw" width="912" height="1184"
+             alt="An engineering drawing of a restaurant pass: clipboards on a rail, an iPad on a stand, annotated as the POS terminal."
+             decoding="async" loading="lazy">
+
+        <!-- drawn rather than photographed, so the line stays crisp at any
+             size and the copy stays copy -->
+        <div class="op-bubble">
+          <svg class="op-bubble-shape" viewBox="0 0 1000 854.8" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M 84.2 854.8 L 75.9 826.7 L 132 625.4 L 29.7 509.9 L 0 387.8 L 33 262.4 L 146.9 148.5 L 311.9 69.3 L 645.2 0 L 813.5 36.3 L 877.9 87.5 L 950.5 176.6 L 1000 338.3 L 973.6 480.2 L 942.2 514.9 L 820.1 623.8 L 575.9 689.8 L 374.6 719.5 L 239.3 686.5 Z"/>
+          </svg>
+          <p class="op-bubble-text">Are you a restaurant manager?<br>This is going to blow your mind. Who doesn&rsquo;t want to save $20,000?!</p>
+        </div>
+
+        <!-- The anchor spans the plate but passes pointer events straight
+             through; only the tablet and the dashboard it lifts out are
+             live. Because the dashboard's resting place sits inside the
+             anchor, hovering it keeps the anchor hovered, so there is no gap
+             to fall through on the way from one to the other. -->
+        <a class="op-hot" href="optivento/">
+          <span class="op-tap" aria-hidden="true"></span>
+          <img class="op-dev"
+               src="assets/img/work/optivento-device.webp"
+               srcset="assets/img/work/optivento-device.webp 684w, assets/img/work/optivento-device@2x.webp 1368w"
+               sizes="(max-width: 820px) 40vw, 30vw" width="684" height="484"
+               alt="" decoding="async" loading="lazy">
+          <span class="sr-only">Optivento: open the case study</span>
+        </a>
+      </div>
+      <img class="proj-plate" data-key="uniform"
+           src="assets/img/work/uniform.webp"
+           srcset="assets/img/work/uniform.webp 1440w, assets/img/work/uniform@2x.webp 2880w, assets/img/work/uniform@3x.webp 4320w"
+           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
+           alt="Uniform customizer — the badge-placement flow on a laptop and two phones, over a shirt technical drawing."
+           decoding="async" loading="lazy">
+      <img class="proj-plate" data-key="nirvana2"
+           src="assets/img/work/nirvana2.webp"
+           srcset="assets/img/work/nirvana2.webp 1440w, assets/img/work/nirvana2@2x.webp 2880w, assets/img/work/nirvana2@3x.webp 4320w"
+           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
+           alt="Nirvana 2.0 — a seated figure dissolving into a soft aura gradient."
+           decoding="async" loading="lazy">
+      <img class="proj-plate" data-key="unsmoke"
+           src="assets/img/work/unsmoke.webp"
+           srcset="assets/img/work/unsmoke.webp 1440w, assets/img/work/unsmoke@2x.webp 2880w, assets/img/work/unsmoke@3x.webp 4320w"
+           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
+           alt="Unsmoke — the water-purity and streak screens on two phones, with a halftone megaphone."
+           decoding="async" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ===================== third fold: meanwhile =====================
+     One artboard, five panels. Everything inside a panel is positioned as a
+     percentage of the 1320 x 938 design, so the whole thing scales as one
+     picture; type is sized in cqw for the same reason. -->
+<section id="meanwhile" data-chrome="dark">
+  <div class="mw-frame">
+    <div class="mw-panels">
+
+      <div class="mw-panel on" data-key="intro" data-bg="#2E398C" data-chrome="dark">
+        <img class="mw-lockup" src="assets/img/meanwhile/meanwhile-lockup.webp"
+             alt="Meanwhile…" width="1056" height="222" loading="lazy" decoding="async">
+        <p class="mw-sub"><span class="mw-type" data-text="I am keeping up with.."></span><i class="mw-caret" aria-hidden="true"></i></p>
+        <p class="mw-hint">hover the icons · click to hold</p>
+        <img class="mw-girl" src="assets/img/meanwhile/girl.webp"
+             alt="A small girl in sunglasses, reclined in a deck chair, raising a bottle of juice."
+             width="1328" height="1343" loading="lazy" decoding="async">
+      </div>
+
+      <div class="mw-panel" data-key="cook" data-bg="#FFFEF4" data-chrome="light">
+        <p class="mw-cap mw-cook-cap">cooking makes me happy. eating this will make you too</p>
+        <div class="mw-cook-grid">
+          <img src="assets/img/meanwhile/cook-1.webp" alt="Caprese with tomatoes and olives." width="706" height="596" loading="lazy" decoding="async">
+          <img src="assets/img/meanwhile/cook-2.webp" alt="Jammy eggs on a blue plate." width="704" height="596" loading="lazy" decoding="async">
+          <img src="assets/img/meanwhile/cook-3.webp" alt="A chicken curry in a pot." width="706" height="596" loading="lazy" decoding="async">
+          <img src="assets/img/meanwhile/cook-4.webp" alt="Noodles with broccoli." width="706" height="594" loading="lazy" decoding="async">
+          <img src="assets/img/meanwhile/cook-5.webp" alt="A slice of greens bake." width="704" height="594" loading="lazy" decoding="async">
+          <img src="assets/img/meanwhile/cook-6.webp" alt="Masala prawns with coriander." width="706" height="594" loading="lazy" decoding="async">
+        </div>
+        <img class="mw-cook-sticker" src="assets/img/meanwhile/cook-sticker.webp" alt=""
+             width="467" height="685" loading="lazy" decoding="async">
+      </div>
+
+      <div class="mw-panel" data-key="art" data-bg="#FFFFFF" data-chrome="light">
+        <img class="mw-art-canvas" src="assets/img/meanwhile/art-canvas.webp"
+             alt="Holding up a large surrealist canvas painted over two years."
+             width="932" height="1506" loading="lazy" decoding="async">
+        <img class="mw-art-stall" src="assets/img/meanwhile/art-stall.webp" alt="Prints laid out on a market table."
+             width="594" height="792" loading="lazy" decoding="async">
+        <img class="mw-art-fair" src="assets/img/meanwhile/art-fair.webp" alt="The stall set up at an outdoor fair."
+             width="524" height="698" loading="lazy" decoding="async">
+        <img class="mw-art-merch" src="assets/img/meanwhile/art-merch.webp" alt="Wearing a t-shirt printed with my own artwork."
+             width="524" height="698" loading="lazy" decoding="async">
+        <img class="mw-arrow mw-art-a1" src="assets/img/meanwhile/arrow.webp" alt="" width="206" height="137" loading="lazy" decoding="async">
+        <p class="mw-cap mw-art-c1">I am into surrealism and whimsical artwork, its my fav thing! I created this canvas over 2 years</p>
+        <img class="mw-arrow mw-art-a2" src="assets/img/meanwhile/arrow.webp" alt="" width="257" height="264" loading="lazy" decoding="async">
+        <p class="mw-cap mw-art-c2">created my own merch with my artwork</p>
+      </div>
+
+      <div class="mw-panel" data-key="pod" data-bg="#FFFFFF" data-chrome="light">
+        <img class="mw-pod-room" src="assets/img/meanwhile/pod-room.webp"
+             alt="The corner where the podcast is recorded: a chair, a folding table and a microphone."
+             width="974" height="1300" loading="lazy" decoding="async">
+        <i class="mw-pod-blob" aria-hidden="true"></i>
+        <img class="mw-pod-cube" src="assets/img/meanwhile/pod-cube.webp"
+             alt="Wisdom Of Wednesdays cube logo." width="670" height="771" loading="lazy" decoding="async">
+        <a class="mw-pod-card" href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener noreferrer"
+           aria-label="Wisdom Of Wednesdays by Sumeet Gokhale, 4.2 stars, self-help">
+          <img src="assets/img/meanwhile/pod-card.webp" alt="" width="482" height="198" loading="lazy" decoding="async"></a>
+        <!-- Apple Podcasts still points at the front page: no show URL on record.
+             Replace the href below with the real one when you have it. -->
+        <a class="mw-pod-link mw-pod-spotify" href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener noreferrer" aria-label="Listen to Wisdom Of Wednesdays on Spotify">
+          <img src="assets/img/meanwhile/badge-spotify.webp" alt="" width="202" height="82" loading="lazy" decoding="async"></a>
+        <a class="mw-pod-link mw-pod-apple" href="https://podcasts.apple.com/" target="_blank" rel="noopener noreferrer" aria-label="Listen to Wisdom Of Wednesdays on Apple Podcasts">
+          <img src="assets/img/meanwhile/badge-apple.webp" alt="" width="284" height="70" loading="lazy" decoding="async"></a>
+      </div>
+
+      <div class="mw-panel" data-key="sport" data-bg="#FEFDED" data-chrome="light">
+        <img class="mw-sp-cluster" src="assets/img/meanwhile/sport-cluster.webp"
+             alt="Hiking, the gym, and a yoga backbend." width="822" height="1032" loading="lazy" decoding="async">
+        <img class="mw-sp-tennis" src="assets/img/meanwhile/sport-tennis.webp"
+             alt="Serving on a tennis court in Mumbai." width="994" height="1128" loading="lazy" decoding="async">
+        <p class="mw-cap mw-sp-cap">20+ years playing tennis has made me a true sportsman, now I apply it everywhere</p>
+        <img class="mw-arrow mw-sp-a1" src="assets/img/meanwhile/arrow.webp" alt="" width="257" height="264" loading="lazy" decoding="async">
+        <img class="mw-arrow mw-sp-a2" src="assets/img/meanwhile/arrow.webp" alt="" width="257" height="264" loading="lazy" decoding="async">
+        <!-- The day count is derived from the start date below, not typed in,
+             so it stays true on its own instead of going stale the moment it
+             ships. The text inside <b> is the no-JS fallback; edit data-since
+             (YYYY-MM-DD) if the real first day is a different one. -->
+        <p class="mw-cap mw-sp-counter">yoga + meditation day counter<b data-since="2019-05-20">2,653 days</b></p>
+        <img class="mw-sp-badge" src="assets/img/meanwhile/sport-badge.webp"
+             alt="Just another day." width="682" height="290" loading="lazy" decoding="async">
+      </div>
+
+    </div>
+
+    <div class="mw-rail" role="tablist" aria-label="Meanwhile">
+      <!-- The icons are drawings, and a drawing of a whisk only reads as a
+           whisk once you already know that's what it is. The word under each
+           one is the caption and the accessible name at the same time, so
+           there is no aria-label here saying something slightly different
+           from what is on the screen. -->
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="cook"><img src="assets/img/meanwhile/icon-cook.webp"  alt="" width="78" height="54" loading="lazy"><span class="mw-tab-label">cooking</span></button>
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="art"><img src="assets/img/meanwhile/icon-art.webp"   alt="" width="67" height="80" loading="lazy"><span class="mw-tab-label">art</span></button>
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="pod"><img src="assets/img/meanwhile/icon-pod.webp"   alt="" width="57" height="65" loading="lazy"><span class="mw-tab-label">podcast</span></button>
+      <button class="mw-tab" type="button" role="tab" aria-selected="false" data-key="sport"><img src="assets/img/meanwhile/icon-sport.webp" alt="" width="66" height="82" loading="lazy"><span class="mw-tab-label">sports</span></button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================== fourth fold: the sign-off =====================
+     A footer rather than a section, because that is what it is: the page's
+     closing address. It carries data-chrome like the folds above it so the
+     fixed nav and clock keep inverting correctly when it scrolls under them.
+     Its ground is the theme's own, so it reads as the hero coming back
+     around rather than as a new place. -->
+<footer class="ft" id="contact" data-chrome="dark">
+  <div class="ft-say">
+    <h2 class="ft-line">I am confident that we are going to create something spectacular.</h2>
+    <p class="ft-note">if you are stuck in your process and need someone to get in the muck and fix it for you<br>you know I am here.</p>
+
+    <h3 class="ft-open">open to full-time and contract roles</h3>
+    <!-- Titles, not links: they say what to hire for, and there is nowhere
+         for them to lead. -->
+    <ul class="ft-roles">
+      <li>product designer</li>
+      <li>ux ui designer</li>
+      <li>visual designer</li>
+    </ul>
+  </div>
+
+  <!-- Deliberately a <ul> and not a <nav>: the stylesheet's nav rules are on
+       the element itself, so a second nav here would be pinned to the top of
+       the window along with the real one. -->
+  <ul class="ft-links">
+    <li><a href="mailto:gokhalesumeet2@gmail.com">email me</a></li>
+    <!-- A button, not a mailto: it puts the address on the clipboard for
+         anyone whose mail lives in a browser tab rather than an app. The
+         address is written out in full so it can still be read and typed by
+         hand if the copy silently fails. -->
+    <li><button class="ft-copy" type="button" data-copy="gokhalesumeet2@gmail.com">
+      or copy this: gokhalesumeet2@gmail.com<i class="ft-said" aria-hidden="true">copied</i></button>
+      <span class="sr-only" role="status" aria-live="polite"></span></li>
+    <li><a href="assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">resumé</a></li>
+    <!-- footer.js rewrites this to #work and scrolls, the same way the nav
+         link does; the URL here is the no-JS fallback. -->
+    <li><a class="ft-work" href="#work">work</a></li>
+    <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">linkedin</a></li>
+  </ul>
+</footer>
+
+<div id="cursor"><i></i></div>
+<div id="hint">move your cursor</div>
+<div id="panel">
+  <button data-mode="render">render</button>
+  <button data-mode="geo">geometric</button>
+  <i class="sep"></i>
+  <button id="replay" type="button" aria-label="Replay the intro">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/>
+      <path d="M20.6 4.4v5.2h-5.2"/>
+    </svg>
+  </button>
+</div>
+
+<!-- back to the start: appears once the hero is behind you -->
+<button class="totop" type="button" aria-label="Back to the top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19.2V5.4"/><path d="M5.9 11.5 12 5.4l6.1 6.1"/>
+  </svg>
+</button>
+
+<script src="assets/js/audio.js?v=47bb20db" defer></script>
+<script src="assets/js/controls.js?v=2336e678" defer></script>
+<script src="assets/js/hero.js?v=52caa800" defer></script>
+<script src="assets/js/work.js?v=fb70a793" defer></script>
+<script src="assets/js/meanwhile.js?v=43714de1" defer></script>
+<script src="assets/js/footer.js?v=e498034f" defer></script>
+<script src="assets/js/totop.js?v=07517e0f" defer></script>
+</body>
+</html>

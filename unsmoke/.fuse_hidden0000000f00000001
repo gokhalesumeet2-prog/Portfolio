@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>unsmoke — a quit-smoking app where relapse doesn't reset you to zero | Sumeet Gokhale</title>
+<meta name="description" content="Streak-based quit-smoking apps have one failure state, and reaching it is when people delete the app. Unsmoke logs a cigarette as a 2% change to a continuous health variable instead, so a slip costs progress without costing the product. A self-directed concept.">
+<meta name="author" content="Sumeet Gokhale">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://sumeetgokhale.com/unsmoke/">
+
+<meta name="theme-color" content="#2E398C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="sumeet">
+<meta property="og:title" content="unsmoke — a quit-smoking app where relapse doesn't reset you to zero">
+<meta property="og:description" content="A gamified smoking-cessation concept built on a continuous health variable rather than a streak counter.">
+<meta property="og:url" content="https://sumeetgokhale.com/unsmoke/">
+<meta property="og:image" content="https://sumeetgokhale.com/assets/og-home.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Unsmoke: a quit-smoking concept built on a continuous health variable.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="unsmoke — a quit-smoking app where relapse doesn't reset you to zero">
+<meta name="twitter:description" content="A gamified smoking-cessation concept built on a continuous health variable rather than a streak counter.">
+<meta name="twitter:image" content="https://sumeetgokhale.com/assets/og-home.png">
+
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" href="../assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../assets/icons/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+
+<!-- The page speaks in lowercase and in a voice. The plain facts a crawler
+     wants live here instead. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Unsmoke: a quit-smoking app where relapse doesn't reset you to zero",
+  "url": "https://sumeetgokhale.com/unsmoke/",
+  "image": "https://sumeetgokhale.com/assets/og-home.png",
+  "datePublished": "2024-05-01",
+  "about": ["UX research","Interaction design","Behaviour change","Gamification"],
+  "author": {
+    "@type": "Person",
+    "@id": "https://sumeetgokhale.com/#sumeet",
+    "name": "Sumeet Gokhale",
+    "url": "https://sumeetgokhale.com/"
+  }
+}
+</script>
+
+<!-- theme is resolved before first paint: dark is the design, light is a choice -->
+<script src="../assets/js/theme-init.js?v=e35251c3"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:ital,wght@0,300;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="../assets/us-hero.svg">
+<link rel="stylesheet" href="../assets/css/site.css?v=8166171b">
+</head>
+<body class="scrollable">
+
+<a class="skip" href="#main">skip to the case study</a>
+
+<nav>
+  <a class="mark" href="../" aria-label="Sumeet Gokhale — home">sumeet</a>
+  <div class="right">
+    <div class="links">
+      <a href="../#work">work</a><a href="../about/">about</a><a href="mailto:gokhalesumeet2@gmail.com">contact</a>
+    </div>
+    <div class="tools">
+      <span id="sndHint" aria-hidden="true">tap anywhere for sound</span>
+      <button class="ctl" id="themeBtn" type="button" aria-label="Switch colour theme">
+        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.1" fill="currentColor" stroke="none"/>
+          <path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.15 5.15l1.63 1.63M17.22 17.22l1.63 1.63M18.85 5.15l-1.63 1.63M6.78 17.22l-1.63 1.63"/>
+        </svg>
+        <svg class="ic moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <g transform="translate(-1.9,2.1) scale(0.84)">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+          </g>
+          <path d="M18.6 1.6 Q19.18 4.22 21.8 4.8 Q19.18 5.38 18.6 8 Q18.02 5.38 15.4 4.8 Q18.02 4.22 18.6 1.6 Z"/>
+          <path d="M21.6 8.1 Q21.98 9.82 23.7 10.2 Q21.98 10.58 21.6 12.3 Q21.22 10.58 19.5 10.2 Q21.22 9.82 21.6 8.1 Z"/>
+        </svg>
+      </button>
+      <button class="ctl" id="soundBtn" type="button" aria-label="Toggle sound">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 9.4v5.2h3.5L12 18.7V5.3L7.5 9.4H4Z" fill="currentColor"/>
+          <path class="wave" d="M15.3 9.3a4 4 0 0 1 0 5.4"/>
+          <path class="wave" d="M18.1 6.7a8 8 0 0 1 0 10.6"/>
+          <path class="cross" d="M15.8 10.1l5 3.8M20.8 10.1l-5 3.8"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<div id="clock" aria-live="off"></div>
+
+<main id="main" class="cst">
+
+  <!-- ---------- the head ----------
+       The claim on the left with the sun dot behind it, the facts about the
+       project on a card beside it. -->
+  <section class="cst-head" data-chrome="light">
+    <div class="cst-shell cst-shell--text">
+      <p class="cst-wordmark">unsmoke</p>
+      <div class="cst-head-grid">
+        <div>
+          <h1 class="cst-kicker cst-mark cst-mark--sun">smoking one cigarette<br>shouldn't reset you to zero</h1>
+          <p class="cst-lead">A streak has exactly one failure state. You smoke once, the counter goes to zero, and the app now says you have achieved nothing — which is precisely the moment people delete it. Unsmoke records that cigarette as a 2% change to something continuous instead. The slip still costs you, but it doesn't cost you the product.</p>
+          <div class="cst-btns">
+            <a class="cst-btn cst-btn--go" href="#interaction">the core interaction</a>
+            <a class="cst-btn cst-btn--line" href="https://www.behance.net/gallery/198609507/Unsmoke-Gamification-mobile-app" target="_blank" rel="noopener">see the full screens</a>
+          </div>
+        </div>
+
+        <div class="cst-meta">
+          <img class="cst-pen" src="../assets/img/nirvana/nv-pen.webp"
+               alt="" aria-hidden="true" width="135" height="114" decoding="async">
+          <dl>
+            <div>
+              <dt>my role</dt>
+              <dd><span>UX research</span><span>Interaction design</span><span>UI &amp; visual design</span></dd>
+            </div>
+            <div>
+              <dt>users</dt>
+              <dd><span>People smoking 5+ years</span><span>Repeat quit attempters</span></dd>
+            </div>
+            <div>
+              <dt>tools</dt>
+              <dd><span>Figma</span><span>Photoshop</span></dd>
+            </div>
+            <div>
+              <dt>status</dt>
+              <dd><span>Self-directed concept</span><span>May 2024</span></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- the hero: three redrawn screens, framed on the grey they were exported on -->
+  <section class="cst-sec cst-sec--tight" data-chrome="light">
+    <div class="cst-shell">
+      <div style="background:var(--cst-surface,#F4F4F4);border-radius:clamp(12px,1.4vw,20px);overflow:hidden;padding:clamp(16px,3vw,40px)">
+        <img src="../assets/us-hero.svg"
+             alt="Three Unsmoke screens: the home screen with a 14-day streak card and a health meter, the urge screen showing a flask at 98% purity, and the support-network screen with educational resources unlocked by streaks."
+             width="1400" height="820" fetchpriority="high" decoding="async"
+             style="display:block;width:100%;height:auto">
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- honesty first ----------
+       This is a concept, not a shipped product. Say so before anything else,
+       so nothing that follows can be read as a result it never earned. -->
+  <section class="cst-sec cst-sec--tight" data-chrome="light" aria-labelledby="honest-h">
+    <div class="cst-shell cst-shell--text">
+      <p class="cst-caveat" id="honest-h" style="max-width:60em"><b>READ THIS FIRST.</b> Unsmoke is a self-directed concept. It was never engineered or released, so there is no analytics, no retention curve and no controlled comparison anywhere on this page. The one outcome I can point to — eight people who told me they cut down or stopped — is self-reported by a group I recruited myself. It is an anecdote, and I have labelled it as one. What follows is the design argument and the reasoning behind it.</p>
+    </div>
+  </section>
+
+  <!-- ---------- why this problem ----------
+       The streak is the wrong shape for this behaviour, and the model
+       comparison makes the substitution visible. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="why-h">
+    <div class="cst-shell cst-shell--text">
+      <h2 class="cst-h2 cst-mark cst-mark--coral" id="why-h">the streak is the wrong<br>shape for this behaviour</h2>
+      <p class="cst-lead" style="margin-top:.85em">Streaks are the default mechanic in habit apps, and for most habits they work. Meditation, running, language practice: you either did the thing or you didn't, and a run of consecutive days is a fair description of how you're doing.</p>
+      <p class="cst-p">Quitting is not shaped like that. Relapse isn't the exception, it's the documented path, and someone on their fifth attempt has usually made more progress than the counter can express. A streak turns the most fragile moment in the whole process into a total loss, and it does so with a number designed to feel like judgement. The person who most needs the app open tomorrow is the person the app just told they are back at day zero.</p>
+      <p class="cst-q">So the design question I set for myself was narrow: what does the app show you in the sixty seconds after you smoke? Everything else in Unsmoke follows from the answer.</p>
+    </div>
+
+    <!-- the substitution, drawn: streak collapses to zero; purity degrades and recovers -->
+    <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px)">
+      <div class="cst-diagram" tabindex="0" role="group" aria-labelledby="model-cap"
+           style="border:1px solid var(--cst-line);border-radius:16px;padding:clamp(20px,3vw,34px);overflow-x:auto">
+        <svg viewBox="0 0 820 268" xmlns="http://www.w3.org/2000/svg" role="img" style="display:block;width:100%;height:auto;min-width:620px"
+             aria-label="Two models compared. Under a streak counter, twelve days of progress collapse to zero on the day of a relapse and the app is deleted. Under a continuous purity variable, the same relapse moves the value from one hundred per cent to ninety-eight per cent and recovery continues from there.">
+          <style>
+            .usm-lbl{font-family:var(--font-ui);font-size:11px;font-weight:600;fill:#8a8f96;letter-spacing:.07em;text-transform:uppercase}
+            .usm-t{font-family:var(--font-ui);font-size:12.5px;font-weight:600;fill:#111}
+            .usm-m{font-family:var(--font-ui);font-size:11.5px;fill:#8a8f96}
+            .usm-w{fill:#fff}
+            .usm-a{fill:#0086FF}
+            .usm-r{fill:#F13F36}
+          </style>
+
+          <!-- STREAK ROW -->
+          <text class="usm-lbl" x="0" y="14">Streak counter, on the day of a slip</text>
+          <rect x="0"   y="28" width="150" height="52" rx="8" fill="#F4F4F4" stroke="#E7E7E7"/>
+          <text class="usm-t" x="75" y="50" text-anchor="middle">Day 12</text>
+          <text class="usm-m" x="75" y="68" text-anchor="middle">twelve days banked</text>
+
+          <path d="M150 54 h30" stroke="#CBCBCB" stroke-width="1.5" fill="none"/>
+          <rect x="180" y="28" width="150" height="52" rx="8" fill="#F4F4F4" stroke="#E7E7E7"/>
+          <text class="usm-t" x="255" y="50" text-anchor="middle">One cigarette</text>
+          <text class="usm-m" x="255" y="68" text-anchor="middle">a single lapse</text>
+
+          <path d="M330 54 h30" stroke="#CBCBCB" stroke-width="1.5" fill="none"/>
+          <rect x="360" y="28" width="150" height="52" rx="8" fill="#FDECEA" stroke="#F13F36"/>
+          <text class="usm-t usm-r" x="435" y="50" text-anchor="middle">Day 0</text>
+          <text class="usm-m usm-r" x="435" y="68" text-anchor="middle" opacity=".85">everything erased</text>
+
+          <path d="M510 54 h30" stroke="#CBCBCB" stroke-width="1.5" fill="none"/>
+          <rect x="540" y="28" width="200" height="52" rx="8" fill="#000000"/>
+          <text class="usm-t usm-w" x="640" y="50" text-anchor="middle">App deleted</text>
+          <text class="usm-m usm-w" x="640" y="68" text-anchor="middle" opacity=".7">nothing left to return to</text>
+
+          <line x1="0" y1="108" x2="820" y2="108" stroke="#E7E7E7" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+          <!-- PURITY ROW -->
+          <text class="usm-lbl" x="0" y="132">Purity variable, same day, same cigarette</text>
+          <rect x="0" y="146" width="150" height="52" rx="8" fill="#F4F4F4" stroke="#E7E7E7"/>
+          <text class="usm-t" x="75" y="168" text-anchor="middle">100% pure</text>
+          <text class="usm-m" x="75" y="186" text-anchor="middle">twelve clean days</text>
+
+          <path d="M150 172 h30" stroke="#0086FF" stroke-width="1.6" fill="none"/>
+          <rect x="180" y="146" width="150" height="52" rx="8" fill="#F4F4F4" stroke="#E7E7E7"/>
+          <text class="usm-t" x="255" y="168" text-anchor="middle">One cigarette</text>
+          <text class="usm-m" x="255" y="186" text-anchor="middle">logged, not hidden</text>
+
+          <path d="M330 172 h30" stroke="#0086FF" stroke-width="1.6" fill="none"/>
+          <rect x="360" y="146" width="150" height="52" rx="8" fill="#EAF5FF" stroke="#0086FF"/>
+          <text class="usm-t usm-a" x="435" y="168" text-anchor="middle">98% pure</text>
+          <text class="usm-m" x="435" y="186" text-anchor="middle">a cost you can see</text>
+
+          <path d="M510 172 h30" stroke="#0086FF" stroke-width="1.6" fill="none"/>
+          <rect x="540" y="146" width="200" height="52" rx="8" fill="#EAF5FF" stroke="#0086FF"/>
+          <text class="usm-t usm-a" x="640" y="168" text-anchor="middle">Recovery continues</text>
+          <text class="usm-m" x="640" y="186" text-anchor="middle">still 98 points of progress</text>
+
+          <text class="usm-m" x="0" y="240">Both models charge you for the cigarette. Only one of them leaves you somewhere to carry on from.</text>
+        </svg>
+      </div>
+      <p class="cst-cap" id="model-cap">The whole concept is this substitution: a discrete counter that can only be intact or destroyed, replaced with a continuous value that degrades and recovers.</p>
+    </div>
+  </section>
+
+  <!-- ---------- the core interaction ----------
+       The app asks before the craving does, and however you answer you finish
+       inside it. The flow, drawn. -->
+  <section class="cst-sec" data-chrome="light" id="interaction" aria-labelledby="int-h">
+    <div class="cst-shell cst-shell--text">
+      <h2 class="cst-h2 cst-mark cst-mark--sun" id="int-h">the app asks before<br>the craving does</h2>
+      <p class="cst-lead" style="margin-top:.85em">Most cravings are not random. They arrive with coffee, after lunch, on the drive home. During onboarding you set the times you already know are difficult, and the app meets you there instead of waiting to be opened.</p>
+      <p class="cst-p">At the appointed time Unsmoke asks one question: do you feel like smoking right now? Answer no and it logs a clean interval. Answer yes and you get the screen the rest of the product is built around — and the thing it does not do is argue with you.</p>
+      <p class="cst-p">The copy reads: <em>it is okay if you wish to smoke right now.</em> Then it asks for a moment, and offers a swipe in either direction. Left if you have changed your mind, right if you still want the cigarette. Both are legitimate. Both are one gesture.</p>
+    </div>
+
+    <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px)">
+      <div class="cst-diagram" tabindex="0" role="group" aria-labelledby="flow-cap"
+           style="border:1px solid var(--cst-line);border-radius:16px;padding:clamp(20px,3vw,34px);overflow-x:auto">
+        <svg viewBox="0 0 820 400" xmlns="http://www.w3.org/2000/svg" role="img" style="display:block;width:100%;height:auto;min-width:640px"
+             aria-label="Flow. A scheduled urge alarm asks whether you want to smoke. Answering no logs a clean interval and purity is unchanged. Answering yes opens a pause screen offering a substitute action. Swiping left returns you to the clean interval with nothing logged. Swiping right logs the cigarette with no lecture, and purity falls by two per cent.">
+          <style>
+            .usf-lbl{font-family:var(--font-ui);font-size:11px;font-weight:600;fill:#8a8f96;letter-spacing:.06em;text-transform:uppercase}
+            .usf-t{font-family:var(--font-ui);font-size:12.5px;font-weight:600;fill:#111}
+            .usf-m{font-family:var(--font-ui);font-size:11.5px;fill:#8a8f96}
+            .usf-w{fill:#fff}
+            .usf-a{fill:#0086FF}
+          </style>
+
+          <!-- entry -->
+          <rect x="0" y="136" width="150" height="58" rx="9" fill="#F4F4F4" stroke="#E7E7E7"/>
+          <text class="usf-t" x="75" y="160" text-anchor="middle">Scheduled urge time</text>
+          <text class="usf-m" x="75" y="178" text-anchor="middle">set by you at onboarding</text>
+
+          <path d="M150 165 h38" stroke="#CBCBCB" stroke-width="1.5" fill="none"/>
+
+          <!-- the question -->
+          <rect x="188" y="136" width="176" height="58" rx="9" fill="#000000"/>
+          <text class="usf-t usf-w" x="276" y="160" text-anchor="middle">Do you want to smoke?</text>
+          <text class="usf-m usf-w" x="276" y="178" text-anchor="middle" opacity=".7">asked, not assumed</text>
+
+          <!-- no -->
+          <path d="M364 154 h20 v-95 h20" stroke="#0086FF" stroke-width="1.6" fill="none"/>
+          <text class="usf-lbl usf-a" x="404" y="22">No</text>
+          <rect x="404" y="30" width="196" height="58" rx="9" fill="#EAF5FF" stroke="#0086FF"/>
+          <text class="usf-t usf-a" x="502" y="54" text-anchor="middle">Clean interval logged</text>
+          <text class="usf-m" x="502" y="72" text-anchor="middle">purity unchanged</text>
+
+          <!-- yes -->
+          <path d="M364 176 h20 v95 h20" stroke="#CBCBCB" stroke-width="1.6" fill="none"/>
+          <text class="usf-lbl" x="404" y="234">Yes</text>
+          <rect x="404" y="242" width="196" height="58" rx="9" fill="#F4F4F4" stroke="#E7E7E7"/>
+          <text class="usf-t" x="502" y="266" text-anchor="middle">Take a moment</text>
+          <text class="usf-m" x="502" y="284" text-anchor="middle">read a page, drink water</text>
+
+          <!-- swipe left -->
+          <path d="M600 252 h12 v-93 h12" stroke="#0086FF" stroke-width="1.6" fill="none"/>
+          <text class="usf-lbl usf-a" x="628" y="124">Swipe left</text>
+          <rect x="628" y="132" width="192" height="58" rx="9" fill="#EAF5FF" stroke="#0086FF"/>
+          <text class="usf-t usf-a" x="724" y="156" text-anchor="middle">Back to clean interval</text>
+          <text class="usf-m" x="724" y="174" text-anchor="middle">nothing is logged</text>
+
+          <!-- swipe right -->
+          <path d="M600 271 h28" stroke="#CBCBCB" stroke-width="1.6" fill="none"/>
+          <text class="usf-lbl" x="628" y="234">Swipe right</text>
+          <rect x="628" y="242" width="192" height="58" rx="9" fill="#FFF7CC" stroke="#E7D98A"/>
+          <text class="usf-t" x="724" y="266" text-anchor="middle">Cigarette logged</text>
+          <text class="usf-m" x="724" y="284" text-anchor="middle">no lecture, no reset</text>
+
+          <path d="M724 300 v34" stroke="#CBCBCB" stroke-width="1.6" fill="none"/>
+          <rect x="628" y="334" width="192" height="52" rx="9" fill="#EAF5FF" stroke="#0086FF"/>
+          <text class="usf-t usf-a" x="724" y="358" text-anchor="middle">Purity &#8722;2%</text>
+          <text class="usf-m" x="724" y="376" text-anchor="middle">the water gets muddier</text>
+        </svg>
+      </div>
+      <p class="cst-cap" id="flow-cap">Interception rather than prohibition. Note where the flow ends: whichever way you swipe, you finish inside the app, on a screen that still has something to show you. There is no exit that reads as failure.</p>
+    </div>
+
+    <div class="cst-shell cst-shell--text" style="margin-top:clamp(34px,5vh,60px)">
+      <blockquote style="margin:0;border-left:2px solid var(--cst-blue);padding-left:clamp(14px,1.6vw,20px)">
+        <p class="cst-q" style="font-style:italic">&ldquo;It is okay if you wish to smoke right now. Take a moment, if you change your mind and don't wish to smoke, swipe to the left.&rdquo;</p>
+        <p class="cst-cap" style="margin-top:.5em">Interface copy · urge screen</p>
+      </blockquote>
+      <blockquote style="margin:clamp(20px,3vh,32px) 0 0;border-left:2px solid var(--cst-blue);padding-left:clamp(14px,1.6vw,20px)">
+        <p class="cst-q" style="font-style:italic">&ldquo;Each time you smoke, the water gets muddier. This water represents your health at present.&rdquo;</p>
+        <p class="cst-cap" style="margin-top:.5em">Interface copy · purity screen</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ---------- the metaphor ----------
+       A flask of water, standing in for a pair of lungs. Four properties the
+       streak was missing, then the flasks drawn. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="met-h">
+    <div class="cst-shell cst-shell--text">
+      <h2 class="cst-h2 cst-mark cst-mark--coral" id="met-h">a vessel of water,<br>standing in for lungs</h2>
+      <p class="cst-lead" style="margin-top:.85em">The health variable needed a form. A percentage on its own is a number you learn to ignore, and a lung diagram is a medical image people flinch away from. I used a flask of clear water: it starts pure, it clouds when you smoke, and it clears as you go without.</p>
+      <p class="cst-p">It works as a mechanic rather than as decoration because water has the right physics built into the reader's head already. Nobody needs to be told that muddy water can be cleared, or that one drop of ink is not the same as a bottle. The metaphor carries the two properties the streak was missing — <strong>proportionality</strong> and <strong>reversibility</strong> — without a word of explanation.</p>
+    </div>
+
+    <div class="cst-shell" style="margin-top:clamp(30px,5vh,60px)">
+      <div class="cst-three">
+        <div>
+          <h3 class="cst-h3">proportional, so the cost is honest</h3>
+          <p class="cst-p">One cigarette moves the value two points. It is a real loss and the interface does not soften it, but it is not framed as the destruction of everything you had built.</p>
+        </div>
+        <div>
+          <h3 class="cst-h3">reversible, so there is a way back</h3>
+          <p class="cst-p">Clean intervals restore purity. This is the property a streak counter structurally cannot have, and it is the entire reason for choosing a fluid.</p>
+        </div>
+        <div>
+          <h3 class="cst-h3">continuous, so every day registers</h3>
+          <p class="cst-p">Cutting from twenty a day to six is a large clinical improvement a streak scores as zero. The purity value moves, so the app can acknowledge reduction, not only abstinence.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px)">
+      <div class="cst-diagram" tabindex="0" role="group" aria-labelledby="purity-cap"
+           style="border:1px solid var(--cst-line);border-radius:16px;padding:clamp(20px,3vw,34px);overflow-x:auto">
+        <svg viewBox="0 0 820 250" xmlns="http://www.w3.org/2000/svg" role="img" style="display:block;width:100%;height:auto;min-width:600px"
+             aria-label="Four flasks showing the purity variable at one hundred per cent after a clean start, ninety-eight per cent after one cigarette, eighty-four per cent after a heavy week, and ninety-one per cent recovering after four clean days.">
+          <defs>
+            <linearGradient id="usfl100" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5db4ff"/><stop offset="100%" stop-color="#0086FF"/></linearGradient>
+            <linearGradient id="usfl98"  x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#69adec"/><stop offset="100%" stop-color="#2f83cf"/></linearGradient>
+            <linearGradient id="usfl84"  x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9aa3a1"/><stop offset="100%" stop-color="#6e7773"/></linearGradient>
+            <linearGradient id="usfl91"  x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7bacbf"/><stop offset="100%" stop-color="#4c8ba0"/></linearGradient>
+          </defs>
+          <style>
+            .usp-t{font-family:var(--font-ui);font-size:12.5px;fill:#111}
+            .usp-m{font-family:var(--font-ui);font-size:11.5px;fill:#8a8f96}
+          </style>
+
+          <g transform="translate(40,30)">
+            <path d="M28 0h20v30l27 58a13 13 0 0 1-12 19H13a13 13 0 0 1-12-19l27-58z" fill="url(#usfl100)" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+            <rect x="24" y="-5" width="28" height="7" rx="3.5" fill="#000"/>
+            <text class="usp-t" x="38" y="126" text-anchor="middle" font-weight="700">100%</text>
+            <text class="usp-m" x="38" y="144" text-anchor="middle">clean start</text>
+          </g>
+
+          <g transform="translate(240,30)">
+            <path d="M28 0h20v30l27 58a13 13 0 0 1-12 19H13a13 13 0 0 1-12-19l27-58z" fill="url(#usfl98)" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+            <rect x="24" y="-5" width="28" height="7" rx="3.5" fill="#000"/>
+            <circle cx="30" cy="72" r="4" fill="#2f3a36" opacity=".55"/>
+            <text class="usp-t" x="38" y="126" text-anchor="middle" font-weight="700">98%</text>
+            <text class="usp-m" x="38" y="144" text-anchor="middle">one cigarette</text>
+          </g>
+
+          <g transform="translate(440,30)">
+            <path d="M28 0h20v30l27 58a13 13 0 0 1-12 19H13a13 13 0 0 1-12-19l27-58z" fill="url(#usfl84)" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+            <rect x="24" y="-5" width="28" height="7" rx="3.5" fill="#000"/>
+            <circle cx="26" cy="70" r="5" fill="#3d443a" opacity=".7"/>
+            <circle cx="48" cy="82" r="4" fill="#3d443a" opacity=".7"/>
+            <circle cx="36" cy="92" r="6" fill="#3d443a" opacity=".7"/>
+            <text class="usp-t" x="38" y="126" text-anchor="middle" font-weight="700">84%</text>
+            <text class="usp-m" x="38" y="144" text-anchor="middle">a heavy week</text>
+          </g>
+
+          <g transform="translate(640,30)">
+            <path d="M28 0h20v30l27 58a13 13 0 0 1-12 19H13a13 13 0 0 1-12-19l27-58z" fill="url(#usfl91)" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+            <rect x="24" y="-5" width="28" height="7" rx="3.5" fill="#000"/>
+            <circle cx="42" cy="86" r="4" fill="#3d443a" opacity=".45"/>
+            <text class="usp-t" x="38" y="126" text-anchor="middle" font-weight="700">91%</text>
+            <text class="usp-m" x="38" y="144" text-anchor="middle">four clean days</text>
+          </g>
+
+          <path d="M124 90 h100 M324 90 h100 M524 90 h100" stroke="#0086FF" stroke-width="1.6" fill="none"/>
+          <text class="usp-m" x="0" y="228">The fourth flask is the one a streak counter cannot draw. After the heavy week it would still read zero.</text>
+        </svg>
+      </div>
+      <p class="cst-cap" id="purity-cap">Purity over a fortnight. Degradation is visible and so is recovery — which is what makes the variable worth looking at on a bad day rather than only on a good one.</p>
+    </div>
+  </section>
+
+  <!-- ---------- the rest of the system ----------
+       Three supports around the central loop, each attached to the same record. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="sys-h">
+    <div class="cst-shell cst-shell--text">
+      <h2 class="cst-h2" id="sys-h">three supports around<br>the central loop</h2>
+      <p class="cst-lead" style="margin-top:.85em">The purity variable answers what happens when you slip. It doesn't, on its own, give anyone a reason to open the app on an ordinary Tuesday. Three further pieces carry that load, and each one is deliberately attached to the same underlying record.</p>
+    </div>
+
+    <div class="cst-shell" style="margin-top:clamp(30px,5vh,60px)">
+      <div class="cst-three">
+        <div>
+          <h3 class="cst-h3">streaks and challenges</h3>
+          <p class="cst-p">A fourteen-day challenge with a progress ring, framed as a target you work toward rather than a possession you can lose. Weekly stats and history keep the trend visible even when a single day went badly, and a daily diary holds the context a number can't.</p>
+        </div>
+        <div>
+          <h3 class="cst-h3">the support network</h3>
+          <p class="cst-p">Other people going through the same attempt, with forums, chat and groups. Connecting to other challengers carries a benefit, so the social feature has a reason to exist beyond being present — quitting <em>as</em> a group rather than being watched by one.</p>
+        </div>
+        <div>
+          <h3 class="cst-h3">resources you unlock</h3>
+          <p class="cst-p">Health information and coping techniques, released by completing streaks rather than dumped in a library on day one. Gating means the material arrives when it's relevant — the one place I kept an unambiguous game mechanic, because the reward is genuinely useful.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px)">
+      <div style="background:var(--cst-surface,#F4F4F4);border-radius:clamp(12px,1.4vw,20px);overflow:hidden;padding:clamp(16px,3vw,40px)">
+        <img src="../assets/us-hero.svg"
+             alt="The Unsmoke home screen with its streak and community cards above a health meter, the purity screen, and the support-network screen with three educational resources, the second of which has been unlocked."
+             width="1400" height="820" loading="lazy" decoding="async"
+             style="display:block;width:100%;height:auto">
+      </div>
+      <p class="cst-cap">Left to right: the daily home with the health meter reading at a glance, the purity screen immediately after a logged cigarette, and resources unlocking against completed streaks.</p>
+      <p class="cst-caveat"><b>ON THE VISUALS.</b> The screens above are redrawn from the original Figma file so they sit inside this site's grid and type. The source designs, including the onboarding and account flows, are on Behance.</p>
+    </div>
+  </section>
+
+  <!-- ---------- what actually happened ----------
+       One number, and it is a small one. On black, but labelled ANECDOTE. -->
+  <section class="cst-figures" data-chrome="dark" id="outcomes" aria-labelledby="out-h">
+    <div class="cst-shell">
+      <h2 id="out-h">One number, and it is a small one.</h2>
+
+      <div class="cst-stats">
+        <div class="cst-stat">
+          <p class="cst-num">8<span class="sg">+</span></p>
+          <p>people reported quitting or cutting down</p>
+        </div>
+        <div class="cst-stat">
+          <p class="cst-num">5<span class="sg">+</span></p>
+          <p>years smoking — the group this was designed for</p>
+        </div>
+        <div class="cst-stat">
+          <p class="cst-num">0</p>
+          <p>users measured in a shipped product</p>
+        </div>
+      </div>
+
+      <p class="cst-note"><b>ANECDOTE, NOT EVIDENCE.</b> Eight people is a small group, I recruited them myself, they knew I had designed the thing, and I took their word for the outcome without verification. There was no control group and no follow-up past a few weeks. I include the number because it is the only outcome this project has — I'd rather show it with the caveats attached than leave a gap where a result should be.</p>
+    </div>
+  </section>
+
+  <!-- ---------- honest limits ----------
+       What I'd take apart if I picked this up again. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="lim-h">
+    <div class="cst-shell cst-shell--text">
+      <h2 class="cst-h2 cst-mark cst-mark--coral" id="lim-h">what I'd take apart<br>if I picked this up again</h2>
+
+      <div class="cst-opts">
+        <div class="cst-opt">
+          <h3 class="cst-h3">two per cent is a made-up number</h3>
+          <p>It's the load-bearing constant in the entire system and I chose it because it felt proportionate. It should be derived from something — cigarettes per day, time since the last one, the shape of the person's own history. As it stands the twentieth cigarette of the day costs the same as the first, which is wrong in both directions.</p>
+        </div>
+        <div class="cst-opt">
+          <h3 class="cst-h3">the metaphor can turn on you</h3>
+          <p>Muddy water representing your lungs is vivid, and vivid cuts both ways. For someone already ashamed of smoking, watching the flask darken could read as the app agreeing with the worst thing they think about themselves. I designed for the encouraging reading and never tested for the punitive one.</p>
+        </div>
+        <div class="cst-opt">
+          <h3 class="cst-h3">nobody used it mid-craving</h3>
+          <p>Every design decision here is about what happens during a real urge, and I have no observation of a real urge. People walked through the flow calmly, which is the one state it was not built for.</p>
+        </div>
+        <div class="cst-opt">
+          <h3 class="cst-h3">gamifying a clinical problem needs more care than I gave it</h3>
+          <p>Nicotine dependence has established treatment pathways. Unsmoke touches none of them, has no route to a cessation service or a clinician, and a serious version would need that referral built in rather than treated as out of scope.</p>
+        </div>
+        <div class="cst-opt">
+          <h3 class="cst-h3">recovery is asserted, not modelled</h3>
+          <p>I show purity rising over clean days, but I never defined the rate or checked it against how lung function actually recovers. If the numbers are invented, a user who learns that stops trusting the display.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- the close ----------
+       Happy to be argued with on the two per cent, then the footer signs off. -->
+  <section class="cst-sec" data-chrome="light" aria-labelledby="close-h">
+    <div class="cst-shell cst-shell--text">
+      <h2 class="cst-h2 cst-mark cst-mark--sun" id="close-h">happy to be argued<br>with on the two per cent</h2>
+      <p class="cst-p" style="margin-top:.85em">This is the project where I am least sure I got the mechanic right, and the objections to gamifying addiction are good ones. The same question — what does a habit tool show you at the worst moment — carries into the next project, asked of a gentler behaviour.</p>
+      <div class="cst-btns">
+        <a class="cst-btn cst-btn--go" href="../nirvana/">see nirvana</a>
+        <a class="cst-btn cst-btn--line" href="../#work">see more work</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- the same sign-off every other page ends on -->
+<footer class="ft" id="contact" data-chrome="dark">
+  <div class="ft-say">
+    <h2 class="ft-line">I am confident that we are going to create something spectacular.</h2>
+    <p class="ft-note">if you are stuck in your process and need someone to get in the muck and fix it for you<br>you know I am here.</p>
+
+    <h3 class="ft-open">open to full-time and contract roles</h3>
+    <ul class="ft-roles">
+      <li>product designer</li>
+      <li>ux ui designer</li>
+      <li>visual designer</li>
+    </ul>
+  </div>
+
+  <ul class="ft-links">
+    <li><a href="mailto:gokhalesumeet2@gmail.com">email me</a></li>
+    <li><button class="ft-copy" type="button" data-copy="gokhalesumeet2@gmail.com">
+      or copy this: gokhalesumeet2@gmail.com<i class="ft-said" aria-hidden="true">copied</i></button>
+      <span class="sr-only" role="status" aria-live="polite"></span></li>
+    <li><a href="../assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">resumé</a></li>
+    <li><a class="ft-work" href="../#work">work</a></li>
+    <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">linkedin</a></li>
+  </ul>
+</footer>
+
+<button class="totop" type="button" aria-label="Back to the top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19.2V5.4"/><path d="M5.9 11.5 12 5.4l6.1 6.1"/>
+  </svg>
+</button>
+
+<script src="../assets/js/audio.js?v=47bb20db" defer></script>
+<script src="../assets/js/controls.js?v=2336e678" defer></script>
+<script src="../assets/js/footer.js?v=e498034f" defer></script>
+<script src="../assets/js/totop.js?v=07517e0f" defer></script>
+</body>
+</html>

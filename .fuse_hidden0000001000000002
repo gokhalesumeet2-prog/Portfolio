@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found | Sumeet Gokhale</title>
+<meta name="description" content="That page doesn't exist. The case studies, about page and résumé are all one click away.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#ffd120">
+<link rel="stylesheet" href="/assets/site.css?v=7412f7dd">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="shell">
+    <a class="brand" href="/"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#work">Work</a>
+      <a href="/about/">About</a>
+      <a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--ghost" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="shell">
+      <p class="eyebrow eyebrow--plain">Error 404</p>
+      <h1 class="display" style="margin-top:var(--s-5)">This page doesn't exist.</h1>
+      <p class="lead">The link is either out of date or slightly mistyped. Nothing here is lost, so here is the way back in.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/#work">View case studies</a>
+        <a class="btn btn--ghost" href="/">Back to the homepage</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line" aria-labelledby="cs-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">01</span>&nbsp;Case studies</p>
+        <h2 id="cs-h">You were probably looking for one of these.</h2>
+      </div>
+      <div class="cv" style="max-width:52rem">
+        <div class="cv-row">
+          <p class="when">Galls</p>
+          <div>
+            <h3><a href="/galls/">Uniform configuration, collapsed into one screen</a></h3>
+            <p>Enterprise e-commerce configuration for U.S. Army and Air Force procurement. Shipped, and measured in production.</p>
+          </div>
+        </div>
+        <div class="cv-row">
+          <p class="when">Nirvana, Part II</p>
+          <div>
+            <h3><a href="/nirvana-mudra/">Meditation that adapts to how you feel</a></h3>
+            <p>A content library replaced by a match, with the reasoning stated in plain language. Includes a working prototype.</p>
+          </div>
+        </div>
+        <div class="cv-row">
+          <p class="when">Nirvana, Part I</p>
+          <div>
+            <h3><a href="/nirvana/">A retention system, not a meditation app</a></h3>
+            <p>Meditation apps don't fail on content. They fail on consistency, in week one.</p>
+          </div>
+        </div>
+        <div class="cv-row">
+          <p class="when">Optivento</p>
+          <div>
+            <h3><a href="/optivento/">Restaurant operations, designed around the decision</a></h3>
+            <p>Where a two percent cost change moves profit by twenty nine percent. Twelve chefs, one recurring answer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
+    <div class="shell">
+      <div class="sec-head">
+        <p class="eyebrow"><span class="idx">02</span>&nbsp;Contact</p>
+        <h2 id="contact-h">Still looking for something?</h2>
+        <p class="lead measure-wide">If you followed a link here from somewhere, tell me where it was and I'll fix it.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com">Email me</a>
+        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <h2>Work</h2>
+        <ul>
+          <li><a href="/nirvana-mudra/">Nirvana Mudra</a></li>
+          <li><a href="/galls/">Galls uniform customizer</a></li>
+          <li><a href="/nirvana/">Nirvana</a></li>
+          <li><a href="/optivento/">Optivento</a></li>
+          <li><a href="/unsmoke/">Unsmoke</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Site</h2>
+        <ul>
+          <li><a href="/#work">All case studies</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
+          <li><a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Wisdom of Wednesdays</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
+      <span>Open to new roles</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js?v=fb015369" defer></script>
+</body>
+</html>

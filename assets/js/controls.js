@@ -78,13 +78,54 @@
     lastMove = now;
     snd.move();
   });
+  /* the sun cursor belongs to the hero scene, so it is simply absent on the
+     pages that don't have one */
   const sun = document.getElementById('cursor');
-  addEventListener('pointerdown', ()=> sun.classList.add('press'));
-  ['pointerup','pointercancel'].forEach(ev=> addEventListener(ev, ()=> sun.classList.remove('press')));
+  if (sun){
+    addEventListener('pointerdown', ()=> sun.classList.add('press'));
+    ['pointerup','pointercancel'].forEach(ev=> addEventListener(ev, ()=> sun.classList.remove('press')));
+  }
   document.addEventListener('pointerdown', e=>{
     if (e.target.closest && e.target.closest(targets) && e.target.closest('#soundBtn') === null)
       snd.select();
   });
+
+  /* --- the tone under the fixed chrome ---
+     The nav and the clock float over whatever happens to be behind them, so
+     they have to invert against it — and not against a percentage of one
+     section, or mid-scroll you get white type on cream, or dark type on
+     blue, for as long as the ratio takes to cross its threshold. So measure
+     it: find the fold under the nav's own baseline, and the one under the
+     bottom chrome, and read the tone each declares. #meanwhile rewrites its
+     own data-chrome as the panels swap, and says so with an event.
+
+     This lives here rather than in work.js because every page has chrome and
+     only the homepage has a project list. */
+  const navEl = document.querySelector('nav');
+  /* [data-chrome] rather than section[data-chrome]: the sign-off is a
+     <footer>, and it declares a tone like every other fold does */
+  const folds = [...document.querySelectorAll('[data-chrome]')];
+  let ticking = false;
+  function toneAt(y){
+    for (const s of folds){
+      const r = s.getBoundingClientRect();
+      if (r.top <= y && r.bottom > y) return s.dataset.chrome;
+    }
+    return null;
+  }
+  function paintChrome(){
+    ticking = false;
+    const navLine = navEl ? navEl.getBoundingClientRect().bottom - 6 : 40;
+    document.body.classList.toggle('nav-cream', toneAt(navLine) === 'light');
+    document.body.classList.toggle('on-cream', toneAt(innerHeight - 54) === 'light');
+  }
+  function queueChrome(){
+    if (!ticking){ ticking = true; requestAnimationFrame(paintChrome); }
+  }
+  addEventListener('scroll', queueChrome, {passive:true});
+  addEventListener('resize', queueChrome);
+  document.addEventListener('mw:chrome', queueChrome);
+  paintChrome();
 
   /* --- new york, always, wherever the visitor is --- */
   const fmt = new Intl.DateTimeFormat('en-US', {

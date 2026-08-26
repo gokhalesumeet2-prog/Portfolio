@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://sumeetgokhale.com/nirvana-mudra/">
+
+<title>Nirvana: meditation that adapts to how you feel</title>
+<style>
+  /* ============================================================
+     NIRVANA: DESIGN SYSTEM
+     Type:    SF Pro (system): cool, light, airy, Apple-like
+     Surface: white + very light grey · text: near-black + AA greys
+     Accent:  soft pastels (blue / green / yellow), used sparingly
+     All text meets WCAG AA (>= 4.5:1); large text & icons >= 3:1.
+     ============================================================ */
+  :root {
+    /* soft, light accent tints (same hues, gentler) */
+    --alice:      #E6EEF9;
+    --alice-deep: #CFE0F4;
+    --honeydew:   #E7F2E1;
+    --honeydew-deep:#D3E9C8;
+    --vanila:     #F0F2CC;
+    --vanila-deep:#E7EA9E;
+
+    /* neutrals: Apple-style */
+    --eerie:      #1D1D1F;   /* near-black (primary / on-light 16:1) */
+    --ghost:      #FBFBFD;   /* page background */
+    --surface:    #F5F5F7;   /* very light grey surface */
+    --ink:        #1D1D1F;   /* primary text */
+    --ink-60:     #515154;   /* secondary text: 7.6:1 on white */
+    --ink-40:     #6E6E73;   /* tertiary text: 4.9:1 on white (AA) */
+    --line:       #E8E8ED;
+    --card:       #FFFFFF;
+
+    /* radius: soft, never boxy */
+    --r-xs: 14px;
+    --r-sm: 18px;
+    --r-md: 22px;
+    --r-lg: 26px;
+    --r-xl: 32px;
+    --r-pill: 999px;
+
+    /* spacing scale (8pt) */
+    --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px;
+    --s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px; --s9: 56px;
+
+    /* shadows: barely-there, airy */
+    --sh-sm: 0 2px 10px rgba(29,29,31,.04);
+    --sh-md: 0 8px 24px rgba(29,29,31,.06);
+    --sh-lg: 0 18px 44px rgba(29,29,31,.08);
+
+    --ease: cubic-bezier(.22,.61,.36,1);
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: var(--font);
+    background:
+      radial-gradient(1100px 700px at 50% -8%, #FFFFFF 0%, transparent 60%),
+      #ECECF0;
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 28px;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- Phone frame ---------- */
+  .stage { display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .phone {
+    position: relative;
+    width: 390px; height: 844px;
+    background: var(--ghost);
+    border-radius: 54px;
+    box-shadow: var(--sh-lg), 0 0 0 12px #101013, 0 0 0 13px #2a2a2e;
+    overflow: hidden;
+  }
+  .notch {
+    position:absolute; top:12px; left:50%; transform:translateX(-50%);
+    width:128px; height:32px; background:#101013; border-radius:999px; z-index:60;
+  }
+  .statusbar {
+    position:absolute; top:0; left:0; right:0; height:54px; z-index:55;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 30px 0; font-size:14px; font-weight:700; color:var(--ink);
+    pointer-events:none;
+  }
+  .statusbar .sb-right { display:flex; gap:6px; align-items:center; }
+
+  /* ---------- Screen system ---------- */
+  .screens { position:absolute; inset:0; }
+  .screen {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    opacity:0; visibility:hidden;
+    transform: translateX(24px);
+    transition: opacity .45s var(--ease), transform .45s var(--ease), visibility .45s;
+    overflow:hidden;
+  }
+  .screen.active { opacity:1; visibility:visible; transform:none; z-index:10; }
+  .screen.back { transform: translateX(-24px); }
+
+  .scroll { flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
+  .scroll::-webkit-scrollbar { width:0; }
+  .pad { padding: 66px 26px 30px; }
+  .pad-nav { padding-bottom: 108px; } /* room for bottom nav */
+
+  /* ---------- Typography (SF Pro) ---------- */
+  .h1 { font-size:40px; font-weight:700; letter-spacing:-1.4px; line-height:1.03; margin:0; }
+  .h2 { font-size:29px; font-weight:700; letter-spacing:-1px; line-height:1.1; margin:0; }
+  .h3 { font-size:21px; font-weight:600; letter-spacing:-.5px; margin:0; }
+  .sub { font-size:16px; font-weight:400; color:var(--ink-60); line-height:1.5; margin:0; }
+  .body { font-size:16px; font-weight:400; line-height:1.55; color:var(--ink-60); margin:0; }
+  .eyebrow { font-size:12px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--ink-40); margin:0; }
+  .cap { font-size:13px; font-weight:500; color:var(--ink-40); }
+
+  /* ---------- Buttons: one consistent pill everywhere ---------- */
+  .btn {
+    border:none; cursor:pointer; font-family:var(--font); font-weight:600;
+    font-size:17px; border-radius:var(--r-pill); padding:16px 24px; min-height:52px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition: transform .18s var(--ease), box-shadow .25s var(--ease), background .25s, opacity .25s;
+    width:100%; letter-spacing:-0.2px;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-dark { background:var(--eerie); color:#fff; }
+  .btn-dark:active { opacity:.9; }
+  .btn-accent { background:var(--vanila-deep); color:var(--eerie); }
+  .btn-light { background:var(--surface); color:var(--eerie); }
+  .btn-light:active { background:var(--line); }
+  .btn-ghost { background:transparent; color:var(--ink-60); font-weight:500; min-height:auto; }
+  .btn[disabled] { opacity:.32; pointer-events:none; }
+
+  .iconbtn {
+    width:52px; height:52px; border-radius:var(--r-pill); border:none; cursor:pointer;
+    background:var(--eerie); color:#fff; display:flex; align-items:center; justify-content:center;
+    transition: transform .18s var(--ease), background .25s; flex:none;
+  }
+  .iconbtn:active { transform: scale(.9); }
+  .iconbtn.soft { background:var(--surface); color:var(--eerie); }
+  .iconbtn.accent { background:var(--vanila-deep); color:var(--eerie); }
+
+  .icon { width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+  .icon-lg { width:26px; height:26px; }
+
+  /* ---------- Cards / chips ---------- */
+  .card { background:var(--card); border-radius:var(--r-lg); box-shadow:var(--sh-sm); padding:20px; }
+  .chip {
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    font-family:var(--font); font-weight:500; font-size:15px;
+    padding:12px 18px; border-radius:var(--r-pill); cursor:pointer;
+    transition: all .22s var(--ease); display:inline-flex; align-items:center; gap:8px;
+    transform: scale(1); letter-spacing:-0.2px;
+  }
+  .chip:active { transform: scale(.94); }
+  .chip.sel { background:var(--eerie); color:#fff; border-color:var(--eerie); }
+
+  .dots { display:flex; gap:7px; justify-content:center; }
+  .dots i { width:7px; height:7px; border-radius:50%; background:var(--ink-40); opacity:.3; transition:all .3s var(--ease); }
+  .dots i.on { opacity:1; width:22px; border-radius:6px; background:var(--eerie); }
+
+  /* progress ring */
+  .ring { transform: rotate(-90deg); }
+  .ring circle { fill:none; stroke-width:7; stroke-linecap:round; }
+
+  /* ---------- Bottom nav ---------- */
+  .bottomnav {
+    position:absolute; left:16px; right:16px; bottom:16px; height:72px; z-index:40;
+    background:rgba(255,255,255,.86); backdrop-filter:blur(18px);
+    border-radius:var(--r-xl); box-shadow:var(--sh-md);
+    display:flex; align-items:center; justify-content:space-around; padding:0 8px;
+    border:1px solid rgba(255,255,255,.7);
+  }
+  .navitem { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; color:var(--ink-40); background:none; border:none; font-family:var(--font); transition:color .2s; padding:8px 12px; border-radius:18px; }
+  .navitem span { font-size:11px; font-weight:600; }
+  .navitem.on { color:var(--eerie); }
+  .navitem.on .navpill { background:var(--vanila); }
+  .navpill { width:44px; height:34px; border-radius:14px; display:flex; align-items:center; justify-content:center; transition:background .25s; }
+
+  /* utility */
+  .row { display:flex; align-items:center; }
+  .between { justify-content:space-between; }
+  .gap2{gap:8px}.gap3{gap:12px}.gap4{gap:16px}.gap5{gap:20px}
+  .col { display:flex; flex-direction:column; }
+  .wrap { display:flex; flex-wrap:wrap; gap:11px; }
+  .mt2{margin-top:8px}.mt3{margin-top:12px}.mt4{margin-top:16px}.mt5{margin-top:20px}.mt6{margin-top:24px}.mt7{margin-top:32px}.mt8{margin-top:40px}
+  .grow{flex:1}
+  .center{align-items:center;justify-content:center}
+  .txt-c{text-align:center}
+  .sticky-cta { padding:14px 26px calc(env(safe-area-inset-bottom) + 22px); background:linear-gradient(180deg, rgba(246,245,250,0) 0%, var(--ghost) 26%); }
+
+  /* fades / motion */
+  @keyframes fadeUp { from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none} }
+  .fu { animation: fadeUp .55s var(--ease) both; }
+  .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}.d5{animation-delay:.33s}.d6{animation-delay:.4s}
+
+  @keyframes breathe {
+    0%,100% { transform: scale(.82); opacity:.55; }
+    50%     { transform: scale(1.12); opacity:1; }
+  }
+  @keyframes spinSlow { to { transform: rotate(360deg); } }
+  @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+  /* pill segmented */
+  .seg { background:#fff; border-radius:var(--r-pill); padding:5px; display:flex; box-shadow:var(--sh-sm); }
+  .seg button { flex:1; border:none; background:none; font-family:var(--font); font-weight:600; font-size:14px; color:var(--ink-60); padding:11px; border-radius:var(--r-pill); cursor:pointer; transition:all .25s var(--ease); }
+  .seg button.on { background:var(--eerie); color:#fff; }
+
+  /* toast */
+  .toast { position:absolute; bottom:104px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--eerie); color:#fff; padding:13px 20px; border-radius:var(--r-pill); font-size:14px; font-weight:600; box-shadow:var(--sh-md); opacity:0; transition:all .35s var(--ease); z-index:80; pointer-events:none; white-space:nowrap; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .hint { color:var(--ink-40); font-size:13px; font-weight:500; text-align:center; }
+  .caption-under { max-width:320px; }
+
+  /* dark mode */
+  .phone.dark { --ghost:#141416; --card:#1E1E22; --ink:#F4F4F6; --ink-60:#A6A6AE; --ink-40:#75757C; --line:#2C2C31; }
+  .phone.dark body {}
+  .phone.dark .btn-light{ background:#26262b; color:#fff;}
+  .phone.dark .chip{ background:#1E1E22; }
+  .phone.dark .bottomnav{ background:rgba(30,30,34,.8); border-color:rgba(255,255,255,.06);}
+
+  /* ============================================================
+     Responsive fit
+     The phone is a fixed-size device mock by design. Rather than
+     reflowing its internals, shrink the whole frame to fit small
+     viewports so it is never clipped and never scrolls sideways.
+     ============================================================ */
+  @media (max-width: 460px), (max-height: 900px) {
+    body { padding: 10px; }
+    /* Width and height must never be clamped independently: doing so
+       squashes the device. Height is derived from width via aspect-ratio,
+       and the third term makes height the limiting factor when it needs
+       to be, so the frame stays 390:844 at every size. */
+    .phone {
+      width: min(390px, calc(100vw - 20px), calc((100dvh - 70px) * 390 / 844));
+      height: auto;
+      aspect-ratio: 390 / 844;
+      border-radius: min(54px, 12vw);
+    }
+  }
+  @media (max-width: 420px) {
+    .phone { box-shadow: var(--sh-lg), 0 0 0 8px #101013, 0 0 0 9px #2a2a2e; }
+    .pad { padding: 62px 20px 26px; }
+    .h1 { font-size: clamp(30px, 9vw, 40px); }
+    .h2 { font-size: clamp(23px, 6.8vw, 29px); }
+    .h3 { font-size: clamp(18px, 5vw, 21px); }
+    .sub, .body { font-size: clamp(14px, 4vw, 16px); }
+    .btn { font-size: clamp(15px, 4.2vw, 17px); }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="notch"></div>
+      <div class="statusbar">
+        <span id="clock">9:41</span>
+        <span class="sb-right">
+          <svg class="icon" style="width:17px;height:17px" viewBox="0 0 24 24"><path d="M2 20h.01M6 20v-4M10 20v-8M14 20V8M18 20V4"/></svg>
+          <svg class="icon" style="width:17px;height:17px" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+          <svg style="width:24px;height:13px" viewBox="0 0 26 13" fill="none"><rect x="1" y="1" width="21" height="11" rx="3" stroke="#212121" stroke-width="1.4"/><rect x="3" y="3" width="16" height="7" rx="1.5" fill="#212121"/><path d="M24 4.5v4a2 2 0 0 0 0-4Z" fill="#212121"/></svg>
+        </span>
+      </div>
+
+      <div class="screens" id="screens"><!-- screens injected by JS --></div>
+      <div class="toast" id="toast"></div>
+    </div>
+    <div style="font-family:var(--font);color:#9A9AA0;font-size:13px;font-weight:600;letter-spacing:.3px">Nirvana · interactive prototype · tap through the flow</div>
+  </div>
+
+<script>
+/* ================================================================
+   NIRVANA: prototype logic
+   State: onboarding progress · selected symptoms · duration ·
+          recommendation engine · player · profile
+   ================================================================ */
+
+const state = {
+  name: 'Sumeet',
+  symptoms: [],
+  mood: null,          // quick mood chosen on Home (overrides symptom for the hero)
+  duration: null,
+  music: null,
+  streak: 7,
+  minutes: 428,
+  sessionsDone: 34,
+  history: [
+    { m:'gyan', when:'Today, 7:30 AM' },
+    { m:'dhyana', when:'Yesterday, 10:40 PM' },
+    { m:'vayu', when:'Mon, 8:15 AM' },
+  ],
+};
+
+const SYMPTOMS = ['Stress','Anxiety','Overthinking','Brain Fog','Low Energy','Anger','Burnout','Lack of Focus','Poor Sleep','Emotional Exhaustion','Loneliness','Restlessness','Procrastination','Self Doubt','Social Anxiety'];
+
+/* ================================================================
+   MUDRA LIBRARY : the heart of Nirvana.
+   Each mudra defines the hand position (for the diagram), its element,
+   what it helps with, and a calm tone from the design system.
+   hand: fingertips that TOUCH the thumb (active) and any FOLDED fingers.
+   ================================================================ */
+const MUDRAS = {
+  gyan:    { name:'Gyan Mudra',    sk:'Jñāna · gesture of knowledge', tone:'alice',    element:'Air',   for:'Focus · calm · clarity',
+             how:'Rest the tip of your index finger on the tip of your thumb. Let the other three fingers extend, soft and open.',
+             benefit:'Quiets mental chatter and gathers a scattered mind into steady, gentle focus.',
+             hand:{ active:['index'], folded:[] } },
+  prana:   { name:'Prana Mudra',   sk:'Prāṇa · gesture of life',      tone:'vanila',   element:'Earth+Water', for:'Energy · vitality',
+             how:'Bring the tips of your ring and little fingers to meet your thumb. Keep index and middle fingers straight.',
+             benefit:'Awakens dormant energy and lifts fatigue. A natural, caffeine-free recharge.',
+             hand:{ active:['ring','little'], folded:[] } },
+  vayu:    { name:'Vayu Mudra',    sk:'Vāyu · gesture of air',        tone:'alice',    element:'Air',   for:'Anxiety · restlessness',
+             how:'Fold your index finger toward the palm and press it gently with your thumb. Other fingers stay relaxed.',
+             benefit:'Settles nervous, restless energy and eases an over-active, anxious mind.',
+             hand:{ active:[], folded:['index'] } },
+  dhyana:  { name:'Dhyana Mudra',  sk:'Dhyāna · gesture of meditation', tone:'alice',  element:'Stillness', for:'Deep calm · sleep',
+             how:'Rest both hands in your lap, right over left, palms up, thumb-tips lightly touching.',
+             benefit:'Invites deep stillness and prepares the body for rest and sleep.',
+             hand:{ active:[], folded:[], open:true } },
+  shuni:   { name:'Shuni Mudra',   sk:'Śūnya · gesture of patience',  tone:'honeydew', element:'Ether', for:'Patience · anger',
+             how:'Touch the tip of your middle finger to the tip of your thumb. Keep the rest extended.',
+             benefit:'Cools heat and reactivity, restoring patience and composure.',
+             hand:{ active:['middle'], folded:[] } },
+  prithvi: { name:'Prithvi Mudra', sk:'Pṛthvī · gesture of earth',    tone:'honeydew', element:'Earth', for:'Grounding · confidence',
+             how:'Bring the tip of your ring finger to the tip of your thumb. Let the others rest open.',
+             benefit:'Grounds and steadies you, building quiet self-trust and confidence.',
+             hand:{ active:['ring'], folded:[] } },
+  buddhi:  { name:'Buddhi Mudra',  sk:'Buddhi · gesture of clarity',  tone:'vanila',   element:'Water', for:'Clarity · communication',
+             how:'Touch the tip of your little finger to the tip of your thumb. Keep the others extended.',
+             benefit:'Clears mental fog and opens up calm, intuitive communication.',
+             hand:{ active:['little'], folded:[] } },
+  anjali:  { name:'Anjali Mudra',  sk:'Añjali · gesture of the heart', tone:'honeydew', element:'Heart', for:'Centering · gratitude',
+             how:'Press your palms together at the centre of your chest, fingers pointing up, shoulders soft.',
+             benefit:'Brings you back to your centre and opens a quiet sense of gratitude and connection.',
+             hand:{ active:[], folded:[], open:true } },
+  surya:   { name:'Surya Mudra',   sk:'Sūrya · gesture of the sun',   tone:'vanila',   element:'Fire',  for:'Warmth · morning energy',
+             how:'Fold your ring finger down and press it with your thumb. Keep the other fingers extended.',
+             benefit:'Kindles inner warmth and a bright, awake feeling to meet the morning.',
+             hand:{ active:[], folded:['ring'] } },
+  apana:   { name:'Apana Mudra',   sk:'Apāna · gesture of release',   tone:'honeydew', element:'Earth', for:'Release · emotional reset',
+             how:'Bring the tips of your middle and ring fingers to your thumb. Index and little stay open.',
+             benefit:'Helps you let go of what you are carrying and reset when emotionally drained.',
+             hand:{ active:['middle','ring'], folded:[] } },
+};
+
+/* Feeling (symptom or quick mood) → mudra id */
+const FEELING_MUDRA = {
+  'Stress':'gyan', 'Anxiety':'vayu', 'Overthinking':'gyan', 'Brain Fog':'buddhi',
+  'Low Energy':'prana', 'Anger':'shuni', 'Burnout':'prana', 'Lack of Focus':'gyan',
+  'Poor Sleep':'dhyana', 'Emotional Exhaustion':'apana', 'Loneliness':'anjali',
+  'Restlessness':'vayu', 'Procrastination':'prithvi', 'Self Doubt':'prithvi', 'Social Anxiety':'buddhi',
+  // quick moods
+  'Calm':'gyan', 'Focused':'gyan', 'Tired':'prana', 'Anxious':'vayu', 'Grateful':'anjali',
+};
+
+/* Time of day shapes the suggestion too */
+function timeBucket(h){ return h<5?'night':h<12?'morning':h<17?'midday':h<22?'evening':'night'; }
+const TIME_DEFAULT = { morning:'surya', midday:'gyan', evening:'apana', night:'dhyana' };
+const TIME_LABEL = { morning:'this morning', midday:'this afternoon', evening:'this evening', night:'tonight' };
+const ENERGIZING = ['prana','surya','gyan','buddhi'];
+
+/* The mudra recommendation engine: feeling + time of day → the perfect mudra */
+function recommendation(){
+  const h = new Date().getHours();
+  const bucket = timeBucket(h);
+  const feeling = state.mood || state.symptoms[0] || null;
+  let id = feeling ? FEELING_MUDRA[feeling] : TIME_DEFAULT[bucket];
+  let why;
+  if (feeling){
+    why = `You're feeling ${feeling.toLowerCase()} ${TIME_LABEL[bucket]}`;
+    // At night, gently swap an energizing mudra for a calming wind-down
+    if ((bucket==='night'||bucket==='evening') && ENERGIZING.includes(id) && feeling!=='Focused'){
+      id = bucket==='night' ? 'dhyana' : 'apana';
+      why = `It's late and you're feeling ${feeling.toLowerCase()}, time to wind down`;
+    }
+  } else {
+    why = `A calm fit for ${TIME_LABEL[bucket]}`;
+  }
+  const durations = { 5:'5 min', 10:'10 min', 15:'15 min' };
+  const mins = state.duration || (bucket==='morning'?5:bucket==='night'?10:10);
+  return { id, ...MUDRAS[id], mins, why, bucket };
+}
+
+/* Browse the full library by intention → each opens a mudra */
+const CATEGORIES = [
+  { t:'Focus & Clarity',   mud:'gyan',    ic:'target' },
+  { t:'Energy & Vitality', mud:'prana',   ic:'sun' },
+  { t:'Calm Anxiety',      mud:'vayu',    ic:'wind' },
+  { t:'Deep Sleep',        mud:'dhyana',  ic:'moon' },
+  { t:'Patience',          mud:'shuni',   ic:'leaf' },
+  { t:'Grounding',         mud:'prithvi', ic:'spark' },
+  { t:'Communication',     mud:'buddhi',  ic:'eye' },
+  { t:'Gratitude',         mud:'anjali',  ic:'heart' },
+  { t:'Morning Warmth',    mud:'surya',   ic:'zap' },
+  { t:'Emotional Release', mud:'apana',   ic:'lotus' },
+];
+
+const toneBg = { alice:'var(--alice)', honeydew:'var(--honeydew)', vanila:'var(--vanila)' };
+
+/* ---------- Hand-position diagram (schematic, on-brand) ---------- */
+function handSVG(hand, size){
+  const active = (hand && hand.active) || [];
+  const folded = (hand && hand.folded) || [];
+  const open = hand && hand.open;
+  const fingers = { index:{x:42,y:30,w:14,h:58}, middle:{x:59,y:22,w:14,h:66}, ring:{x:76,y:30,w:14,h:58}, little:{x:92,y:44,w:12,h:44} };
+  const tips = { thumb:[24,60], index:[49,32], middle:[66,24], ring:[83,32], little:[98,46] };
+  let p = '';
+  p += '<ellipse cx="66" cy="96" rx="34" ry="28" fill="var(--eerie)"/>';
+  p += '<rect x="40" y="104" width="52" height="24" rx="12" fill="var(--eerie)"/>';
+  for (const k in fingers){
+    const f = fingers[k];
+    if (folded.includes(k)) p += `<rect x="${f.x}" y="${f.y+f.h-24}" width="${f.w}" height="24" rx="${f.w/2}" fill="var(--eerie)"/>`;
+    else p += `<rect x="${f.x}" y="${f.y}" width="${f.w}" height="${f.h}" rx="${f.w/2}" fill="var(--eerie)"/>`;
+  }
+  p += '<rect x="16" y="58" width="14" height="48" rx="7" fill="var(--eerie)" transform="rotate(-38 23 82)"/>';
+  const [tx,ty] = tips.thumb;
+  if (open){
+    // resting / palms style: a soft accent glow at the centre
+    p += '<circle cx="66" cy="70" r="10" fill="var(--vanila-deep)" stroke="#fff" stroke-width="3"/>';
+  } else {
+    active.forEach(k=>{ const [x,y]=tips[k]; p += `<line x1="${tx}" y1="${ty}" x2="${x}" y2="${y}" stroke="var(--vanila-deep)" stroke-width="4" stroke-linecap="round"/>`; });
+    active.forEach(k=>{ const [x,y]=tips[k]; p += `<circle cx="${x}" cy="${y}" r="8" fill="var(--vanila-deep)" stroke="#fff" stroke-width="2.5"/>`; });
+    if (active.length) p += `<circle cx="${tx}" cy="${ty}" r="8" fill="var(--vanila-deep)" stroke="#fff" stroke-width="2.5"/>`;
+    folded.forEach(k=>{ const f=fingers[k]; const cx=f.x+f.w/2, cy=f.y+f.h-24; p += `<circle cx="${cx}" cy="${cy}" r="7" fill="none" stroke="var(--vanila-deep)" stroke-width="3.5"/>`; });
+  }
+  const s = size||120;
+  return `<svg width="${s}" height="${s*1.05}" viewBox="0 0 120 128" fill="none">${p}</svg>`;
+}
+
+/* ---------- SVG icon set (thin, minimal) ---------- */
+const I = {
+  arrow:  '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  back:   '<path d="M19 12H5M11 18l-6-6 6-6"/>',
+  play:   '<path d="M7 4.5v15l13-7.5-13-7.5Z" fill="currentColor" stroke="none"/>',
+  pause:  '<rect x="6" y="5" width="4" height="14" rx="1.4" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1.4" fill="currentColor" stroke="none"/>',
+  next:   '<path d="M5 5l9 7-9 7V5ZM19 5v14"/>',
+  prev:   '<path d="M19 5l-9 7 9 7V5ZM5 5v14"/>',
+  home:   '<path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5"/>',
+  discover:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13 13l-4.5 2.5L11 11l4.5-2.5Z"/>',
+  library:'<path d="M4 5h5v14H4zM10 5h4v14h-4zM16 6l4 1-3 12-4-1z"/>',
+  profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+  bell:   '<path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 21a2 2 0 0 1-3.4 0"/>',
+  menu:   '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  moon:   '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>',
+  sun:    '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/>',
+  leaf:   '<path d="M11 20A7 7 0 0 1 4 13c0-6 8-9 15-9 0 8-3 16-9 16M4 21c3-6 6-8 9-9"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',
+  wind:   '<path d="M3 8h11a3 3 0 1 0-3-3M3 16h15a3 3 0 1 1-3 3M3 12h8"/>',
+  heart:  '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z"/>',
+  spark:  '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>',
+  zap:    '<path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z"/>',
+  eye:    '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  lotus:  '<path d="M12 4c2 2 3 4 3 6a3 3 0 0 1-6 0c0-2 1-4 3-6ZM5 11c3 0 5 1 6 3M19 11c-3 0-5 1-6 3M4 15c4 0 7 2 8 5 1-3 4-5 8-5"/>',
+  music:  '<path d="M9 18V5l11-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM20 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>',
+  check:  '<path d="M20 6 9 17l-5-5"/>',
+  flame:  '<path d="M12 2s5 4 5 9a5 5 0 0 1-10 0c0-1.5.5-2.5 1-3 0 2 1 3 2 3-1-2 0-5 2-9Z"/>',
+  clock:  '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  chevr:  '<path d="M9 6l6 6-6 6"/>',
+  star:   '<path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7L12 3Z"/>',
+  google: '<path d="M21 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.1a4.4 4.4 0 0 1-1.9 2.9v2.4h3.1c1.8-1.7 2.8-4.2 2.8-7.1Z" fill="#4285F4" stroke="none"/><path d="M12 21c2.6 0 4.7-.9 6.3-2.3l-3.1-2.4c-.9.6-2 .9-3.2.9-2.4 0-4.5-1.6-5.2-3.9H3.6v2.5A9 9 0 0 0 12 21Z" fill="#34A853" stroke="none"/><path d="M6.8 13.3a5.4 5.4 0 0 1 0-3.4V7.4H3.6a9 9 0 0 0 0 8.1l3.2-2.2Z" fill="#FBBC05" stroke="none"/><path d="M12 6.6c1.3 0 2.5.5 3.5 1.4l2.6-2.6A9 9 0 0 0 3.6 7.4l3.2 2.5C7.5 7.6 9.6 6.6 12 6.6Z" fill="#EA4335" stroke="none"/>',
+  apple:  '<path d="M16 2c.1 1.2-.4 2.3-1.1 3.1-.8.9-2 1.5-3 1.4-.2-1.1.4-2.3 1.1-3C13.8 2.6 15 2 16 2ZM19 17.2c-.5 1.2-.8 1.7-1.5 2.7-1 1.4-2.3 3.1-4 3.1-1.5 0-1.9-1-3.9-1s-2.5 1-3.9 1c-1.7 0-3-1.6-3.9-2.9-2.6-3.7-2.9-8-1.3-10.3 1.1-1.6 2.9-2.6 4.6-2.6 1.7 0 2.8 1 4.2 1 1.4 0 2.2-1 4.2-1 1.5 0 3.1.8 4.2 2.2-3.7 2-3.1 7.3.2 7.8Z" fill="currentColor" stroke="none"/>',
+  mail:   '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3.5 7 8.5 6 8.5-6"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 7 2.6h.1A1.6 1.6 0 0 0 9 1.1V1a2 2 0 1 1 4 0v.1A1.6 1.6 0 0 0 15 2.6a1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8v.1A1.6 1.6 0 0 0 22.9 9h.1a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/>',
+  award:  '<circle cx="12" cy="8" r="6"/><path d="M8.2 13.4 7 22l5-3 5 3-1.2-8.6"/>',
+  history:'<path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/>',
+  logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+};
+const svg = (p, cls='icon') => `<svg class="${cls}" viewBox="0 0 24 24">${p}</svg>`;
+
+/* ---------- Screen router ---------- */
+let current = null;
+const order = ['splash','ob1','ob2','ob3','account','symptoms','duration','prepare','home','player','profile','discover','library'];
+function go(id, back=false){
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(s => {
+    if(s.id === 'sc-'+id){ s.classList.remove('back'); s.classList.add('active'); }
+    else if(s.classList.contains('active')){ s.classList.add('back'); s.classList.remove('active'); }
+  });
+  current = id;
+  if(id==='home') renderHome();
+  if(id==='player') renderPlayer();
+  if(id==='profile') renderProfile();
+  if(id==='discover') renderDiscover();
+  if(id==='library') renderLibrary();
+  document.querySelector('#sc-'+id+' .scroll')?.scrollTo(0,0);
+}
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('show'), 1900);
+}
+
+/* ================================================================
+   BUILD SCREENS
+   ================================================================ */
+const S = document.getElementById('screens');
+function screen(id, inner, cls=''){ return `<section class="screen ${cls}" id="sc-${id}">${inner}</section>`; }
+
+/* ---- Splash ---- */
+const splash = screen('splash', `
+  <div class="grow col center" style="gap:26px; background:
+     radial-gradient(600px 400px at 50% 30%, #ECEF5E 0%, transparent 60%), var(--ghost);">
+    <div style="width:118px;height:118px;position:relative;">
+      <div style="position:absolute;inset:0;border-radius:50%;background:var(--vanila);animation:breathe 4s var(--ease) infinite;"></div>
+      <div style="position:absolute;inset:16px;border-radius:50%;background:var(--honeydew);animation:breathe 4s var(--ease) infinite .4s;"></div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+        ${svg(I.lotus,'icon-lg')}
+      </div>
+    </div>
+    <div class="txt-c fu d2">
+      <h1 class="h1" style="font-size:44px;letter-spacing:-1.6px">Nirvana</h1>
+      <p class="sub mt2">The right mudra for how you feel, right now</p>
+    </div>
+  </div>
+  <div class="sticky-cta">
+    <button class="btn btn-dark" onclick="go('ob1')">Begin ${svg(I.arrow)}</button>
+  </div>
+`);
+
+/* ---- Onboarding ---- */
+function ob(id, next, idx, tone, ic, title, body){
+  return screen(id, `
+    <div class="scroll"><div class="pad">
+      <div class="row between" style="margin-bottom:26px">
+        <div class="dots">${[0,1,2].map(i=>`<i class="${i<=idx?'on':''}"></i>`).join('')}</div>
+        <button class="btn-ghost" style="width:auto;font-size:15px" onclick="go('account')">Skip</button>
+      </div>
+      <div class="fu" style="height:330px;border-radius:var(--r-xl);background:${toneBg[tone]};display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.35);animation:floaty 6s var(--ease) infinite;"></div>
+        <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.5);"></div>
+        <div style="position:relative;color:var(--eerie)">${MUDRAS[ic] ? `<div style="background:rgba(255,255,255,.7);border-radius:30px;padding:16px">${handSVG(MUDRAS[ic].hand, 120)}</div>` : svg(ic,'icon-lg')}</div>
+      </div>
+      <div class="fu d2 mt7">
+        <h2 class="h2">${title}</h2>
+        <p class="body mt3">${body}</p>
+      </div>
+    </div></div>
+    <div class="sticky-cta">
+      <button class="btn btn-dark" onclick="go('${next}')">Continue ${svg(I.arrow)}</button>
+    </div>
+  `);
+}
+const ob1 = ob('ob1','ob2',0,'honeydew','gyan','Meet your mudra','Mudras are simple, ancient hand gestures. Held with the breath, they gently guide your mind toward calm, focus or rest.');
+const ob2 = ob('ob2','ob3',1,'alice','vayu','Matched to this moment','Tell us how you feel and what time it is. Nirvana suggests the one mudra that fits right now, with no endless choosing.');
+const ob3 = ob('ob3','account',2,'vanila','prana','A moment, anytime','Five calm minutes, woven softly into your day. Build a healthier routine, one gesture at a time.');
+
+/* ---- Create account ---- */
+const account = screen('account', `
+  <div class="scroll"><div class="pad">
+    <div style="height:150px;border-radius:var(--r-xl);background:var(--alice);display:flex;align-items:center;justify-content:center;margin-bottom:28px" class="fu">
+      <div style="width:74px;height:74px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center">${svg(I.lotus,'icon-lg')}</div>
+    </div>
+    <h2 class="h2 fu d1">Create your space</h2>
+    <p class="sub mt3 fu d1">Save your progress, streaks and favourite sessions. It only takes a moment.</p>
+    <div class="col gap3 mt7">
+      <button class="btn btn-light fu d2" onclick="afterAuth('Email')">${svg(I.mail)} Continue with Email</button>
+      <button class="btn btn-light fu d3" onclick="afterAuth('Google')">${svg(I.google)} Continue with Google</button>
+      <button class="btn btn-dark fu d4" onclick="afterAuth('Apple')">${svg(I.apple)} Continue with Apple</button>
+    </div>
+  </div></div>
+  <div class="sticky-cta">
+    <button class="btn btn-ghost" onclick="go('symptoms')">Skip for now</button>
+  </div>
+`);
+function afterAuth(m){ toast('Signed in with '+m); setTimeout(()=>go('symptoms'), 650); }
+
+/* ---- Symptom selection ---- */
+const symptoms = screen('symptoms', `
+  <div class="scroll"><div class="pad">
+    <p class="eyebrow fu">Step 1 of 2</p>
+    <h2 class="h2 mt2 fu d1">How are you feeling today?</h2>
+    <p class="sub mt3 fu d1">Choose everything that fits. We'll match you with the right mudra.</p>
+    <div class="wrap mt6 fu d2" id="chipwrap"></div>
+  </div></div>
+  <div class="sticky-cta">
+    <div class="hint" id="symhint" style="margin-bottom:10px">Select at least one to continue</div>
+    <button class="btn btn-dark" id="symcta" disabled onclick="go('duration')">Continue ${svg(I.arrow)}</button>
+  </div>
+`);
+
+/* ---- Duration ---- */
+function durCard(min, tag, desc){
+  return `<button class="card fu row between" style="width:100%;text-align:left;border:2px solid transparent;padding:22px;cursor:pointer" data-min="${min}" onclick="pickDur(${min}, this)">
+    <div class="row gap4">
+      <div style="width:58px;height:58px;border-radius:18px;background:${min===5?'var(--vanila)':min===10?'var(--honeydew)':'var(--alice)'};display:flex;align-items:center;justify-content:center;flex:none">
+        <span style="font-weight:800;font-size:19px">${min}</span>
+      </div>
+      <div class="col">
+        <span class="h3">${min} Minutes</span>
+        <span class="cap" style="font-weight:600;margin-top:3px">${tag}</span>
+      </div>
+    </div>
+    <div class="check-o" style="width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff">${svg(I.check)}</div>
+  </button>`;
+}
+const duration = screen('duration', `
+  <div class="scroll"><div class="pad">
+    <button class="iconbtn soft fu" style="width:44px;height:44px" onclick="go('symptoms', true)">${svg(I.back)}</button>
+    <p class="eyebrow mt5 fu">Step 2 of 2</p>
+    <h2 class="h2 mt2 fu d1">How much time do you have?</h2>
+    <p class="sub mt3 fu d1">Any amount counts. Pick what feels realistic right now.</p>
+    <div class="col gap3 mt6 fu d2">
+      ${durCard(5,'Quick reset','')}
+      ${durCard(10,'Mind reset & breathing','')}
+      ${durCard(15,'Deep guided meditation','')}
+    </div>
+  </div></div>
+  <div class="sticky-cta">
+    <button class="btn btn-dark" id="durcta" disabled onclick="go('prepare')">Continue ${svg(I.arrow)}</button>
+  </div>
+`);
+
+/* ---- Prepare ---- */
+const prepare = screen('prepare', `
+  <div class="scroll"><div class="pad">
+    <button class="iconbtn soft fu" style="width:44px;height:44px" onclick="go('duration', true)">${svg(I.back)}</button>
+    <div class="fu d1 mt5" style="height:200px;border-radius:var(--r-xl);background:radial-gradient(circle at 50% 40%, var(--honeydew), var(--alice));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+      <div style="position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.4);animation:breathe 5s var(--ease) infinite"></div>
+      <div style="position:relative;color:var(--eerie)">${svg(I.wind,'icon-lg')}</div>
+    </div>
+    <h2 class="h2 mt7 fu d2">Prepare your space</h2>
+    <p class="body mt3 fu d2">Find a quiet place where you won't be disturbed. Sit comfortably. Take a deep breath. Nothing else is required.</p>
+
+    <div class="card mt6 fu d3">
+      <div class="row between">
+        <div class="col"><span class="h3" style="font-size:18px">Play your own music?</span><span class="cap mt2" style="font-weight:600">Optional: blend in a track you love</span></div>
+        ${svg(I.music)}
+      </div>
+      <div class="row gap3 mt5">
+        <button class="btn btn-light" onclick="chooseSong()">${svg(I.music)} Choose Song</button>
+        <button class="btn btn-light" style="max-width:120px" onclick="toast('Using Nirvana ambience')">Skip</button>
+      </div>
+      <div id="songchosen" class="cap" style="display:none;margin-top:12px;color:var(--ink);font-weight:600"></div>
+    </div>
+  </div></div>
+  <div class="sticky-cta">
+    <button class="btn btn-accent" onclick="go('home')">Enter Nirvana ${svg(I.arrow)}</button>
+  </div>
+`);
+function chooseSong(){
+  const picks = ['Rain on Leaves','Ocean at Dusk','Distant Piano','Forest at Dawn'];
+  const pick = picks[Math.floor(Math.random()*picks.length)];
+  state.music = pick;
+  const el = document.getElementById('songchosen');
+  el.style.display='block'; el.innerHTML = svg(I.check,'icon')+' '+pick;
+  toast('Added: '+pick);
+}
+
+/* ---- Home (dynamic) ---- */
+const home = screen('home', `<div class="scroll pad-nav"><div class="pad" id="homebody"></div></div>${bottomNav('home')}`);
+/* ---- Player ---- */
+const player = screen('player', `<div id="playerbody" style="flex:1;display:flex;flex-direction:column"></div>`);
+/* ---- Profile ---- */
+const profile = screen('profile', `<div class="scroll pad-nav"><div class="pad" id="profilebody"></div></div>${bottomNav('profile')}`);
+/* ---- Discover / Library ---- */
+const discover = screen('discover', `<div class="scroll pad-nav"><div class="pad" id="discoverbody"></div></div>${bottomNav('discover')}`);
+const library = screen('library', `<div class="scroll pad-nav"><div class="pad" id="librarybody"></div></div>${bottomNav('library')}`);
+
+function bottomNav(active){
+  const items = [['home','Home',I.home],['discover','Discover',I.discover],['library','Library',I.library],['profile','Profile',I.profile]];
+  return `<nav class="bottomnav">${items.map(([id,label,ic])=>`
+    <button class="navitem ${active===id?'on':''}" onclick="go('${id}')">
+      <span class="navpill">${svg(ic)}</span><span>${label}</span>
+    </button>`).join('')}</nav>`;
+}
+
+/* inject all */
+S.innerHTML = splash+ob1+ob2+ob3+account+symptoms+duration+prepare+home+player+profile+discover+library;
+
+/* ---- Populate symptom chips ---- */
+const chipwrap = document.getElementById('chipwrap');
+chipwrap.innerHTML = SYMPTOMS.map(s=>`<button class="chip" data-s="${s}" onclick="toggleSym('${s.replace(/'/g,"\\'")}', this)">${s}</button>`).join('');
+function toggleSym(s, el){
+  const i = state.symptoms.indexOf(s);
+  if(i>=0){ state.symptoms.splice(i,1); el.classList.remove('sel'); }
+  else { state.symptoms.push(s); el.classList.add('sel'); }
+  const has = state.symptoms.length>0;
+  const cta = document.getElementById('symcta');
+  cta.disabled = !has;
+  document.getElementById('symhint').textContent = has ? `${state.symptoms.length} selected, you're all set` : 'Select at least one to continue';
+}
+
+/* ---- Duration pick ---- */
+function pickDur(min, el){
+  state.duration = min;
+  document.querySelectorAll('#sc-duration .card').forEach(c=>{
+    c.style.border='2px solid transparent';
+    c.querySelector('.check-o').style.background='transparent';
+    c.querySelector('.check-o').style.borderColor='var(--line)';
+  });
+  el.style.border='2px solid var(--eerie)';
+  const chk = el.querySelector('.check-o'); chk.style.background='var(--eerie)'; chk.style.borderColor='var(--eerie)';
+  document.getElementById('durcta').disabled=false;
+}
+
+/* ---- Render Home ---- */
+function renderHome(){
+  const rec = recommendation();
+  const hour = new Date().getHours();
+  const greet = hour<12?'Good morning':hour<18?'Good afternoon':'Good evening';
+  const last = MUDRAS[state.history[0].m];
+  const el = document.getElementById('homebody');
+  el.innerHTML = `
+    <div class="row between fu">
+      <div class="col">
+        <span class="cap" style="font-weight:600">${greet},</span>
+        <span class="h2" style="font-size:28px;margin-top:2px">${state.name}</span>
+      </div>
+      <div class="row gap2">
+        <button class="iconbtn soft" onclick="go('discover')">${svg(I.discover)}</button>
+        <button class="iconbtn soft" onclick="toast('No new notifications')">${svg(I.bell)}</button>
+      </div>
+    </div>
+
+    <p class="sub mt5 fu d1">How are you feeling right now?</p>
+    <div class="wrap mt3 fu d1">
+      ${['Calm','Focused','Tired','Anxious','Grateful'].map(m=>`<button class="chip ${state.mood===m?'sel':''}" onclick="quickMood('${m}')">${m}</button>`).join('')}
+    </div>
+
+    <div class="mt6 fu d2" style="border-radius:var(--r-xl);background:${toneBg[rec.tone]};padding:24px;position:relative;overflow:hidden;box-shadow:var(--sh-sm)">
+      <div style="position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.3)"></div>
+      <div style="position:relative">
+        <span class="eyebrow" style="color:var(--eerie);opacity:.55">Your mudra ${TIME_LABEL[rec.bucket]}</span>
+        <div class="row between mt3" style="align-items:flex-start">
+          <div class="col" style="flex:1;padding-right:8px">
+            <h2 class="h2" style="max-width:200px">${rec.name}</h2>
+            <span class="cap" style="font-weight:600;color:rgba(33,33,33,.55);margin-top:4px">${rec.sk}</span>
+          </div>
+          <div style="width:104px;height:104px;border-radius:26px;background:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;flex:none">${handSVG(rec.hand, 74)}</div>
+        </div>
+        <p class="body mt4" style="color:rgba(33,33,33,.62)">${rec.benefit}</p>
+        <div class="row gap2 mt4" style="flex-wrap:wrap">
+          <span class="cap" style="background:rgba(33,33,33,.08);padding:6px 12px;border-radius:999px;font-weight:700;color:var(--eerie)">${svg(I.clock)} ${rec.mins} min</span>
+          <span class="cap" style="background:rgba(33,33,33,.08);padding:6px 12px;border-radius:999px;font-weight:700;color:var(--eerie)">${rec.for}</span>
+        </div>
+        <div class="row between mt5" style="align-items:center">
+          <span class="cap" style="font-weight:700;color:var(--eerie);flex:1;padding-right:10px">${rec.why}</span>
+          <button class="btn btn-dark" style="width:auto;padding:15px 22px" onclick="startMudra('${rec.id}')">Begin ${svg(I.arrow)}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt5 fu d3" style="padding:18px">
+      <div class="row between">
+        <div class="row gap4">
+          <div style="position:relative;width:56px;height:56px;flex:none">
+            <svg class="ring" width="56" height="56">
+              <circle cx="28" cy="28" r="24" stroke="var(--line)"/>
+              <circle cx="28" cy="28" r="24" stroke="var(--eerie)" stroke-dasharray="${2*Math.PI*24}" stroke-dashoffset="${2*Math.PI*24*0.4}"/>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">60%</div>
+          </div>
+          <div class="col">
+            <span class="cap" style="font-weight:600">Continue your last</span>
+            <span class="h3" style="font-size:17px;margin-top:2px">${last.name}</span>
+            <span class="cap" style="font-weight:600;margin-top:3px">4 min remaining</span>
+          </div>
+        </div>
+        <button class="iconbtn" onclick="startMudra('${state.history[0].m}', 4)">${svg(I.play)}</button>
+      </div>
+    </div>
+
+    <div class="row between mt7 fu d3">
+      <h3 class="h3">Explore mudras</h3>
+      <button class="btn-ghost" style="width:auto;font-size:14px" onclick="go('discover')">See all</button>
+    </div>
+    <div class="row gap3 mt4 fu d4" style="overflow-x:auto;padding-bottom:6px;margin:0 -26px;padding-left:26px;padding-right:26px">
+      ${CATEGORIES.map(c=>`
+        <button class="col" style="flex:none;width:150px;height:180px;border-radius:var(--r-lg);background:${toneBg[MUDRAS[c.mud].tone]};border:none;cursor:pointer;padding:16px;justify-content:space-between;align-items:flex-start;box-shadow:var(--sh-sm)" onclick="startMudra('${c.mud}')">
+          <div style="width:100%;display:flex;justify-content:center">${handSVG(MUDRAS[c.mud].hand, 66)}</div>
+          <div class="col" style="align-items:flex-start"><span class="h3" style="font-size:15px;text-align:left">${MUDRAS[c.mud].name}</span><span class="cap" style="font-weight:600;text-align:left;margin-top:2px">${c.t}</span></div>
+        </button>`).join('')}
+    </div>
+
+    <div class="row gap3 mt7 fu d5">
+      ${statCard(I.flame, state.streak, 'Day streak', 'vanila')}
+      ${statCard(I.clock, state.minutes, 'Minutes', 'honeydew')}
+    </div>
+    <div class="mt3 fu d5">${statWide()}</div>
+  `;
+}
+function statCard(ic, val, label, tone){
+  return `<div class="card grow row gap3" style="align-items:center;padding:18px">
+    <div style="width:46px;height:46px;border-radius:14px;background:${toneBg[tone]};display:flex;align-items:center;justify-content:center;color:var(--eerie);flex:none">${svg(ic)}</div>
+    <div class="col"><span class="h3" style="font-size:22px">${val}</span><span class="cap" style="font-weight:600">${label}</span></div>
+  </div>`;
+}
+function statWide(){
+  return `<div class="card row between" style="align-items:center;padding:18px" onclick="go('profile')">
+    <div class="row gap3"><div style="width:46px;height:46px;border-radius:14px;background:var(--alice);display:flex;align-items:center;justify-content:center;color:var(--eerie)">${svg(I.award)}</div>
+    <div class="col"><span class="h3" style="font-size:17px">Achievements</span><span class="cap" style="font-weight:600">3 new badges this week</span></div></div>
+    ${svg(I.chevr)}
+  </div>`;
+}
+function quickMood(m){ state.mood = (state.mood===m? null : m); renderHome(); }
+
+/* ---- Player: a guided MUDRA practice ---- */
+let player_state = { mud:'gyan', mins:10, playing:false, elapsed:0, timer:null };
+function startMudra(id, mins){
+  const mud = MUDRAS[id] || MUDRAS['gyan'];
+  player_state = { mud:id, mins: mins || state.duration || (mud.hand.open?10:10), playing:true, elapsed:0, timer:null };
+  go('player');
+}
+function renderPlayer(){
+  const ps = player_state;
+  const m = MUDRAS[ps.mud];
+  const el = document.getElementById('playerbody');
+  el.innerHTML = `
+    <div style="flex:1;display:flex;flex-direction:column;background:
+        radial-gradient(700px 500px at 50% 22%, ${toneBg[m.tone]} 0%, transparent 62%),
+        linear-gradient(180deg, var(--ghost), #EAEAEF); position:relative; overflow:hidden">
+      <div class="pad" style="padding-top:66px;padding-bottom:0">
+        <div class="row between">
+          <button class="iconbtn soft" style="width:44px;height:44px" onclick="stopSession()">${svg(I.back)}</button>
+          <span class="cap" style="font-weight:700;color:var(--ink)">Mudra Practice</span>
+          <button class="iconbtn soft" style="width:44px;height:44px" onclick="toast(favd? 'Removed from favourites':'Saved to favourites')" id="favbtn">${svg(I.heart)}</button>
+        </div>
+      </div>
+
+      <div class="grow center col" style="gap:14px">
+        <div style="position:relative;width:250px;height:250px;display:flex;align-items:center;justify-content:center">
+          <div id="b1" style="position:absolute;inset:0;border-radius:50%;background:${toneBg[m.tone]};opacity:.55;animation:breathe 8s var(--ease) infinite ${ps.playing?'running':'paused'}"></div>
+          <div id="b2" style="position:absolute;inset:30px;border-radius:50%;background:#fff;opacity:.8;animation:breathe 8s var(--ease) infinite .8s ${ps.playing?'running':'paused'}"></div>
+          <div style="position:absolute;inset:56px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center">${handSVG(m.hand, 118)}</div>
+        </div>
+        <span class="cap" style="font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:11px" id="breathword">Breathe in</span>
+      </div>
+
+      <div class="pad" style="padding-bottom:34px">
+        <div class="txt-c">
+          <span class="cap" style="font-weight:600">${m.for} · ${m.element}</span>
+          <h2 class="h2 mt2">${m.name}</h2>
+        </div>
+
+        <div class="card mt5" style="padding:16px 18px;text-align:left">
+          <span class="eyebrow" style="color:var(--ink-40)">Hold this mudra</span>
+          <p class="body mt2" style="font-size:15px;color:var(--ink)">${m.how}</p>
+        </div>
+
+        <div class="mt5">
+          <div style="height:6px;border-radius:99px;background:rgba(33,33,33,.1);overflow:hidden">
+            <div id="pbar" style="height:100%;width:0%;background:var(--eerie);border-radius:99px;transition:width .5s linear"></div>
+          </div>
+          <div class="row between mt2">
+            <span class="cap" style="font-weight:600" id="tcur">0:00</span>
+            <span class="cap" style="font-weight:600">${ps.mins}:00</span>
+          </div>
+        </div>
+
+        <div class="row center gap5 mt5">
+          <button class="iconbtn soft" onclick="seek(-15)">${svg(I.prev)}</button>
+          <button class="iconbtn accent" id="playbtn" style="width:74px;height:74px" onclick="togglePlay()">${svg(ps.playing?I.pause:I.play,'icon-lg')}</button>
+          <button class="iconbtn soft" onclick="seek(15)">${svg(I.next)}</button>
+        </div>
+        <div class="row center mt4">
+          <span class="cap" style="font-weight:600">${state.music? svg(I.music)+' '+state.music : svg(I.music)+' Nirvana ambience'}</span>
+        </div>
+      </div>
+    </div>`;
+  startTimer();
+  animateBreath();
+}
+let favd=false;
+let breathTimer=null;
+function animateBreath(){
+  clearInterval(breathTimer);
+  const words=['Breathe in','Hold','Breathe out','Hold'];
+  let i=0;
+  const w=document.getElementById('breathword');
+  breathTimer=setInterval(()=>{ if(!player_state.playing) return; i=(i+1)%4; if(w) w.textContent=words[i]; }, 2000);
+}
+function startTimer(){
+  clearInterval(player_state.timer);
+  const total = player_state.mins*60;
+  player_state.timer = setInterval(()=>{
+    if(!player_state.playing) return;
+    player_state.elapsed++;
+    if(player_state.elapsed>=total){ player_state.elapsed=total; player_state.playing=false; clearInterval(player_state.timer); toast('Session complete, well done'); }
+    updatePlayer(total);
+  }, 250); // sped up 4x for demo
+}
+function updatePlayer(total){
+  const pct = Math.min(100, player_state.elapsed/total*100);
+  const bar = document.getElementById('pbar'); if(bar) bar.style.width=pct+'%';
+  const cur = document.getElementById('tcur');
+  if(cur){ const m=Math.floor(player_state.elapsed/60), s=player_state.elapsed%60; cur.textContent=m+':'+String(s).padStart(2,'0'); }
+}
+function togglePlay(){
+  player_state.playing=!player_state.playing;
+  document.getElementById('playbtn').innerHTML=svg(player_state.playing?I.pause:I.play,'icon-lg');
+  document.querySelectorAll('#b1,#b2').forEach(b=>b.style.animationPlayState=player_state.playing?'running':'paused');
+}
+function seek(sec){
+  const total=player_state.mins*60;
+  player_state.elapsed=Math.max(0,Math.min(total,player_state.elapsed+sec));
+  updatePlayer(total); toast(sec>0?'Skipped 15s':'Back 15s');
+}
+function stopSession(){ clearInterval(player_state.timer); clearInterval(breathTimer); go('home', true); }
+document.addEventListener('click', e=>{ if(e.target.closest('#favbtn')){ favd=!favd; const b=e.target.closest('#favbtn'); b.style.background=favd?'var(--vanila)':'#fff'; } });
+
+/* ---- Profile ---- */
+function renderProfile(){
+  const el = document.getElementById('profilebody');
+  const dark = document.getElementById('phone').classList.contains('dark');
+  el.innerHTML = `
+    <div class="row between fu">
+      <h2 class="h2">Profile</h2>
+      <button class="iconbtn soft" onclick="toast('Settings')">${svg(I.settings)}</button>
+    </div>
+
+    <div class="card mt5 row gap4 fu d1" style="align-items:center;padding:20px">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--honeydew);display:flex;align-items:center;justify-content:center;flex:none">
+        <span style="font-weight:800;font-size:22px">S</span>
+      </div>
+      <div class="col grow"><span class="h3">${state.name}</span><span class="cap" style="font-weight:600;margin-top:2px">gokhalesumeet2@gmail.com</span></div>
+      <button class="chip" onclick="toast('Edit profile')">Edit</button>
+    </div>
+
+    <div class="row gap3 mt5 fu d2">
+      ${statCard(I.flame, state.streak, 'Day streak','vanila')}
+      ${statCard(I.clock, state.minutes, 'Total min','honeydew')}
+      ${statCard(I.star, state.sessionsDone, 'Sessions','alice')}
+    </div>
+
+    <h3 class="h3 mt7 fu d2">Achievements</h3>
+    <div class="row gap3 mt4 fu d3" style="overflow-x:auto;margin:0 -26px;padding:0 26px 6px">
+      ${[['7-Day Streak',I.flame,'vanila',1],['Early Bird',I.sun,'honeydew',1],['Calm Mind',I.lotus,'alice',1],['Night Owl',I.moon,'alice',0],['100 Minutes',I.clock,'honeydew',0]].map(([t,ic,tone,on])=>`
+        <div class="col center" style="flex:none;width:96px;gap:8px;opacity:${on?1:.4}">
+          <div style="width:76px;height:76px;border-radius:24px;background:${on?toneBg[tone]:'var(--line)'};display:flex;align-items:center;justify-content:center;color:var(--eerie)">${svg(ic,'icon-lg')}</div>
+          <span class="cap" style="font-weight:600;text-align:center">${t}</span>
+        </div>`).join('')}
+    </div>
+
+    <h3 class="h3 mt7 fu d3">Recent history</h3>
+    <div class="col gap3 mt4 fu d4">
+      ${state.history.map(h=>{ const mm=MUDRAS[h.m]; return `
+        <div class="card row between" style="align-items:center;padding:16px">
+          <div class="row gap3"><div style="width:48px;height:48px;border-radius:14px;background:${toneBg[mm.tone]};display:flex;align-items:center;justify-content:center">${handSVG(mm.hand,34)}</div>
+          <div class="col"><span class="h3" style="font-size:16px">${mm.name}</span><span class="cap" style="font-weight:600;margin-top:2px">${mm.for} · ${h.when}</span></div></div>
+          <button class="iconbtn" style="width:40px;height:40px" onclick="startMudra('${h.m}')">${svg(I.play)}</button>
+        </div>`;}).join('')}
+    </div>
+
+    <h3 class="h3 mt7 fu d4">Preferences</h3>
+    <div class="card mt4 col gap4 fu d5" style="padding:6px 20px">
+      ${prefRow(I.bell,'Notifications','Gentle daily reminders', true)}
+      <div style="height:1px;background:var(--line)"></div>
+      ${prefRow(I.moon,'Dark mode','Easier on the eyes at night', dark, "toggleDark(this)")}
+      <div style="height:1px;background:var(--line)"></div>
+      ${prefRow(I.settings,'Session settings','Duration, voice, ambience', null)}
+    </div>
+    <button class="btn btn-light mt5 fu d5" onclick="resetFlow()">${svg(I.logout)} Restart onboarding</button>
+    <div style="height:8px"></div>
+  `;
+}
+function prefRow(ic, title, sub, toggle, onToggle){
+  const t = toggle===null ? svg(I.chevr) :
+    `<button class="tgl" onclick="${onToggle||'this.classList.toggle(\'on\')'}" style="width:52px;height:30px;border-radius:99px;border:none;cursor:pointer;background:${toggle?'var(--eerie)':'var(--line)'};position:relative;transition:background .25s" data-on="${toggle}">
+      <span style="position:absolute;top:3px;left:${toggle?'25px':'3px'};width:24px;height:24px;border-radius:50%;background:#fff;transition:left .25s"></span></button>`;
+  return `<div class="row between" style="padding:14px 0;align-items:center">
+    <div class="row gap3"><div style="width:42px;height:42px;border-radius:13px;background:var(--ghost);display:flex;align-items:center;justify-content:center;color:var(--eerie)">${svg(ic)}</div>
+    <div class="col"><span style="font-weight:700;font-size:16px">${title}</span><span class="cap" style="font-weight:600;margin-top:2px">${sub}</span></div></div>
+    ${t}
+  </div>`;
+}
+function toggleDark(btn){
+  const on = btn.getAttribute('data-on')==='true';
+  const nx = !on; btn.setAttribute('data-on', nx);
+  btn.style.background = nx?'var(--eerie)':'var(--line)';
+  btn.querySelector('span').style.left = nx?'25px':'3px';
+  document.getElementById('phone').classList.toggle('dark', nx);
+}
+function resetFlow(){ state.symptoms=[]; state.duration=null; state.music=null; state.mood=null;
+  document.querySelectorAll('.chip.sel').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('symcta').disabled=true;
+  document.getElementById('durcta').disabled=true;
+  go('splash');
+}
+
+/* ---- Discover ---- */
+function renderDiscover(){
+  const el=document.getElementById('discoverbody');
+  el.innerHTML=`
+    <h2 class="h2 fu">Mudra Library</h2>
+    <p class="sub mt3 fu d1">A gesture for every moment. Tap any to begin.</p>
+    <div class="seg mt5 fu d1"><button class="on">For you</button><button onclick="toast('By element')">By element</button><button onclick="toast('New')">New</button></div>
+    <div class="mt5 fu d2" style="border-radius:var(--r-xl);background:linear-gradient(135deg,var(--vanila),var(--honeydew));padding:24px;box-shadow:var(--sh-sm);position:relative;overflow:hidden">
+      <div style="position:absolute;right:-10px;bottom:-16px;opacity:.9">${handSVG(MUDRAS['prana'].hand,120)}</div>
+      <span class="eyebrow" style="color:var(--eerie);opacity:.6">7-day journey</span>
+      <h2 class="h2 mt3" style="max-width:200px">A Mudra a Day</h2>
+      <p class="body mt2" style="color:rgba(33,33,33,.6);max-width:200px">Learn one new hand gesture each day and build the habit.</p>
+      <button class="btn btn-dark mt5" style="max-width:150px" onclick="startMudra('prana')">Start ${svg(I.arrow)}</button>
+    </div>
+    <div class="row between mt7 fu d2"><h3 class="h3">All mudras</h3></div>
+    <div class="wrap mt4 fu d3" style="gap:14px">
+      ${CATEGORIES.map(c=>{ const mm=MUDRAS[c.mud]; return `<button class="col" style="width:calc(50% - 7px);height:158px;border-radius:var(--r-lg);background:${toneBg[mm.tone]};border:none;cursor:pointer;padding:16px;justify-content:space-between;align-items:flex-start;box-shadow:var(--sh-sm)" onclick="startMudra('${c.mud}')">
+        <div style="width:100%;display:flex;justify-content:center">${handSVG(mm.hand,60)}</div>
+        <div class="col" style="align-items:flex-start"><span class="h3" style="font-size:15px;text-align:left">${mm.name}</span><span class="cap" style="font-weight:600;text-align:left;margin-top:2px">${c.t}</span></div></button>`;}).join('')}
+    </div>`;
+}
+
+/* ---- Library ---- */
+function renderLibrary(){
+  const el=document.getElementById('librarybody');
+  const favs=['vayu','surya','dhyana'];
+  el.innerHTML=`
+    <h2 class="h2 fu">Library</h2>
+    <div class="seg mt5 fu d1"><button class="on">Favourites</button><button onclick="toast('Downloaded')">Downloaded</button><button onclick="toast('History')">History</button></div>
+    <div class="col gap3 mt5 fu d2">
+      ${favs.map(id=>{ const mm=MUDRAS[id]; return `<div class="card row between" style="align-items:center;padding:16px">
+        <div class="row gap3"><div style="width:56px;height:56px;border-radius:16px;background:${toneBg[mm.tone]};display:flex;align-items:center;justify-content:center;color:var(--eerie)">${handSVG(mm.hand,40)}</div>
+        <div class="col"><span class="h3" style="font-size:17px">${mm.name}</span><span class="cap" style="font-weight:600;margin-top:2px">${mm.for}</span></div></div>
+        <button class="iconbtn" onclick="startMudra('${id}')">${svg(I.play)}</button></div>`;}).join('')}
+    </div>
+    <h3 class="h3 mt7 fu d3">Recently practised</h3>
+    <div class="col gap3 mt4 fu d3">
+      ${state.history.map(h=>{ const mm=MUDRAS[h.m]; return `<div class="card row between" style="align-items:center;padding:16px">
+        <div class="row gap3"><div style="width:48px;height:48px;border-radius:14px;background:${toneBg[mm.tone]};display:flex;align-items:center;justify-content:center">${handSVG(mm.hand,34)}</div>
+        <div class="col"><span class="h3" style="font-size:16px">${mm.name}</span><span class="cap" style="font-weight:600;margin-top:2px">${h.when}</span></div></div>
+        <button class="iconbtn" style="width:40px;height:40px" onclick="startMudra('${h.m}')">${svg(I.play)}</button></div>`;}).join('')}
+    </div>`;
+}
+
+/* ---- live clock ---- */
+function tick(){ const d=new Date(); document.getElementById('clock').textContent = d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}).replace(/\s?[AP]M/,''); }
+setInterval(tick, 10000); tick();
+
+/* ---- init ---- */
+go('splash');
+</script>
+</body>
+</html>

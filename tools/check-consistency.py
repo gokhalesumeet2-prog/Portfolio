@@ -9,13 +9,15 @@ Exits non-zero if any rule in DESIGN-SYSTEM.md that can be checked
 statically has been broken. Runtime rules (contrast, target size, overflow,
 image ratios) are covered by the headless render pass, not here.
 
-The site now runs two design systems side by side. The homepage is its own
-thing: its own stylesheet at assets/css/site.css, its own scripts, its own
-typographic rules, and no contact band or CTA row to check. The case studies
+The site runs two design systems side by side. The homepage and the about
+page are their own thing: their own stylesheet at assets/css/site.css, their
+own scripts, their own typographic rules, and no contact band or CTA row to
+check -- they end on the shared sign-off footer instead. The case studies
 still run the original system out of the flat assets/site.css. So the rules
-below are scoped -- PAGES covers the original system, HOME covers the
-homepage, and the link and asset integrity pass at the end covers everything,
-because a broken reference is a broken reference whichever design it lives in.
+below are scoped -- PAGES covers the original system, NEW covers the two
+pages on the new one, and the link and asset integrity pass at the end covers
+everything, because a broken reference is a broken reference whichever design
+it lives in.
 """
 import os
 import re
@@ -31,19 +33,30 @@ SKIP = ("audit-before", "renders", "prototype", ".git", "tools", "_preview",
 SCRATCH = ("preview-restyle.html", "preview-section-rail.html")
 
 HOME = "index.html"
+ABOUT = "about/index.html"
+NIRVANA = "nirvana/index.html"
+NIRVANA2 = "nirvana-mudra/index.html"
 HOME_CSS = "assets/css/site.css"
 DOMAIN = "https://sumeetgokhale.com"
 
-# pages running the original design system
-PAGES = [
-    "ux-design-case-studies/index.html",
-    "about-sumeet-gokhale-ux-designer/index.html",
-    "nirvana-mudra-recommendation-engine-case-study/index.html",
-    "galls-uniform-customizer-ecommerce-ux-case-study/index.html",
-    "nirvana-meditation-app-habit-design-case-study/index.html",
-    "optivento-restaurant-inventory-management-ux-case-study/index.html",
+# pages running the new design system. Both halves of Nirvana are across now;
+# the other two case studies are still on the original one below, and the
+# checks are scoped accordingly rather than being loosened for both.
+NEW = [HOME, ABOUT, NIRVANA, NIRVANA2]
+
+# the long-form case studies still on the original system, written out rather
+# than sliced off PAGES: a slice quietly shifts the moment anything is added
+# to the list above it, and the failure mode is a check that stops running
+# rather than one that complains.
+CASE_STUDIES = [
+    "galls/index.html",
+    "optivento/index.html",
 ]
-CASE_STUDIES = PAGES[2:]
+# pages running the original design system. This used to include
+# case-studies/index.html, the old index of the work. That page is now
+# a redirect stub to the rail on the homepage -- it has no design system left to
+# be consistent with, so checking it would only ever produce false failures.
+PAGES = list(CASE_STUDIES)
 
 fails = []
 def check(ok, msg):
@@ -166,33 +179,61 @@ for rel in PAGES:
     check('class="skip"' in s, f"{rel}: missing skip link")
     check("contact-band" in s, f"{rel}: missing contact band")
 
-# ---------------------------------------------------------------- 6b. the homepage
-# Different design, so different rules. What matters here is that it is still
-# a real page for a crawler, that it points at the right domain, and that the
-# work list actually leads somewhere -- the project links ship as href="#"
-# placeholders in the design file and are easy to forget.
+# ---------------------------------------------------------------- 6b. the new system
+# Different design, so different rules. What matters here is that these are
+# still real pages for a crawler, that they point at the right domain, that
+# the chrome can still work out what tone to invert against, and that they
+# both end on the same sign-off.
+for rel in NEW:
+    s = read(rel)
+
+    h1 = re.findall(r"<h1[^>]*>", s)
+    check(len(h1) == 1, f"{rel}: {len(h1)} <h1> elements, expected exactly 1")
+    check(not any("sr-only" in h for h in h1), f"{rel}: the <h1> is hidden with sr-only")
+
+    check(HOME_CSS in s, f"{rel}: does not link {HOME_CSS}")
+    check("theme-init.js" in s,
+          f"{rel}: does not resolve the theme before first paint")
+
+    for prop in ("og:url", "og:image", "twitter:image"):
+        m = re.search(rf'"{re.escape(prop)}"[^>]*content="([^"]+)"', s)
+        check(m is not None and m.group(1).startswith(DOMAIN),
+              f"{rel}: {prop} does not point at {DOMAIN}")
+
+    placeholders = len(re.findall(r'href="#"', s))
+    check(placeholders == 0,
+          f'{rel}: {placeholders} link(s) still have the placeholder href="#"')
+
+    check("TODO" not in s, f"{rel}: still has a TODO comment in it")
+
+    # controls.js paints the nav and the clock by reading the tone of whatever
+    # fold sits under them. A fold that forgets to declare one is invisible to
+    # it, and the chrome keeps the colour of the fold above.
+    check("data-chrome" in s, f"{rel}: no fold declares a data-chrome tone")
+
+    # the sign-off, and the arrow that gets you back from it
+    check('class="ft"' in s, f"{rel}: missing the sign-off footer")
+    check("footer.js" in s, f"{rel}: sign-off footer is not wired up")
+    check('class="totop"' in s and "totop.js" in s,
+          f"{rel}: missing the back-to-top arrow")
+
 home = read(HOME)
-
-h1 = re.findall(r"<h1[^>]*>", home)
-check(len(h1) == 1, f"{HOME}: {len(h1)} <h1> elements, expected exactly 1")
-check(not any("sr-only" in h for h in h1), f"{HOME}: the <h1> is hidden with sr-only")
-
-check(HOME_CSS in home, f"{HOME}: does not link {HOME_CSS}")
 check(f'rel="canonical" href="{DOMAIN}/"' in home,
       f"{HOME}: canonical does not point at {DOMAIN}/")
-for prop in ("og:url", "og:image", "twitter:image"):
-    m = re.search(rf'"{re.escape(prop)}"[^>]*content="([^"]+)"', home)
-    check(m is not None and m.group(1).startswith(DOMAIN),
-          f"{HOME}: {prop} does not point at {DOMAIN}")
-
-placeholders = len(re.findall(r'href="#"', home))
-check(placeholders == 0,
-      f"{HOME}: {placeholders} link(s) still have the placeholder href=\"#\"")
-
 projects = re.findall(r'<a class="proj[^"]*" href="([^"]+)"', home)
 check(len(projects) == 5, f"{HOME}: {len(projects)} project links, expected 5")
 
-check("TODO" not in home, f"{HOME}: still has a TODO comment in it")
+# the about page: a skip link, because unlike the homepage it is a long read,
+# and a board that opens at full size, which is two files and easy to half-ship
+about = read(ABOUT)
+check(f'rel="canonical" href="{DOMAIN}/about/"' in about,
+      f"{ABOUT}: canonical does not point at the about URL")
+check('class="skip"' in about, f"{ABOUT}: missing skip link")
+check('class="ab-zoom"' in about and "about.js" in about,
+      f"{ABOUT}: the board is not wired to open at full size")
+check(os.path.exists(os.path.join(ROOT, "assets/img/about/building@2x.webp")),
+      f"{ABOUT}: the full-size board image is missing")
+check('aria-current="page"' in about, f"{ABOUT}: nav does not mark about as current")
 
 # ---------------------------------------------------------------- 7. links and assets
 for p in html_files():
