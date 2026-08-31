@@ -67,7 +67,7 @@
 
 <link rel="preload" as="image" href="assets/img/work/nirvana.webp"
       imagesrcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w" imagesizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)">
-<link rel="stylesheet" href="assets/css/site.css?v=62aa848b?v=sohne1">
+<link rel="stylesheet" href="assets/css/site.css?v=74dbc578?v=sohne1">
 </head>
 
 <nav>
@@ -110,11 +110,13 @@
 <div id="stage">
   <div id="copy">
     <div class="line" data-i="0"><span class="tw">perception is subjective.</span><span class="head" role="button" tabindex="0" aria-label="a small witness"><img src="assets/img/witness.webp" width="164" height="223" alt="" decoding="async" fetchpriority="high"></span></div>
-    <div class="line" data-i="1"><span class="tw">but</span></div>
-    <h1 class="line" id="reveal">I see what you <span class="hl">see.</span></h1>
+    <div class="turn">
+      <div class="line" data-i="1"><span class="tw">but</span></div>
+      <h1 class="line" id="reveal"><span class="hl">I see</span> what you <span class="hl">see.</span></h1>
+    </div>
     <!-- Typed in after the reveal, on the same keyboard as the lines above.
          Unlike them these wrap, which is why they carry their own class. -->
-    <p class="line sub" data-i="2"><span class="tw">I turn messy problems into clear, thoughtful experiences across product, graphic design, and everything in between.</span></p>
+    <p class="line sub" data-i="2"><span class="tw">Turning messy problems into clear, thoughtful experiences across product design, graphic design, and everything in between.</span></p>
     <p class="line sub" data-i="3"><span class="tw">I research, design, prototype, test, and occasionally make things look way cooler than they started.</span></p>
   </div>
   <div id="ring"></div>
@@ -127,11 +129,11 @@
     <div class="proj-nav" role="navigation" aria-label="Work">
       <p class="proj-label">work</p>
       <ul class="proj-list">
-          <li><a class="proj on" href="nirvana/" data-key="nirvana" data-bg="#FEFDED">nirvana<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
-          <li><a class="proj" href="optivento/" data-key="optivento" data-bg="#FFFFFF">optivento<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
-          <li><a class="proj" href="galls/" data-key="uniform" data-bg="#FFFFFF">uniform customizer<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
-          <li><a class="proj" href="nirvana-mudra/" data-key="nirvana2" data-bg="#FEFDEB">nirvana 2.0<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
-          <li><a class="proj" href="unsmoke/" data-key="unsmoke" data-bg="#FFFFFF">unsmoke<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a></li>
+          <li><a class="proj on" href="nirvana/" data-key="nirvana" data-bg="#FEFDED">nirvana<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a><span class="proj-sub" aria-hidden="true">habit forming app | self made project | time: 6 months</span></li>
+          <li><a class="proj" href="optivento/" data-key="optivento" data-bg="#FFFFFF">optivento<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a><span class="proj-sub" aria-hidden="true">restaurant ops dashboard | enterprise project | time: 8 months</span></li>
+          <li><a class="proj" href="galls/" data-key="uniform" data-bg="#FFFFFF">uniform customizer<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a><span class="proj-sub" aria-hidden="true">e-commerce configurator | enterprise project | time: 5 months</span></li>
+          <li><a class="proj" href="nirvana-mudra/" data-key="nirvana2" data-bg="#FEFDEB">nirvana 2.0<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a><span class="proj-sub" aria-hidden="true">adaptive meditation app | self made project | time: 4 months</span></li>
+          <li><a class="proj" href="unsmoke/" data-key="unsmoke" data-bg="#FFFFFF">unsmoke<i class="marker" aria-hidden="true"><i class="mi"><i class="mp"></i></i><i class="mg"></i></i></a><span class="proj-sub" aria-hidden="true">quit-smoking app | concept project | time: 3 months</span></li>
       </ul>
     </div>
     <div class="proj-plates">
@@ -302,45 +304,17 @@
   </div>
 </section>
 
-
-<!-- ===================== fourth fold: the sign-off =====================
-     A footer rather than a section, because that is what it is: the page's
-     closing address. It carries data-chrome like the folds above it so the
-     fixed nav and clock keep inverting correctly when it scrolls under them.
-     Its ground is the theme's own, so it reads as the hero coming back
-     around rather than as a new place. -->
-<footer class="ft" id="contact" data-chrome="dark">
-  <div class="ft-say">
-    <h2 class="ft-line">I am confident that we are going to create something spectacular.</h2>
-    <p class="ft-note">if you are stuck in your process and need someone to get in the muck and fix it for you<br>you know I am here.</p>
-
-    <h3 class="ft-open">open to full-time and contract roles</h3>
-    <!-- Titles, not links: they say what to hire for, and there is nowhere
-         for them to lead. -->
-    <ul class="ft-roles">
-      <li>product designer</li>
-      <li>ux ui designer</li>
-      <li>visual designer</li>
-    </ul>
-  </div>
-
-  <!-- Deliberately a <ul> and not a <nav>: the stylesheet's nav rules are on
-       the element itself, so a second nav here would be pinned to the top of
-       the window along with the real one. -->
-  <ul class="ft-links">
-    <li><a href="mailto:gokhalesumeet2@gmail.com">email me</a></li>
-    <!-- A button, not a mailto: it puts the address on the clipboard for
-         anyone whose mail lives in a browser tab rather than an app. The
-         address is written out in full so it can still be read and typed by
-         hand if the copy silently fails. -->
-    <li><button class="ft-copy" type="button" data-copy="gokhalesumeet2@gmail.com">
-      or copy this: gokhalesumeet2@gmail.com<i class="ft-said" aria-hidden="true">copied</i></button>
-      <span class="sr-only" role="status" aria-live="polite"></span></li>
-    <li><a href="assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">resumé</a></li>
-    <!-- footer.js rewrites this to #work and scrolls, the same way the nav
-         link does; the URL here is the no-JS fallback. -->
-    <li><a class="ft-work" href="#work">work</a></li>
-    <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">linkedin</a></li>
+<!-- ===================== the sign-off: a slim white footer =====================
+     The interactive Meanwhile fold above is the last content on the page. Under
+     it sits one thin white bar: the copyright on the left, the four ways out on
+     the right. id="contact" keeps the nav's "contact" link landing here. -->
+<footer class="site-foot" id="contact" data-chrome="light" role="contentinfo">
+  <p class="site-foot-copy">© 2026&nbsp;&nbsp;Sumeet Gokhale</p>
+  <ul class="site-foot-links">
+    <li><a href="#work">work</a></li>
+    <li><a href="assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    <li><a href="mailto:gokhalesumeet2@gmail.com">Email</a></li>
+    <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">Linkedin</a></li>
   </ul>
 </footer>
 
@@ -366,8 +340,8 @@
   </svg>
 </button>
 
-<script src="assets/js/audio.js?v=47bb20db" defer></script>
-<script src="assets/js/controls.js?v=2336e678" defer></script>
+<script src="assets/js/audio.js?v=f2bf237a" defer></script>
+<script src="assets/js/controls.js?v=8aa01c66" defer></script>
 <script src="assets/js/hero.js?v=52caa800" defer></script>
 <script src="assets/js/work.js?v=fb70a793" defer></script>
 <script src="assets/js/meanwhile.js?v=43714de1" defer></script>

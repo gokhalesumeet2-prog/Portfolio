@@ -138,4 +138,22 @@
   paintClock();
   setInterval(paintClock, 10000);
   setTimeout(()=> clock.classList.add('in'), 1400);
+
+  /* --- the render / geometric toggle lives with the hero eye. It is on
+     screen while the first fold is in view and slips away the moment you
+     scroll past it, coming back when the hero returns. The fade and slide
+     are carried by CSS; here we only flip the class as the fold crosses the
+     viewport edge. --- */
+  const panel = document.getElementById('panel');
+  const hero  = document.getElementById('hero');
+  if (panel && hero && 'IntersectionObserver' in window){
+    /* The hero is exactly one screen tall, so "any part touching" keeps it
+       counted as visible right up until the next fold has fully taken over —
+       which is why the toggle used to linger into the work section. Tie it to
+       how much of the hero is on screen instead: it hides once the hero is
+       less than half visible, and comes back when it crosses back over half. */
+    new IntersectionObserver(([e])=>{
+      panel.classList.toggle('gone', e.intersectionRatio < 0.5);
+    }, { threshold: [0, 0.25, 0.5, 0.75, 1] }).observe(hero);
+  }
 })();

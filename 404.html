@@ -1,140 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found | Sumeet Gokhale</title>
+
+<title>page not found — Sumeet Gokhale</title>
 <meta name="description" content="That page doesn't exist. The case studies, about page and résumé are all one click away.">
 <meta name="robots" content="noindex, follow">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/assets/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+<meta name="theme-color" content="#2E398C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/icons/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#ffd120">
-<link rel="stylesheet" href="/assets/site.css?v=a0aa8c12?v=sohne1">
+
+<!-- theme is resolved before first paint: dark is the design, light is a choice -->
+<script src="/assets/js/theme-init.js?v=e35251c3"></script>
+
+<link rel="stylesheet" href="/assets/css/site.css?v=74dbc578?v=sohne1">
+
+<!-- ============================================================
+     404 — scoped layout.
+     Borrows the shared .cst type, colour and buttons; everything
+     unique here is prefixed .nf- so it can't reach into that system.
+     ============================================================ -->
+<style>
+  main.cst.nf{padding:0}
+
+  .nf-wrap{
+    max-width:720px;
+    margin-inline:auto;
+    padding:clamp(120px,20vh,220px) clamp(22px,6vw,44px) clamp(80px,12vh,140px);
+    text-align:center;
+  }
+
+  .nf-eyebrow{
+    font-family:var(--font-ui);
+    font-size:clamp(.74rem,.95vw,.82rem);
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cst-body);
+    margin:0 0 clamp(14px,2vh,20px);
+  }
+  .nf-h{
+    font-family:var(--cst-display);
+    font-weight:600;letter-spacing:-.022em;line-height:1.08;
+    font-size:clamp(1.6rem,4.4vw,2.6rem);
+    color:var(--cst-ink);
+    margin:0;
+  }
+  .nf-lead{
+    max-width:34em;
+    margin:clamp(18px,3vh,26px) auto 0;
+    font-family:var(--font-ui);
+    font-size:clamp(.9rem,1.1vw,1rem);line-height:1.62;
+    color:var(--cst-body);
+  }
+  .nf-btns{justify-content:center;margin-top:clamp(28px,4vh,42px)}
+
+  /* the short "you were probably after one of these" list */
+  .nf-list{
+    list-style:none;margin:0;padding:0;
+    display:flex;flex-direction:column;gap:clamp(12px,1.6vh,18px);
+    text-align:left;
+  }
+  .nf-list-h{
+    font-family:var(--font-ui);
+    font-size:clamp(.74rem,.95vw,.82rem);
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cst-body);
+    margin:clamp(64px,10vh,110px) 0 clamp(20px,2.6vh,30px);
+    text-align:center;
+  }
+  .nf-item a{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em .7em;
+    text-decoration:none;color:var(--cst-ink);
+    border-top:1px solid var(--cst-line);
+    padding:clamp(12px,1.6vh,16px) 2px;
+    transition:padding-left .25s ease;
+  }
+  .nf-item a:hover,.nf-item a:focus-visible{padding-left:10px}
+  .nf-item .nf-when{
+    font-family:var(--font-ui);
+    font-size:clamp(.72rem,.9vw,.8rem);letter-spacing:.02em;
+    color:var(--cst-body);flex:none;min-width:6.5em;
+  }
+  .nf-item .nf-title{
+    font-family:var(--cst-display);
+    font-size:clamp(.95rem,1.3vw,1.08rem);font-weight:600;letter-spacing:-.01em;
+  }
+</style>
 </head>
+<body class="scrollable">
 
-<body>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main">skip to the content</a>
 
-<header class="masthead">
-  <div class="shell">
-    <a class="brand" href="/"><span class="mark-bg" aria-hidden="true"></span>SUMEET GOKHALE</a>
-    <nav class="nav" aria-label="Primary">
-      <a href="/#work">Work</a>
-      <a href="/about/">About</a>
-      <a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé</a>
-      <a class="btn btn--ghost" href="#contact">Get in touch</a>
-    </nav>
+<nav>
+  <a class="mark" href="/" aria-label="Sumeet Gokhale — home">sumeet</a>
+  <div class="right">
+    <div class="links">
+      <a href="/#work">work</a><a href="/about/">about</a><a href="mailto:gokhalesumeet2@gmail.com">contact</a>
+    </div>
+    <div class="tools">
+      <span id="sndHint" aria-hidden="true">tap anywhere for sound</span>
+      <button class="ctl" id="themeBtn" type="button" aria-label="Switch colour theme">
+        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.1" fill="currentColor" stroke="none"/>
+          <path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.15 5.15l1.63 1.63M17.22 17.22l1.63 1.63M18.85 5.15l-1.63 1.63M6.78 17.22l-1.63 1.63"/>
+        </svg>
+        <svg class="ic moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <g transform="translate(-1.9,2.1) scale(0.84)">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+          </g>
+          <path d="M18.6 1.6 Q19.18 4.22 21.8 4.8 Q19.18 5.38 18.6 8 Q18.02 5.38 15.4 4.8 Q18.02 4.22 18.6 1.6 Z"/>
+          <path d="M21.6 8.1 Q21.98 9.82 23.7 10.2 Q21.98 10.58 21.6 12.3 Q21.22 10.58 19.5 10.2 Q21.22 9.82 21.6 8.1 Z"/>
+        </svg>
+      </button>
+      <button class="ctl" id="soundBtn" type="button" aria-label="Toggle sound">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 9.4v5.2h3.5L12 18.7V5.3L7.5 9.4H4Z" fill="currentColor"/>
+          <path class="wave" d="M15.3 9.3a4 4 0 0 1 0 5.4"/>
+          <path class="wave" d="M18.1 6.7a8 8 0 0 1 0 10.6"/>
+          <path class="cross" d="M15.8 10.1l5 3.8M20.8 10.1l-5 3.8"/>
+        </svg>
+      </button>
+    </div>
   </div>
-</header>
+</nav>
+<div id="clock" aria-live="off"></div>
 
-<main id="main">
+<main id="main" class="cst nf" data-chrome="light">
+  <div class="nf-wrap">
 
-  <section class="hero">
-    <div class="shell">
-      <p class="eyebrow eyebrow--plain">Error 404</p>
-      <h1 class="display" style="margin-top:var(--s-5)">This page doesn't exist.</h1>
-      <p class="lead">The link is either out of date or slightly mistyped. Nothing here is lost, so here is the way back in.</p>
-      <div class="btn-row">
-        <a class="btn btn--primary" href="/#work">View case studies</a>
-        <a class="btn btn--ghost" href="/">Back to the homepage</a>
-      </div>
+    <p class="nf-eyebrow">error 404</p>
+    <h1 class="nf-h">this page doesn't exist.</h1>
+    <p class="nf-lead">the link is either out of date or slightly mistyped. nothing here is lost, so here is the way back in.</p>
+
+    <div class="cst-btns nf-btns">
+      <a class="cst-btn cst-btn--go" href="/#work">view work</a>
+      <a class="cst-btn cst-btn--line" href="/">back to the homepage</a>
     </div>
-  </section>
 
-  <section class="section section--line" aria-labelledby="cs-h">
-    <div class="shell">
-      <div class="sec-head">
-        <p class="eyebrow"><span class="idx">01</span>&nbsp;Case studies</p>
-        <h2 id="cs-h">You were probably looking for one of these.</h2>
-      </div>
-      <div class="cv" style="max-width:52rem">
-        <div class="cv-row">
-          <p class="when">Galls</p>
-          <div>
-            <h3><a href="/galls/">Uniform configuration, collapsed into one screen</a></h3>
-            <p>Enterprise e-commerce configuration for U.S. Army and Air Force procurement. Shipped, and measured in production.</p>
-          </div>
-        </div>
-        <div class="cv-row">
-          <p class="when">Nirvana, Part II</p>
-          <div>
-            <h3><a href="/nirvana-mudra/">Meditation that adapts to how you feel</a></h3>
-            <p>A content library replaced by a match, with the reasoning stated in plain language. Includes a working prototype.</p>
-          </div>
-        </div>
-        <div class="cv-row">
-          <p class="when">Nirvana, Part I</p>
-          <div>
-            <h3><a href="/nirvana/">A retention system, not a meditation app</a></h3>
-            <p>Meditation apps don't fail on content. They fail on consistency, in week one.</p>
-          </div>
-        </div>
-        <div class="cv-row">
-          <p class="when">Optivento</p>
-          <div>
-            <h3><a href="/optivento/">Restaurant operations, designed around the decision</a></h3>
-            <p>Where a two percent cost change moves profit by twenty nine percent. Twelve chefs, one recurring answer.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <p class="nf-list-h">you were probably after one of these</p>
+    <ul class="nf-list">
+      <li class="nf-item"><a href="/galls/"><span class="nf-when">galls</span><span class="nf-title">uniform customizer</span></a></li>
+      <li class="nf-item"><a href="/optivento/"><span class="nf-when">optivento</span><span class="nf-title">restaurant operations dashboard</span></a></li>
+      <li class="nf-item"><a href="/nirvana/"><span class="nf-when">nirvana</span><span class="nf-title">a retention system, not a meditation app</span></a></li>
+      <li class="nf-item"><a href="/nirvana-mudra/"><span class="nf-when">nirvana 2.0</span><span class="nf-title">meditation that adapts to how you feel</span></a></li>
+      <li class="nf-item"><a href="/unsmoke/"><span class="nf-when">unsmoke</span><span class="nf-title">a quit-smoking companion</span></a></li>
+    </ul>
 
-  <section class="section contact-band" id="contact" aria-labelledby="contact-h">
-    <div class="shell">
-      <div class="sec-head">
-        <p class="eyebrow"><span class="idx">02</span>&nbsp;Contact</p>
-        <h2 id="contact-h">Still looking for something?</h2>
-        <p class="lead measure-wide">If you followed a link here from somewhere, tell me where it was and I'll fix it.</p>
-      </div>
-      <div class="btn-row">
-        <a class="btn btn--primary" href="mailto:gokhalesumeet2@gmail.com">Email me</a>
-        <a class="btn btn--ghost btn--ext" href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </section>
-
+  </div>
 </main>
 
-<footer class="site-footer">
-  <div class="shell">
-    <div class="footer-grid">
-      <div>
-        <h2>Work</h2>
-        <ul>
-          <li><a href="/nirvana-mudra/">Nirvana Mudra</a></li>
-          <li><a href="/galls/">Galls uniform customizer</a></li>
-          <li><a href="/nirvana/">Nirvana</a></li>
-          <li><a href="/optivento/">Optivento</a></li>
-          <li><a href="/unsmoke/">Unsmoke</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Site</h2>
-        <ul>
-          <li><a href="/#work">All case studies</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Elsewhere</h2>
-        <ul>
-          <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="mailto:gokhalesumeet2@gmail.com">gokhalesumeet2@gmail.com</a></li>
-          <li><a href="https://open.spotify.com/show/7GglwxlbMdCDPXJsDxW8mX" target="_blank" rel="noopener">Wisdom of Wednesdays</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-base">
-      <span>© <span data-year>2026</span> Sumeet Gokhale</span>
-      <span>Open to new roles</span>
-    </div>
-  </div>
+<!-- the same slim sign-off the homepage ends on -->
+<footer class="site-foot" id="contact" data-chrome="light" role="contentinfo">
+  <p class="site-foot-copy">© 2026&nbsp;&nbsp;Sumeet Gokhale</p>
+  <ul class="site-foot-links">
+    <li><a href="/#work">work</a></li>
+    <li><a href="/assets/sumeet-gokhale-ux-designer-resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    <li><a href="mailto:gokhalesumeet2@gmail.com">Email</a></li>
+    <li><a href="https://www.linkedin.com/in/sumeetgokhale/" target="_blank" rel="noopener">Linkedin</a></li>
+  </ul>
 </footer>
 
-<script src="/assets/site.js?v=fb015369" defer></script>
+<button class="totop" type="button" aria-label="Back to the top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19.2V5.4"/><path d="M5.9 11.5 12 5.4l6.1 6.1"/>
+  </svg>
+</button>
+
+<script src="/assets/js/audio.js?v=f2bf237a" defer></script>
+<script src="/assets/js/controls.js?v=8aa01c66" defer></script>
+<script src="/assets/js/footer.js?v=e498034f" defer></script>
+<script src="/assets/js/totop.js?v=07517e0f" defer></script>
+<script src="/assets/js/cursor.js?v=de509486" defer></script>
 </body>
 </html>

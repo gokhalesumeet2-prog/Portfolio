@@ -140,7 +140,11 @@ window.__snd = (function(){
   function ensure(){
     if (!ctx) build();
     if (ctx.state === 'suspended') ctx.resume();
-    if (!started && ctx.state === 'running'){ started = true; buildAmbience(); }
+    /* The continuous background bed — the brown-noise "deep water" floor,
+       the drone pad and the periodic thought notes — is intentionally off.
+       Only the interactive sounds (key, chime, select, blink, mw) play now;
+       they connect straight to master and don't need the ambience. */
+    if (!started && ctx.state === 'running'){ started = true; }
     return ctx.state === 'running';
   }
 
