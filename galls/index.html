@@ -59,7 +59,7 @@
 
 
 <link rel="preload" as="image" href="../assets/uc-desktop-hero.webp">
-<link rel="stylesheet" href="../assets/css/site.css?v=ae1c3a29?v=sohne1">
+<link rel="stylesheet" href="../assets/css/site.css?v=f7dbff99?v=sohne1">
 </head>
 <body class="scrollable">
 
@@ -86,6 +86,7 @@
              width="1400" height="900" fetchpriority="high" decoding="async"
              style="display:block;width:100%;height:auto">
       </div>
+      <p class="cst-cap cst-cap--mid">uniform customizer</p>
     </div>
   </section>
 
@@ -168,14 +169,17 @@
       <p class="cst-p">That framing was the real problem. <strong>This was never a catalogue to browse. It was a product to configure</strong>, and it had been built as the wrong one.</p>
     </div>
 
-    <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px)">
+    <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px);position:relative">
       <div style="border-radius:clamp(12px,1.4vw,20px);overflow:hidden">
         <img src="../assets/uc-old-customizer.webp"
              alt="The previous customizer: a dense page listing every available option at once, with a technical line drawing of the garment."
              width="1200" height="700" loading="lazy" decoding="async"
              style="display:block;width:100%;height:auto">
       </div>
-      <p class="cst-cap"><strong>Before: the original customizer.</strong> Every option is shown at once and every option looks equally important, so the buyer has to work out the order to do things in.</p>
+      <img src="../assets/galls-arrow.webp" alt="" aria-hidden="true"
+           width="92" height="95" decoding="async"
+           style="position:absolute;left:var(--cst-gutter);bottom:0;width:clamp(50px,6vw,92px);height:auto;transform:translateY(58%);pointer-events:none">
+      <p class="cst-cap" style="padding-left:clamp(58px,7vw,116px)"><strong>Before: the original customizer.</strong> Every option is shown at once and every option looks equally important, so the buyer has to work out the order to do things in.</p>
     </div>
   </section>
 
@@ -240,7 +244,7 @@
     <!-- the structural change: before/after flow, redrawn in the new palette -->
     <div class="cst-shell" style="margin-top:clamp(40px,7vh,84px)">
       <div class="cst-diagram" role="group" aria-labelledby="dg1-cap"
-           style="border:1px solid var(--cst-line);border-radius:16px;padding:clamp(20px,3vw,34px);display:grid;gap:clamp(18px,3vw,32px)">
+           style="display:grid;gap:clamp(28px,5vw,60px)">
         <img src="../assets/galls-flow-before.png"
              alt="Before: separate pages — product, insignia, placement, quantity, cart — with the error only found at cart, forcing a rework loop where the buyer starts again."
              loading="lazy" decoding="async"
@@ -263,32 +267,22 @@
     </div>
 
     <div class="cst-shell" style="margin-top:clamp(30px,5vh,60px)">
-      <div class="cst-three">
-        <div>
-          <h3 class="cst-h3">grouped by the decision, not the database</h3>
+      <div class="cst-feats">
+        <div class="cst-feat">
+          <h3 class="cst-h3">grouped by decision</h3>
           <p class="cst-p">Identity (nameplate, rank, unit), fit (size, cut, fabric) and branding (patches, placement, thread). Three questions instead of thirty fields.</p>
         </div>
-        <div>
-          <h3 class="cst-h3">compliance as rules, not SKUs</h3>
-          <p class="cst-p">Agency constraints run as validation against the configuration, so an invalid combination is caught while it is being made rather than manufactured into the catalogue.</p>
-        </div>
-        <div>
-          <h3 class="cst-h3">the garment stays on screen</h3>
+        <div class="cst-feat">
+          <h3 class="cst-h3">garment stays on screen</h3>
           <p class="cst-p">Every selection updates a live preview with placement shown in position, which is what turns an abstract choice into a visible one.</p>
         </div>
-      </div>
-      <div class="cst-three" style="margin-top:clamp(24px,4vh,44px)">
-        <div>
-          <h3 class="cst-h3">nothing commits until it resolves</h3>
+        <div class="cst-feat">
+          <h3 class="cst-h3">no early commitment</h3>
           <p class="cst-p">The checkpoint is a boundary. Inside it everything is revisable, and crossing it means the order is complete and compliant.</p>
         </div>
-        <div>
-          <h3 class="cst-h3">AI-assisted exploration, early only</h3>
-          <p class="cst-p">Prompt-built variants let the team look at four real alternatives in the time a single mockup used to take. It compressed the ideation loop. It did not decide anything.</p>
-        </div>
-        <div>
-          <h3 class="cst-h3">bulk is a first-class case</h3>
-          <p class="cst-p">A configuration is a reusable object, so ordering for a whole unit is one configuration applied many times, rather than many passes through the same flow.</p>
+        <div class="cst-feat">
+          <h3 class="cst-h3">compliance as rules, not SKUs</h3>
+          <p class="cst-p">Agency constraints run as validation against the configuration, so an invalid combination is caught while it is being made rather than manufactured into the catalogue.</p>
         </div>
       </div>
     </div>

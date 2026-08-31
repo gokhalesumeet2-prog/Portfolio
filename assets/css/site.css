@@ -943,7 +943,9 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
 /* --- intro --- */
 .mw-lockup{left:59.77%;top:4.7%;width:35.2%;height:auto}
 .mw-sub{
-  position:absolute;right:3.94%;top:15.1%;margin:0;
+  /* right edge lands on the lockup's right edge (59.77% + 35.2% = 94.97%),
+     so the banner and the two lines under it share one right margin */
+  position:absolute;right:5.03%;top:15.1%;margin:0;
   font-family:var(--font-display);font-weight:300;
   font-size:1.44cqw;letter-spacing:.002em;color:#E5FE78;
   white-space:nowrap;
@@ -956,7 +958,7 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
 .mw-sub.done .mw-caret{display:none}
 @keyframes mwblink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
 .mw-hint{
-  position:absolute;right:3.94%;top:22.4%;margin:0;
+  position:absolute;right:5.03%;top:22.4%;margin:0;
   /* lowercase, the way the rest of the page talks — the tracking that made
      the caps legible is dialled back to suit it */
   font-family:var(--font-ui);font-size:14px;letter-spacing:.03em;
@@ -1910,6 +1912,21 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
 }
 .cst-three p{margin-top:.5em;max-width:none}
 
+/* the mechanisms as a two-up grid, each row ruled off with its own green line,
+   the way the mockup lays them out: two columns, one lime rule per card. */
+.cst-feats{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(30px,4.6vh,52px) clamp(30px,5vw,90px);
+}
+.cst-feat{
+  border-top:3px solid var(--cst-lime);
+  padding-top:clamp(18px,2.6vh,26px);
+}
+.cst-feat p{margin-top:.5em;max-width:none}
+
+/* a caption centred under a plate, used for the hero device shot */
+.cst-cap--mid{text-align:center;max-width:none;margin-inline:auto}
+
 /* ---------- what the testing indicated ----------
    The one fold on the page that is not paper. The numbers are projections,
    and putting them on black with the caveat attached is the only honest way
@@ -2133,6 +2150,7 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
   .cst-head-grid,.cst-two{grid-template-columns:minmax(0,1fr)}
   .cst-head-grid > .cst-meta,.cst-two > *:last-child{margin-top:0}
   .cst-three{grid-template-columns:minmax(0,1fr);gap:clamp(20px,3vh,28px)}
+  .cst-feats{grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vh,40px)}
   .cst-stats{grid-template-columns:minmax(0,1fr);gap:clamp(22px,3vh,32px)}
   .cst-p,.cst-lead,.cst-two .cst-p,.cst-two .cst-q{max-width:none}
   .cst-off{grid-template-columns:minmax(0,1fr) auto;gap:16px;margin-top:clamp(40px,6vh,72px)}
