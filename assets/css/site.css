@@ -694,11 +694,15 @@ a.proj-plate.on .plate-hot{pointer-events:auto;visibility:visible}
   background:var(--pbg);
   box-shadow:0 0 0 .38em var(--pbg);
   border-radius:2px;
+  /* it's a link to the same case study as the row above it */
+  text-decoration:none;cursor:pointer;
   max-height:0;opacity:0;margin-top:0;overflow:hidden;
   transition:max-height .5s cubic-bezier(.22,.61,.36,1),
              opacity .42s ease,
-             margin-top .5s cubic-bezier(.22,.61,.36,1);
+             margin-top .5s cubic-bezier(.22,.61,.36,1),
+             color .25s ease;
 }
+.proj-sub:hover,.proj-sub:focus-visible{color:var(--cream-ink)}
 /* keyed off the selected item (.proj.on), not :hover — work.js keeps the
    selection sticky, so the line stays out while you move onto its plate on
    the right instead of vanishing the moment the cursor leaves the list */
@@ -1683,6 +1687,10 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
    set generously on purpose: a case study read at length wants the pauses. */
 .cst-sec{padding-block:clamp(96px,17vh,210px)}
 .cst-sec--tight{padding-block:clamp(60px,10.5vh,128px)}
+/* The hero image now opens the page, so it carries the top clearance the head
+   used to: enough to sit clear of the fixed nav. The longhand overrides the
+   padding-top set by --tight above, and must stay after it in the cascade. */
+.cst-hero{padding-top:clamp(112px,16vh,190px)}
 
 /* ---------- type ----------
    Two families and nothing else. Circular sets the headings, the card labels
@@ -1755,7 +1763,7 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
 /* ---------- the head ----------
    The claim on the left with the dot behind it, the facts about the project
    on a card beside it, the way the mockup lays them out. */
-.cst-head{padding-top:clamp(118px,17vh,196px);padding-bottom:clamp(26px,4vh,52px)}
+.cst-head{padding-top:clamp(48px,8vh,96px);padding-bottom:clamp(26px,4vh,52px)}
 .cst-head .cst-wordmark{margin-bottom:clamp(64px,17vh,152px)}
 .cst-head-grid{
   display:grid;

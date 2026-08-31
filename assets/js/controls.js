@@ -13,6 +13,7 @@
   function paintSound(){
     if (sndHint) sndHint.classList.toggle('show',
       !snd.muted() && !snd.running() && performance.now() > 1400);
+    if (!sBtn) return;   /* inside pages carry no sound button */
     sBtn.classList.toggle('muted', snd.muted());
     sBtn.classList.toggle('pending', !snd.muted() && !snd.running());
     sBtn.setAttribute('aria-label', snd.muted() ? 'Turn sound on' : 'Turn sound off');
@@ -47,7 +48,7 @@
   setTimeout(paintSound, 1500);
   setTimeout(()=> clearInterval(poll), 30000);
 
-  sBtn.addEventListener('click', e=>{
+  if (sBtn) sBtn.addEventListener('click', e=>{
     e.stopPropagation();
     snd.setMuted(!snd.muted());
     paintSound();
@@ -58,7 +59,7 @@
   window.__setTheme = function(next, quiet){
     root.setAttribute('data-theme', next);
     try{ sessionStorage.setItem('theme', next); }catch(e){}
-    tBtn.setAttribute('aria-label',
+    if (tBtn) tBtn.setAttribute('aria-label',
       next === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     if (!quiet) snd.select();
   };

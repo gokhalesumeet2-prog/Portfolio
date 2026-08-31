@@ -59,7 +59,7 @@
 
 
 <link rel="preload" as="image" href="../assets/us-hero.svg">
-<link rel="stylesheet" href="../assets/css/site.css?v=74dbc578?v=sohne1">
+<link rel="stylesheet" href="../assets/css/site.css?v=ae1c3a29?v=sohne1">
 </head>
 <body class="scrollable">
 
@@ -71,35 +71,23 @@
     <div class="links">
       <a href="../#work">work</a><a href="../about/">about</a><a href="mailto:gokhalesumeet2@gmail.com">contact</a>
     </div>
-    <div class="tools">
-      <span id="sndHint" aria-hidden="true">tap anywhere for sound</span>
-      <button class="ctl" id="themeBtn" type="button" aria-label="Switch colour theme">
-        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4.1" fill="currentColor" stroke="none"/>
-          <path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.15 5.15l1.63 1.63M17.22 17.22l1.63 1.63M18.85 5.15l-1.63 1.63M6.78 17.22l-1.63 1.63"/>
-        </svg>
-        <svg class="ic moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <g transform="translate(-1.9,2.1) scale(0.84)">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
-          </g>
-          <path d="M18.6 1.6 Q19.18 4.22 21.8 4.8 Q19.18 5.38 18.6 8 Q18.02 5.38 15.4 4.8 Q18.02 4.22 18.6 1.6 Z"/>
-          <path d="M21.6 8.1 Q21.98 9.82 23.7 10.2 Q21.98 10.58 21.6 12.3 Q21.22 10.58 19.5 10.2 Q21.22 9.82 21.6 8.1 Z"/>
-        </svg>
-      </button>
-      <button class="ctl" id="soundBtn" type="button" aria-label="Toggle sound">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 9.4v5.2h3.5L12 18.7V5.3L7.5 9.4H4Z" fill="currentColor"/>
-          <path class="wave" d="M15.3 9.3a4 4 0 0 1 0 5.4"/>
-          <path class="wave" d="M18.1 6.7a8 8 0 0 1 0 10.6"/>
-          <path class="cross" d="M15.8 10.1l5 3.8M20.8 10.1l-5 3.8"/>
-        </svg>
-      </button>
-    </div>
   </div>
 </nav>
 <div id="clock" aria-live="off"></div>
 
 <main id="main" class="cst">
+
+  <!-- the hero opens the page: three redrawn screens, framed on the grey they were exported on -->
+  <section class="cst-sec cst-sec--tight cst-hero" data-chrome="light">
+    <div class="cst-shell">
+      <div style="background:var(--cst-surface,#F4F4F4);border-radius:clamp(12px,1.4vw,20px);overflow:hidden;padding:clamp(16px,3vw,40px)">
+        <img src="../assets/us-hero.svg"
+             alt="Three Unsmoke screens: the home screen with a 14-day streak card and a health meter, the urge screen showing a flask at 98% purity, and the support-network screen with educational resources unlocked by streaks."
+             width="1400" height="820" fetchpriority="high" decoding="async"
+             style="display:block;width:100%;height:auto">
+      </div>
+    </div>
+  </section>
 
   <!-- ---------- the head ----------
        The claim on the left with the sun dot behind it, the facts about the
@@ -139,18 +127,6 @@
             </div>
           </dl>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- the hero: three redrawn screens, framed on the grey they were exported on -->
-  <section class="cst-sec cst-sec--tight" data-chrome="light">
-    <div class="cst-shell">
-      <div style="background:var(--cst-surface,#F4F4F4);border-radius:clamp(12px,1.4vw,20px);overflow:hidden;padding:clamp(16px,3vw,40px)">
-        <img src="../assets/us-hero.svg"
-             alt="Three Unsmoke screens: the home screen with a 14-day streak card and a health meter, the urge screen showing a flask at 98% purity, and the support-network screen with educational resources unlocked by streaks."
-             width="1400" height="820" fetchpriority="high" decoding="async"
-             style="display:block;width:100%;height:auto">
       </div>
     </div>
   </section>
@@ -536,7 +512,7 @@
 </button>
 
 <script src="../assets/js/audio.js?v=f2bf237a" defer></script>
-<script src="../assets/js/controls.js?v=8aa01c66" defer></script>
+<script src="../assets/js/controls.js?v=bfe8d10c" defer></script>
 <script src="../assets/js/footer.js?v=e498034f" defer></script>
 <script src="../assets/js/totop.js?v=07517e0f" defer></script>
 <script src="../assets/js/cursor.js?v=de509486" defer></script>
