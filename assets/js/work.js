@@ -7,6 +7,25 @@
   const work   = document.getElementById('work');
   const plates = [...document.querySelectorAll('.proj-plate')];
 
+  const list = document.querySelector('.proj-list');
+
+  /* The context line is taken out of flow (absolute) so the hovered title never
+     moves, which means the rows below it have to be pushed down by hand to make
+     room — and by exactly the line's own height, not a guess. A short line is
+     one row, a long one wraps to three, so a fixed push either overlaps or
+     leaves a hole. We measure the active line and hand the distance to the CSS
+     as --sub-push; the rows below glide down by that, the rows above lift a
+     fixed 32px for breathing room, and every row keeps its 14px rest gap. */
+  function measure(item){
+    if (!list) return;
+    const sub = item.parentElement.querySelector('.proj-sub');
+    if (!sub) return;
+    /* offsetHeight is the wrapped height even while the line is still faded
+       out, and .28em is the gap the CSS leaves between title and line */
+    const gap = parseFloat(getComputedStyle(sub).marginTop) || 0;
+    list.style.setProperty('--sub-push', (sub.offsetHeight + gap + 8) + 'px');
+  }
+
   /* the selection sticks — once you've looked at something it stays looked at,
      so you can move the cursor away without the page snapping back */
   function show(item){
@@ -14,9 +33,21 @@
     items.forEach(i=> i.classList.toggle('on', i === item));
     plates.forEach(p=> p.classList.toggle('on', p.dataset.key === item.dataset.key));
     work.style.setProperty('--pbg', item.dataset.bg);
+    measure(item);
   }
   show(items[0]);
   work.style.setProperty('--pbg', items[0].dataset.bg);
+
+  /* cqw font sizing means the line rewraps as the window changes, so the push
+     has to be recomputed for whichever row is currently open */
+  let rz = 0;
+  addEventListener('resize', ()=>{
+    if (rz) return;
+    rz = requestAnimationFrame(()=>{ rz = 0;
+      const on = items.find(i=> i.classList.contains('on'));
+      if (on) measure(on);
+    });
+  }, {passive:true});
 
   items.forEach((item,i)=>{
     item.addEventListener('pointerenter', ev=>{

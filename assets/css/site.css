@@ -667,26 +667,34 @@ a.proj-plate.on .plate-hot{pointer-events:auto;visibility:visible}
   font-size:1.55cqw;font-weight:300;color:var(--cream-mute);
   margin-bottom:1.38em;
 }
-.proj-list{list-style:none}
+.proj-list{list-style:none;display:flex;flex-direction:column;gap:14px}
 .proj{
   display:inline-flex;align-items:center;gap:.42em;
   font-size:1.55cqw;font-weight:300;
   color:var(--cream-mute);text-decoration:none;white-space:nowrap;
-  transition:color .3s ease;
+  opacity:.45;
+  transition:color .3s ease,opacity .3s ease;
 }
-.proj.on{color:var(--cream-ink);font-weight:700}
+.proj.on{color:var(--cream-ink);font-weight:700;opacity:1}
 
-/* the context line: only on hover, and it opens the row from nothing so the
-   list re-centres and the neighbours glide apart, the gap between rows kept
-   even because .proj-nav is anchored at its own middle (translateY(-50%)) */
+/* the context line opens UNDERNEATH the hovered row without ever moving it.
+   The row is the positioning context and the line is taken out of flow
+   (absolute, top:100%), so the title it belongs to holds its place exactly.
+   Only the rows AFTER the active one glide down to make room; the rows above
+   and the hovered row itself stay put. Because the line is out of flow the
+   list's own height never changes, so the centre anchor (translateY(-50%))
+   can't re-centre and drag every title around — which is what used to make
+   the hovered title jump. */
+.proj-list li{position:relative;transition:transform .45s cubic-bezier(.22,.61,.36,1)}
 .proj-sub{
+  position:absolute;left:0;top:100%;margin-top:.28em;
   display:block;width:fit-content;
   font-family:var(--font-ui);
   font-size:.92cqw;font-weight:400;letter-spacing:.01em;line-height:1.32;
   color:#8A8A8A;
   /* Rather than run under the active plate art (unsmoke's figure and the
      device shots reach well into the list), the line is capped short and
-     wraps before it can get there — so it stays on empty ground. The
+     wraps before it can get there, so it stays on empty ground. The
      section-colour patch (--pbg, which #work rewrites per item) is a safety
      net for the far-left art: over empty ground it's invisible, over artwork
      it clears its own strip. */
@@ -696,10 +704,9 @@ a.proj-plate.on .plate-hot{pointer-events:auto;visibility:visible}
   border-radius:2px;
   /* it's a link to the same case study as the row above it */
   text-decoration:none;cursor:pointer;
-  max-height:0;opacity:0;margin-top:0;overflow:hidden;
-  transition:max-height .5s cubic-bezier(.22,.61,.36,1),
-             opacity .42s ease,
-             margin-top .5s cubic-bezier(.22,.61,.36,1),
+  opacity:0;pointer-events:none;transform:translateY(-.35em);
+  transition:opacity .42s ease,
+             transform .5s cubic-bezier(.22,.61,.36,1),
              color .25s ease;
 }
 .proj-sub:hover,.proj-sub:focus-visible{color:var(--cream-ink)}
@@ -707,12 +714,14 @@ a.proj-plate.on .plate-hot{pointer-events:auto;visibility:visible}
    selection sticky, so the line stays out while you move onto its plate on
    the right instead of vanishing the moment the cursor leaves the list */
 .proj-list li:has(.proj.on) .proj-sub{
-  max-height:5em;opacity:1;margin-top:.28em;
+  opacity:1;pointer-events:auto;transform:none;
 }
-/* the neighbours keep their even rhythm; only the selected row pushes the
-   group away from itself, top and bottom, so it reads as lifted out */
-.proj-list li{transition:margin .5s cubic-bezier(.22,.61,.36,1)}
-.proj-list li:has(.proj.on){margin-top:.8em;margin-bottom:.8em}
+/* neighbours move away by 32px to clear the opening line, but the transform
+   never touches flow layout, so the hovered row itself holds its position and
+   the neighbours keep their own 14px rest gap among themselves. Rows AFTER the
+   active one slide down; rows BEFORE it slide up. */
+.proj-list li:has(.proj.on) ~ li{transform:translateY(var(--sub-push,32px))}
+.proj-list li:has(~ li .proj.on){transform:translateY(-32px)}
 
 /* the marker: the same eye, still following you */
 .marker{
@@ -758,6 +767,18 @@ body.on-cream #panel .sep{background:rgba(0,0,0,.14)}
      lands on one name at a time instead of a cramped stack */
   .proj-list{display:grid;justify-items:center;gap:.2rem}
   .proj{font-size:1.4rem;padding:.42em .3em;line-height:1.15}
+  /* no hover on a phone, so the accordion resolves in flow: the active line
+     just shows in the stack and nothing is pushed by a transform */
+  .proj-list li{position:static}
+  .proj-list li:has(.proj.on) ~ li{transform:none}
+  .proj-list li:has(~ li .proj.on){transform:none}
+  .proj-sub{
+    position:static;transform:none;display:none;
+    margin:.15em auto 0;max-width:min(88vw,32em);
+    text-align:center;background:transparent;box-shadow:none;
+    opacity:1;pointer-events:auto;font-size:.9rem;
+  }
+  .proj-list li:has(.proj.on) .proj-sub{display:block}
   /* the plate art sits on the right of each landscape artboard (on desktop
      the list fills the left). With the list moved above on mobile, a square
      card plus object-fit:cover crops each plate down to its own artwork, and
@@ -1707,16 +1728,17 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
   font-weight:400;letter-spacing:-.022em;line-height:1;
   text-align:center;color:var(--cst-ink);
 }
+/* The section titles across every case study are set in SF Pro bold at 20px
+   (not the Söhne Breit display face). The kicker that opens a study is the
+   first of these titles, so it takes the same treatment. */
 .cst-kicker{
-  font-family:var(--cst-display);
-  font-size:clamp(1.45rem,2.08vw,1.875rem);
-  line-height:1.16;font-weight:500;letter-spacing:-.03em;
+  font-family:var(--font-ui);
+  font-size:20px;line-height:1.28;font-weight:700;letter-spacing:-.01em;
   color:var(--cst-ink);
 }
 .cst-h2{
-  font-family:var(--cst-display);
-  font-size:clamp(1.45rem,2.08vw,1.875rem);
-  line-height:1.16;font-weight:500;letter-spacing:-.03em;
+  font-family:var(--font-ui);
+  font-size:20px;line-height:1.28;font-weight:700;letter-spacing:-.01em;
   color:var(--cst-ink);
 }
 /* the bold line that states the question, tight under the heading */
@@ -1858,6 +1880,18 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
 /* the right column starts lower than the left one, as it does on the sheet */
 .cst-two > *:last-child{margin-top:clamp(40px,17.4vw,250px)}
 .cst-opts{margin-top:clamp(24px,4vh,52px);display:grid;gap:clamp(24px,3.4vh,38px)}
+/* directions: options on the left, the hand-drawn modal sketch on the right */
+.cst-dirs{
+  margin-top:clamp(24px,4vh,52px);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+  gap:clamp(30px,6vw,96px);align-items:center;
+}
+.cst-dirs .cst-opts{margin-top:0}
+.cst-dirs-sketch img{display:block;width:100%;height:auto}
+@media (max-width:900px){
+  .cst-dirs{grid-template-columns:minmax(0,1fr);gap:clamp(28px,5vh,44px)}
+  .cst-dirs-sketch{max-width:26rem;margin-inline:auto}
+}
 .cst-opt + .cst-opt{border-top:1px solid var(--cst-line);padding-top:clamp(24px,3.4vh,38px)}
 .cst-opt p{
   margin-top:.5em;
@@ -1922,10 +1956,22 @@ body.on-cream .totop:hover{color:var(--cream-ink);border-color:var(--cream-ink)}
   border-top:3px solid var(--cst-lime);
   padding-top:clamp(18px,2.6vh,26px);
 }
-.cst-feat p{margin-top:.5em;max-width:none}
+.cst-feat p{margin-top:.7em;max-width:none;position:relative;padding-left:1.1em}
+.cst-feat p::before{content:"·";position:absolute;left:.2em;top:-.02em;color:var(--cst-body)}
 
 /* a caption centred under a plate, used for the hero device shot */
 .cst-cap--mid{text-align:center;max-width:none;margin-inline:auto}
+
+/* ---------- galls: the redesigned measure ----------
+   The section titles now use SF Pro 20px bold site-wide (see .cst-h2), so this
+   study only needs its black figures band pulled down to the same size and its
+   two prose folds held to a narrow measure centred on the page. */
+.cst--galls .cst-figures h2{
+  font-family:var(--font-ui);
+  font-size:20px;line-height:1.28;font-weight:700;letter-spacing:-.01em;
+}
+/* the centred prose measure (context + problem folds) */
+.cst--galls .cst-ctr{max-width:calc(24rem + 2 * var(--cst-gutter))}
 
 /* ---------- what the testing indicated ----------
    The one fold on the page that is not paper. The numbers are projections,
