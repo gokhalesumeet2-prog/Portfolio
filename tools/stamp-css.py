@@ -33,7 +33,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP = ("audit-before", "renders", "prototype", ".git", "_preview", "node_modules")
+SKIP = ("audit-before", "renders", "prototype", ".git", "_preview", "node_modules", "explorations")
 
 # Any reference to a .css or .js under assets/, with an optional existing ?v=
 # stamp to overwrite. The (?![\w-]) after the extension is what stops

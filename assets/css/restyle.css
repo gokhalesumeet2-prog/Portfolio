@@ -1264,7 +1264,7 @@ body #hero #copy .turn{
   animation:r-shimmer 2.4s linear infinite;
   width:fit-content;
 }
-body #hero #copy .turn *{-webkit-text-fill-color:transparent;background:none!important}
+body #hero #copy .turn .line *{-webkit-text-fill-color:transparent;background:none!important}
 body #hero #copy > .line[data-i="0"]{animation:r-mat .7s cubic-bezier(.2,.7,.2,1) both}
 body #hero #copy .turn{animation:r-shimmer 2.4s linear infinite,r-mat .7s cubic-bezier(.2,.7,.2,1) .12s both}
 body #hero #copy .line.sub[data-i="2"]{animation:r-mat .7s cubic-bezier(.2,.7,.2,1) .24s both}
@@ -1667,3 +1667,59 @@ body #hero #copy .line .r-me.r-me-tight{
 }
 body #hero #copy .line .r-me.r-me-tight *{font-size:13px!important}
 body #hero #copy .line .r-me.r-me-tight.on{transform:translate(0,-50%)}
+
+/* ---------- "but I see what you see": shimmer that Safari can paint ----------
+   iOS Safari won't paint a gradient clipped to text through block-level
+   children, and a blur filter on the same element can make clipped text
+   vanish, so on iPhones the line came out blank. The gradient now lives on
+   each line itself (inline text only inside), and the entrance fade on that
+   wrapper is opacity only. Text keeps a solid colour underneath as a fallback. */
+body #hero #copy .turn{
+  background-image:none!important;-webkit-background-clip:border-box;background-clip:border-box;
+  -webkit-text-fill-color:currentColor;
+  animation:r-fade .7s cubic-bezier(.2,.7,.2,1) .12s both!important;
+}
+@keyframes r-fade{0%{opacity:0}100%{opacity:1}}
+body #hero #copy .turn > .line{
+  color:var(--ink);
+  background-image:linear-gradient(110deg,
+    var(--ink) calc(50% - 140px),
+    color-mix(in srgb,var(--ink) 55%,transparent) calc(50% - 70px),
+    color-mix(in srgb,var(--ink) 18%,transparent) 50%,
+    color-mix(in srgb,var(--ink) 55%,transparent) calc(50% + 70px),
+    var(--ink) calc(50% + 140px))!important;
+  background-size:calc(200% + 280px) 100%!important;
+  background-repeat:no-repeat!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  -webkit-text-fill-color:transparent!important;
+  animation:r-shimmer 2.4s linear infinite!important;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+body #hero #copy .turn > .line *{-webkit-text-fill-color:transparent!important;background:none!important}
+/* no gradient-clip support at all: plain solid text */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  body #hero #copy .turn > .line,body #hero #copy .turn > .line *{-webkit-text-fill-color:currentColor!important;background:none!important}
+}
+html.r-intro body #hero #copy .turn > .line{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){
+  body #hero #copy .turn > .line,body #hero #copy .turn > .line *{-webkit-text-fill-color:currentColor!important;background-image:none!important;animation:none!important}
+  body #hero #copy .turn{animation:none!important}
+}
+/* the "I see what you see" heading is #reveal, and an older rule switches all
+   animation off on it; re-arm the shimmer there with a stronger selector */
+body #hero #copy .turn > #reveal.line{animation:r-shimmer 2.4s linear infinite!important}
+html.r-intro body #hero #copy .turn > #reveal.line{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){body #hero #copy .turn > #reveal.line{animation:none!important}}
+
+/* ---------- nav glass: once you scroll, the bar is frosted glass ----------
+   Thin enough to see the page moving under it, blurred enough that the
+   text behind never competes with the links. */
+body > nav.r-stuck{
+  background:color-mix(in srgb,var(--r-bg) 58%,transparent)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%);
+  box-shadow:0 1px 0 color-mix(in srgb,var(--r-ink) 8%,transparent),inset 0 -1px 0 color-mix(in srgb,#fff 6%,transparent);
+}
+/* no blur support: fall back to a solid bar so the text stays readable */
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  body > nav.r-stuck{background:var(--r-bg)!important}
+}
