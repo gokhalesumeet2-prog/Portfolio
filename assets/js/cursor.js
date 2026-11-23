@@ -6,15 +6,20 @@
    Skipped on coarse pointers (touch), where there is nothing to follow. */
 (function () {
   if (!matchMedia('(pointer:fine)').matches) return;
-  if (document.getElementById('cursor')) return; // homepage already owns it
-
-  var el = document.createElement('div');
-  el.id = 'cursor';
-  el.innerHTML = '<i></i>';
+  /* The homepage carries its own #cursor in the markup (its intro script used
+     to drive it); now this script drives it there too. Elsewhere it builds one. */
+  var el = document.getElementById('cursor');
+  var own = !el;
+  if (own) {
+    el = document.createElement('div');
+    el.id = 'cursor';
+    el.innerHTML = '<i></i>';
+  }
 
   function start() {
-    document.body.appendChild(el);
+    if (own) document.body.appendChild(el);
     document.body.style.cursor = 'none';
+    document.documentElement.classList.add('r-sun');
 
     // reveal on the first real move so it never sits parked in a corner
     var shown = false;

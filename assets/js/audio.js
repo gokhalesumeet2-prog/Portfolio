@@ -15,7 +15,8 @@ window.__snd = (function(){
                     nodes:()=>({}) };
 
   let ctx=null, master=null, ambience=null, started=false;
-  let muted = (function(){ try{ return sessionStorage.getItem('muted')==='1'; }catch(e){ return false; } })();
+  /* sound is opt-in: silent until the visitor turns it on with the button */
+  let muted = (function(){ try{ return sessionStorage.getItem('muted')!=='0'; }catch(e){ return true; } })();
 
   function build(){
     ctx = new AC();

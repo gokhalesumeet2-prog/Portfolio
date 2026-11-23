@@ -6,7 +6,9 @@
   if (!section) return;
   const tabs   = [...section.querySelectorAll('.mw-tab')];
   const panels = [...section.querySelectorAll('.mw-panel')];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* the typed line, the entrance and the count-up all arrive at once now:
+     the fold's content is never held back behind an animation */
+  const reduce = true;
 
   /* ---------- the sharpie ring ----------
      A circle nobody drew twice the same way: each ring gets its own seed,

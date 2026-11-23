@@ -62,12 +62,12 @@
 </script>
 
 <!-- theme is resolved before first paint: dark is the design, light is a choice -->
-<script src="assets/js/theme-init.js?v=e35251c3"></script>
+<script src="assets/js/theme-init.js?v=9d490874?v=r3"></script>
 
 
-<link rel="preload" as="image" href="assets/img/work/nirvana.webp"
-      imagesrcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w" imagesizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)">
+<link rel="preload" as="image" href="assets/img/nirvana/nv-hero.webp">
 <link rel="stylesheet" href="assets/css/site.css?v=1a69aba9?v=sohne2">
+<link rel="stylesheet" href="assets/css/restyle.css?v=774bcc37?v=r3">
 </head>
 
 <nav>
@@ -78,30 +78,6 @@
            which jumps to the same rail further down this page. -->
       <a href="#work">work</a><a href="about/">about</a><a href="mailto:gokhalesumeet2@gmail.com">contact</a>
     </div>
-    <div class="tools">
-      <span id="sndHint" aria-hidden="true">tap anywhere for sound</span>
-      <button class="ctl" id="themeBtn" type="button" aria-label="Switch colour theme">
-        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4.1" fill="currentColor" stroke="none"/>
-          <path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.15 5.15l1.63 1.63M17.22 17.22l1.63 1.63M18.85 5.15l-1.63 1.63M6.78 17.22l-1.63 1.63"/>
-        </svg>
-        <svg class="ic moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <g transform="translate(-1.9,2.1) scale(0.84)">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
-          </g>
-          <path d="M18.6 1.6 Q19.18 4.22 21.8 4.8 Q19.18 5.38 18.6 8 Q18.02 5.38 15.4 4.8 Q18.02 4.22 18.6 1.6 Z"/>
-          <path d="M21.6 8.1 Q21.98 9.82 23.7 10.2 Q21.98 10.58 21.6 12.3 Q21.22 10.58 19.5 10.2 Q21.22 9.82 21.6 8.1 Z"/>
-        </svg>
-      </button>
-      <button class="ctl" id="soundBtn" type="button" aria-label="Toggle sound">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 9.4v5.2h3.5L12 18.7V5.3L7.5 9.4H4Z" fill="currentColor"/>
-          <path class="wave" d="M15.3 9.3a4 4 0 0 1 0 5.4"/>
-          <path class="wave" d="M18.1 6.7a8 8 0 0 1 0 10.6"/>
-          <path class="cross" d="M15.8 10.1l5 3.8M20.8 10.1l-5 3.8"/>
-        </svg>
-      </button>
-    </div>
   </div>
 </nav>
 <div id="clock" aria-live="off"></div>
@@ -109,7 +85,7 @@
 <section id="hero" data-chrome="dark">
 <div id="stage">
   <div id="copy">
-    <div class="line" data-i="0"><span class="tw">perception is subjective.</span><span class="head" role="button" tabindex="0" aria-label="a small witness"><img src="assets/img/witness.webp" width="164" height="223" alt="" decoding="async" fetchpriority="high"></span></div>
+    <div class="line" data-i="0"><span class="tw">perception is subjective.</span><span class="head" role="button" tabindex="0" aria-label="Sumeet Gokhale, smiling"><img src="assets/img/sumeet-head.webp" width="128" height="128" alt="" decoding="async" fetchpriority="high"></span></div>
     <div class="turn">
       <div class="line" data-i="1"><span class="tw">but</span></div>
       <h1 class="line" id="reveal">I <span class="hl">see</span> what you <span class="hl">see</span>.</h1>
@@ -137,69 +113,28 @@
       </ul>
     </div>
     <div class="proj-plates">
+      <!-- Each card shows its case study's own hero image. -->
       <a class="proj-plate on" data-key="nirvana" href="nirvana/" aria-label="Nirvana: open the case study">
-      <img src="assets/img/work/nirvana.webp"
-           srcset="assets/img/work/nirvana.webp 1440w, assets/img/work/nirvana@2x.webp 2880w, assets/img/work/nirvana@3x.webp 4320w"
-           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
-           alt="Nirvana — a psychedelic line-drawn Buddha in a mudra, above the project caption."
-           decoding="async" fetchpriority="high"><span class="plate-hot" aria-hidden="true"></span></a>
-      <!-- Optivento is the one plate that isn't a flat picture. The drawing
-           annotates its own iPad with "click/hover to access live order
-           dashboard", so the plate has to make good on that: hovering the
-           tablet lifts the real dashboard out over the drawing, and the whole
-           affordance is one link into the case study. Everything inside is
-           positioned as a percentage of the 1440 x 1024 plate, so the
-           composition survives every size the frame is asked to be. -->
-      <div class="proj-plate op" data-key="optivento">
-        <img class="op-draw"
-             src="assets/img/work/optivento-drawing.webp"
-             srcset="assets/img/work/optivento-drawing.webp 912w, assets/img/work/optivento-drawing@2x.webp 1824w"
-             sizes="(max-width: 820px) 47vw, 35vw" width="912" height="1184"
-             alt="An engineering drawing of a restaurant pass: clipboards on a rail, an iPad on a stand, annotated as the POS terminal."
-             decoding="async" loading="lazy">
-
-        <!-- drawn rather than photographed, so the line stays crisp at any
-             size and the copy stays copy -->
-        <div class="op-bubble">
-          <svg class="op-bubble-shape" viewBox="0 0 1000 854.8" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path d="M 84.2 854.8 L 75.9 826.7 L 132 625.4 L 29.7 509.9 L 0 387.8 L 33 262.4 L 146.9 148.5 L 311.9 69.3 L 645.2 0 L 813.5 36.3 L 877.9 87.5 L 950.5 176.6 L 1000 338.3 L 973.6 480.2 L 942.2 514.9 L 820.1 623.8 L 575.9 689.8 L 374.6 719.5 L 239.3 686.5 Z"/>
-          </svg>
-          <p class="op-bubble-text">Run a restaurant?<br>A 2% cost cut can lift profit 29%. Optivento puts that number where the decisions happen.</p>
-        </div>
-
-        <!-- The anchor spans the plate but passes pointer events straight
-             through; only the tablet and the dashboard it lifts out are
-             live. Because the dashboard's resting place sits inside the
-             anchor, hovering it keeps the anchor hovered, so there is no gap
-             to fall through on the way from one to the other. -->
-        <a class="op-hot" href="optivento/">
-          <span class="op-tap" aria-hidden="true"></span>
-          <img class="op-dev"
-               src="assets/img/work/optivento-device.webp"
-               srcset="assets/img/work/optivento-device.webp 684w, assets/img/work/optivento-device@2x.webp 1368w"
-               sizes="(max-width: 820px) 40vw, 30vw" width="684" height="484"
-               alt="" decoding="async" loading="lazy">
-          <span class="sr-only">Optivento: open the case study</span>
-        </a>
-      </div>
+      <img src="assets/img/nirvana/nv-hero.webp" width="2400" height="1600"
+           alt="Five Nirvana screens overlapping: the lotus wallet, the morning check-in, a completed session, the analytics view and a mudra held up to the camera."
+           decoding="async" fetchpriority="high"></a>
+      <a class="proj-plate" data-key="optivento" href="optivento/" aria-label="Optivento: open the case study">
+      <img src="assets/optivento-hero.webp" width="1400" height="900"
+           alt="The Optivento dashboard on a tablet, showing live inventory levels, shipment tracking and account status."
+           decoding="async"></a>
       <a class="proj-plate" data-key="uniform" href="galls/" aria-label="Uniform customizer: open the case study">
-      <img src="assets/img/work/uniform.webp"
-           srcset="assets/img/work/uniform.webp 1440w, assets/img/work/uniform@2x.webp 2880w, assets/img/work/uniform@3x.webp 4320w"
-           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
-           alt="Uniform customizer — the badge-placement flow on a laptop and two phones, over a shirt technical drawing."
-           decoding="async" loading="lazy"><span class="plate-hot" aria-hidden="true"></span></a>
+      <img src="assets/uc-desktop-hero.webp" width="1400" height="900"
+           alt="The Galls uniform customizer on a desktop browser, with the configuration panel on the left and a live uniform preview on the right."
+           decoding="async"></a>
       <a class="proj-plate" data-key="nirvana2" href="nirvana-mudra/" aria-label="Nirvana 2.0: open the case study">
-      <img src="assets/img/work/nirvana2.webp"
-           srcset="assets/img/work/nirvana2.webp 1440w, assets/img/work/nirvana2@2x.webp 2880w, assets/img/work/nirvana2@3x.webp 4320w"
-           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
-           alt="Nirvana 2.0 — a seated figure dissolving into a soft aura gradient."
-           decoding="async" loading="lazy"><span class="plate-hot" aria-hidden="true"></span></a>
+      <img src="assets/img/nirvana2/nv2-lake.webp" width="2400" height="1071" alt="" decoding="async"><img
+           class="r-thumb-phone" src="assets/img/nirvana2/nv2-splash.webp" width="732" height="1098"
+           alt="The Nirvana opening screen on a phone: a soft yellow sun, the word Nirvana, the line the right mudra for how you feel, right now, and a Begin button."
+           decoding="async"></a>
       <a class="proj-plate" data-key="unsmoke" href="unsmoke/" aria-label="Unsmoke: open the case study">
-      <img src="assets/img/work/unsmoke.webp"
-           srcset="assets/img/work/unsmoke.webp 1440w, assets/img/work/unsmoke@2x.webp 2880w, assets/img/work/unsmoke@3x.webp 4320w"
-           sizes="(max-width: 820px) min(94vw, 540px), max(100vw, 141vh)" width="1440" height="1024"
-           alt="Unsmoke — the water-purity and streak screens on two phones, with a halftone megaphone."
-           decoding="async" loading="lazy"><span class="plate-hot" aria-hidden="true"></span></a>
+      <img src="assets/us-hero.svg" width="1400" height="820"
+           alt="Three Unsmoke screens: the home screen with a 14-day streak card and a health meter, the urge screen showing a flask at 98% purity, and the support-network screen with educational resources unlocked by streaks."
+           decoding="async"></a>
     </div>
   </div>
 </section>
@@ -217,9 +152,7 @@
              alt="Meanwhile…" width="1056" height="222" loading="lazy" decoding="async">
         <p class="mw-sub"><span class="mw-type" data-text="I am keeping up with.."></span><i class="mw-caret" aria-hidden="true"></i></p>
         <p class="mw-hint">hover the icons · click to hold</p>
-        <img class="mw-girl" src="assets/img/meanwhile/girl.webp"
-             alt="A small girl in sunglasses, reclined in a deck chair, raising a bottle of juice."
-             width="1328" height="1343" loading="lazy" decoding="async">
+        <canvas class="mw-girl mw-clock" role="img" aria-label="A broken 24-hour clock set to New York time, labelled with what I am usually doing: cooking in the morning and at night, art through the day, tennis and yoga in the evening."></canvas>
       </div>
 
       <div class="mw-panel" data-key="cook" data-bg="#FFFEF4" data-chrome="light">
@@ -340,12 +273,13 @@
   </svg>
 </button>
 
-<script src="assets/js/audio.js?v=f2bf237a" defer></script>
+<script src="assets/js/audio.js?v=85d04d9c" defer></script>
 <script src="assets/js/controls.js?v=bfe8d10c" defer></script>
-<script src="assets/js/hero.js?v=52caa800" defer></script>
-<script src="assets/js/work.js?v=42d1c278" defer></script>
-<script src="assets/js/meanwhile.js?v=43714de1" defer></script>
+<script src="assets/js/meanwhile.js?v=8e04695c" defer></script>
+<script src="assets/js/clock.js?v=f2eb4c67?v=r4" defer></script>
 <script src="assets/js/footer.js?v=e498034f" defer></script>
 <script src="assets/js/totop.js?v=07517e0f" defer></script>
+<script src="assets/js/cursor.js?v=957937c7" defer></script>
+<script src="assets/js/restyle.js?v=4504af82?v=r3" defer></script>
 </body>
 </html>
