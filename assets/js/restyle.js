@@ -713,6 +713,49 @@
   addEventListener('resize', function () { scrollers.forEach(markScroll); });
   addEventListener('load', function () { scrollers.forEach(markScroll); });
 
+
+  /* ---------------------------------------------------------------
+     The WOW cube in the Meanwhile podcast panel: rebuilt as a real 3D
+     cube from the faces of the artwork, turning a quarter at a time
+     while it is on screen.
+     --------------------------------------------------------------- */
+  (function () {
+    var img = doc.querySelector('#meanwhile img.mw-pod-cube');
+    if (!img || !('IntersectionObserver' in window)) return;
+    var base = img.getAttribute('src').replace(/pod-cube\.webp.*$/, '');
+    var wrap = doc.createElement('span');
+    wrap.className = 'r-cube-wrap';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+    img.classList.remove('mw-pod-cube');
+    img.classList.add('r-cube-src');
+    var cube = doc.createElement('span');
+    cube.className = 'r-cube'; cube.setAttribute('aria-hidden', 'true');
+    var face = function (cls, file) {
+      var i = doc.createElement('i'); i.className = cls;
+      i.style.backgroundImage = 'url("' + base + file + '")';
+      cube.appendChild(i);
+    };
+    face('f', 'pod-cube-front.webp'); face('r', 'pod-cube-side.webp');
+    face('b', 'pod-cube-front.webp'); face('l', 'pod-cube-side.webp');
+    face('t', 'pod-cube-top.webp');   face('d', 'pod-cube-top.webp');
+    var sh = doc.createElement('span'); sh.className = 'r-cube-shadow'; sh.setAttribute('aria-hidden', 'true');
+    wrap.appendChild(sh); wrap.appendChild(cube);
+
+    var size = function () { cube.style.setProperty('--e', (wrap.clientWidth * 0.68).toFixed(1) + 'px'); };
+    size();
+    if ('ResizeObserver' in window) new ResizeObserver(size).observe(wrap); else addEventListener('resize', size);
+
+    if (reduce) return;
+    var panel = wrap.closest('.mw-panel'), seen = false;
+    var sync = function () {
+      cube.classList.toggle('spin', seen && !doc.hidden && (!panel || panel.classList.contains('on')));
+    };
+    new IntersectionObserver(function (en) { seen = en[0].isIntersecting; sync(); }, { threshold: 0.2 }).observe(wrap);
+    if (panel && 'MutationObserver' in window) new MutationObserver(sync).observe(panel, { attributes: true, attributeFilter: ['class'] });
+    doc.addEventListener('visibilitychange', sync);
+  })();
+
   /* ---------------------------------------------------------------
      Section pill on the long case studies: shows the section you are
      in, using the page's own heading text, and opens into a contents

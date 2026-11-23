@@ -1723,3 +1723,55 @@ body > nav.r-stuck{
 @supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
   body > nav.r-stuck{background:var(--r-bg)!important}
 }
+
+/* ---------- Meanwhile podcast: the WOW cube, in real 3D ----------
+   restyle.js wraps the flat cube image in .r-cube-wrap, which takes the
+   image's place, and builds a CSS cube from the three faces cut out of it.
+   The image stays inside for screen readers and as the no-JS fallback. */
+#meanwhile .r-cube-wrap{
+  position:absolute;display:block;left:39.6%;top:20.6%;width:30.4%;
+  aspect-ratio:670/771;z-index:2;
+  perspective:none;
+}
+#meanwhile .r-cube-wrap > img.r-cube-src{
+  position:absolute!important;inset:0;width:100%!important;height:100%!important;
+  opacity:0;pointer-events:none;
+}
+.r-cube{
+  --e:100px;
+  position:absolute;left:50%;top:48.5%;width:var(--e);height:var(--e);
+  margin:calc(var(--e) / -2) 0 0 calc(var(--e) / -2);
+  transform-style:preserve-3d;
+  transform:rotateX(-30deg) rotateY(var(--ry,-45deg));
+  transition:transform .85s cubic-bezier(.45,1.35,.45,1);
+}
+.r-cube > i{
+  position:absolute;inset:0;display:block;
+  background:#FCFAF5 center/106% 106% no-repeat;
+  box-shadow:inset 0 0 0 calc(var(--e) * .012) #141414;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+.r-cube .f{transform:translateZ(calc(var(--e) / 2))}
+.r-cube .r{transform:rotateY(90deg) translateZ(calc(var(--e) / 2))}
+.r-cube .b{transform:rotateY(180deg) translateZ(calc(var(--e) / 2))}
+.r-cube .l{transform:rotateY(-90deg) translateZ(calc(var(--e) / 2))}
+.r-cube .t{transform:rotateX(90deg) translateZ(calc(var(--e) / 2))}
+.r-cube .d{transform:rotateX(-90deg) translateZ(calc(var(--e) / 2));background:#E9E4D6}
+/* the soft shadow it sits on */
+.r-cube-shadow{
+  position:absolute;left:14%;right:14%;bottom:1%;height:9%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(20,22,40,.22),rgba(20,22,40,0));
+  filter:blur(2px);
+}
+@media (max-width:820px){
+  #meanwhile .mw-panel[data-key="pod"] .r-cube-wrap{
+    position:relative!important;left:auto!important;top:auto!important;
+    grid-column:2;grid-row:1;width:78%!important;justify-self:center;
+  }
+}
+@media (prefers-reduced-motion:reduce){ .r-cube{transition:none} }
+/* the cube turns continuously, one full turn every 6s, while it's on screen */
+@keyframes r-cube-spin{from{transform:rotateX(-30deg) rotateY(-45deg)}to{transform:rotateX(-30deg) rotateY(-405deg)}}
+.r-cube{transition:none;animation:r-cube-spin 6s linear infinite;animation-play-state:paused}
+.r-cube.spin{animation-play-state:running}
+@media (prefers-reduced-motion:reduce){.r-cube{animation:none}}
